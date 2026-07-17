@@ -1,0 +1,397 @@
+<!DOCTYPE html><html lang="en" class="dark" style=""><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Geist:wght@400;600;700&amp;display=swap" rel="stylesheet"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-fixed-variant": "#842225",
+                      "surface-bright": "#33394c",
+                      "on-primary-fixed": "#002113",
+                      "on-background": "#dce1fb",
+                      "surface": "#0c1324",
+                      "primary-fixed-dim": "#4edea3",
+                      "surface-container-highest": "#2e3447",
+                      "outline": "#86948a",
+                      "on-primary-container": "#00422b",
+                      "inverse-on-surface": "#2a3043",
+                      "on-secondary": "#003829",
+                      "surface-container-low": "#151b2d",
+                      "surface-tint": "#4edea3",
+                      "inverse-surface": "#dce1fb",
+                      "surface-dim": "#0c1324",
+                      "surface-container-high": "#23293c",
+                      "tertiary-fixed-dim": "#ffb3af",
+                      "on-error-container": "#ffdad6",
+                      "primary-container": "#10b981",
+                      "on-primary-fixed-variant": "#005236",
+                      "surface-variant": "#2e3447",
+                      "secondary": "#95d3ba",
+                      "error": "#ffb4ab",
+                      "primary": "#4edea3",
+                      "tertiary-fixed": "#ffdad7",
+                      "secondary-fixed": "#b0f0d6",
+                      "on-surface-variant": "#bbcabf",
+                      "on-tertiary": "#650911",
+                      "on-secondary-fixed-variant": "#0b513d",
+                      "error-container": "#93000a",
+                      "secondary-container": "#0b513d",
+                      "primary-fixed": "#6ffbbe",
+                      "tertiary": "#ffb3af",
+                      "on-tertiary-fixed": "#410005",
+                      "outline-variant": "#3c4a42",
+                      "surface-container-lowest": "#070d1f",
+                      "on-surface": "#dce1fb",
+                      "tertiary-container": "#fc7c78",
+                      "on-primary": "#003824",
+                      "on-secondary-fixed": "#002117",
+                      "secondary-fixed-dim": "#95d3ba",
+                      "on-secondary-container": "#83c2a9",
+                      "on-error": "#690005",
+                      "inverse-primary": "#006c49",
+                      "on-tertiary-container": "#711419",
+                      "surface-container": "#191f31",
+                      "background": "#0c1324"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "gutter": "16px",
+                      "base": "4px",
+                      "panel-gap": "12px",
+                      "container-padding": "24px"
+              },
+              "fontFamily": {
+                      "label-caps": ["JetBrains Mono"],
+                      "display-lg": ["Geist"],
+                      "headline-sm": ["Geist"],
+                      "body-sm": ["Geist"],
+                      "headline-md": ["Geist"],
+                      "body-lg": ["Geist"],
+                      "data-mono": ["JetBrains Mono"]
+              },
+              "fontSize": {
+                      "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.08em", "fontWeight": "500"}],
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-sm": ["18px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                      "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "body-lg": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "data-mono": ["14px", {"lineHeight": "1", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    }catch(_e){}</script><meta charset="utf-8"></head><body class="bg-surface text-on-surface font-body-lg selection:bg-primary/30 min-h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-container-padding h-16 bg-surface/80 backdrop-blur-md border-b border-outline-variant">
+<div class="flex items-center gap-8">
+<span class="font-display-lg text-primary-container tracking-tighter text-headline-md">EcoShield</span>
+<div class="hidden md:flex gap-6 items-center">
+<a href="../ecoshield_dashboard/code.html" class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200">Earth Pulse</a>
+<a href="../uae_regional_view_glassy_emerald_map/code.html" class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200">Geo Map</a>
+<a href="#" class="text-primary border-b-2 border-primary font-bold pb-2 active:scale-95 transition-transform">AI Signals</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">sensors</span></button>
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">history</span></button>
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">settings</span></button>
+<div class="w-8 h-8 rounded-full border border-outline-variant bg-surface-container flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait of a technical operator with a focused expression, wearing a sleek headset with a subtle green light indicator. The background is a dark, high-tech command center with blurred data screens, maintaining a professional and vigilant atmosphere in line with the EcoShield mission control aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCs4Vh-lk929uQfpAkiurFJUCg_LZrN3Yh3eho1yFc04w9QAW_jh8SP1PTNEcHnYQKD3Z62PaZv052BWB9udgPyXktFtRyq9u3orWs146-7DiLG6_BfVurhM6AXnz4xA0Qp6vFKoyjXqkRZYY60UiVvcju4Fm_s9Fbwpb_KPmgJAaRwtgoHsWKDAQu7mMJV-8mJoacKACjjKWvcw4rCEbvARBsynkX21O2TOtDxsaZ-yt2z0Wi3sWLq">
+</div>
+</div>
+</nav>
+<!-- Side Navigation Shell (Hidden on mobile) -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] z-40 flex flex-col bg-surface-container-low/90 backdrop-blur-lg border-r border-outline-variant w-64 hidden lg:flex">
+<div class="p-6 border-b border-outline-variant">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary">System Active</h3>
+<p class="font-label-caps text-[10px] text-on-surface-variant uppercase">Regional Monitoring</p>
+</div>
+</div>
+</div>
+<div class="flex-1 py-4">
+<nav class="space-y-1">
+<a class="flex items-center gap-3 bg-secondary-container/20 text-primary border-l-4 border-primary px-4 py-3 hover:bg-surface-container-high transition-all group" href="#">
+<span class="material-symbols-outlined">filter_list</span>
+<span class="font-label-caps text-label-caps">Filters</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-surface-container-high hover:text-on-surface transition-all group" href="#">
+<span class="material-symbols-outlined">layers</span>
+<span class="font-label-caps text-label-caps">Layers</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-surface-container-high hover:text-on-surface transition-all group" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-caps text-label-caps">Analysis</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-surface-container-high hover:text-on-surface transition-all group" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-caps text-label-caps">Reports</span>
+</a>
+</nav>
+</div>
+<div class="p-4 space-y-4">
+<button class="w-full py-3 border border-primary/30 bg-primary/10 text-primary font-label-caps text-label-caps rounded hover:bg-primary/20 transition-all active:scale-95">
+                EXPORT DATA
+            </button>
+<div class="pt-4 border-t border-outline-variant flex justify-around">
+<button class="text-on-surface-variant hover:text-primary flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-sm">help</span>
+<span class="font-label-caps text-[10px]">SUPPORT</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-sm">code</span>
+<span class="font-label-caps text-[10px]">API</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="mt-16 lg:ml-64 flex-1 flex flex-col h-[calc(100vh-64px)] relative overflow-hidden">
+<!-- Background Animation Overlay -->
+
+<!-- Filter Bar -->
+<header class="sticky top-0 z-30 px-container-padding py-4 bg-surface/40 backdrop-blur-md flex flex-wrap items-center justify-between gap-4 border-b border-outline-variant">
+<div class="flex flex-wrap gap-2 items-center">
+<button class="px-4 py-1.5 rounded-full border border-primary bg-primary/10 text-primary font-label-caps text-[11px] hover:bg-primary/20 transition-all">ALL</button>
+<button class="px-4 py-1.5 rounded-full border border-outline-variant text-on-surface-variant font-label-caps text-[11px] hover:border-error hover:text-error transition-all">CRITICAL</button>
+<button class="px-4 py-1.5 rounded-full border border-outline-variant text-on-surface-variant font-label-caps text-[11px] hover:border-tertiary-container hover:text-tertiary-container transition-all">PREDICTIVE</button>
+<button class="px-4 py-1.5 rounded-full border border-outline-variant text-on-surface-variant font-label-caps text-[11px] hover:border-primary hover:text-primary transition-all">OPPORTUNITY</button>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-data-mono text-data-mono text-primary text-xs uppercase tracking-widest">LIVE 24 feeds</span>
+</div>
+</header>
+<!-- Scrolling Intelligence Feed -->
+<div class="flex-1 overflow-y-auto px-container-padding py-6 space-y-4 custom-scrollbar">
+<!-- Signal Card 1: Critical -->
+<article class="hud-glass border-l-[4px] border-l-error p-5 rounded-lg flex flex-col gap-3 group relative transition-all hover:bg-surface-container-low glow-red">
+<div class="flex justify-between items-start">
+<span class="bg-error/20 text-error border border-error/30 px-2 py-0.5 font-label-caps text-[10px] rounded">CRITICAL</span>
+<time class="font-data-mono text-[10px] text-on-surface-variant">2 min ago</time>
+</div>
+<div class="space-y-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Infranet Corp</h2>
+<p class="font-label-caps text-[11px] text-primary/70">SECTOR 4 · EMISSION MONITORING</p>
+</div>
+<p class="font-body-sm text-on-surface-variant leading-relaxed">
+                    Flare emissions have scaled 300% above baseline over the past 6 hours. Pattern matches unregulated venting, not equipment malfunction. Recommend immediate inspection.
+                </p>
+<div class="flex gap-2 mt-2">
+<button onclick="window.location.href='../site_detail_abu_dhabi_hub/code.html?company=Infranet%20Corp'" class="px-4 py-2 border border-outline-variant hover:border-primary text-primary font-label-caps text-[10px] rounded transition-all">VIEW SITE</button>
+<button class="px-4 py-2 bg-error text-on-error font-label-caps text-[10px] rounded hover:brightness-110 transition-all">IMPOSE FINE</button>
+</div>
+</article>
+<!-- Signal Card 2: Predictive -->
+<article class="hud-glass border-l-[4px] border-l-tertiary-container p-5 rounded-lg flex flex-col gap-3 group relative transition-all hover:bg-surface-container-low">
+<div class="flex justify-between items-start">
+<span class="bg-tertiary-container/20 text-tertiary-container border border-tertiary-container/30 px-2 py-0.5 font-label-caps text-[10px] rounded">PREDICTIVE</span>
+<time class="font-data-mono text-[10px] text-on-surface-variant">14 min ago</time>
+</div>
+<div class="space-y-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Al Safa Industrial</h2>
+<p class="font-label-caps text-[11px] text-primary/70">UAE · NOx ANALYTICS</p>
+</div>
+<p class="font-body-sm text-on-surface-variant leading-relaxed">
+                    Based on current NOx trajectory, this site will cross the Critical risk threshold within approximately 36 hours if current equipment usage continues.
+                </p>
+<div class="flex gap-2 mt-2">
+<button onclick="window.location.href='../site_detail_abu_dhabi_hub/code.html?company=Al%20Safa%20Industrial'" class="px-4 py-2 border border-outline-variant hover:border-primary text-primary font-label-caps text-[10px] rounded transition-all">VIEW TREND</button>
+<button class="px-4 py-2 border border-tertiary-container text-tertiary-container font-label-caps text-[10px] rounded hover:bg-tertiary-container/10 transition-all">NOTIFY COMPANY</button>
+</div>
+</article>
+<!-- Signal Card 3: Opportunity -->
+<article class="hud-glass border-l-[4px] border-l-primary p-5 rounded-lg flex flex-col gap-3 group relative transition-all hover:bg-surface-container-low glow-emerald">
+<div class="flex justify-between items-start">
+<span class="bg-primary/20 text-primary border border-primary/30 px-2 py-0.5 font-label-caps text-[10px] rounded">OPPORTUNITY</span>
+<time class="font-data-mono text-[10px] text-on-surface-variant">1 hour ago</time>
+</div>
+<div class="space-y-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Suntech</h2>
+<p class="font-label-caps text-[11px] text-primary/70">RAS AL KHAIMAH · SUSTAINABILITY UPGRADE</p>
+</div>
+<p class="font-body-sm text-on-surface-variant leading-relaxed">
+                    3 of 6 flagged machines have eco-replacement options available. Estimated fleet-wide carbon reduction if adopted: 42%.
+                </p>
+<div class="flex gap-2 mt-2">
+<button class="px-4 py-2 bg-primary text-on-primary font-label-caps text-[10px] rounded hover:brightness-110 transition-all">VIEW MACHINES</button>
+</div>
+</article>
+<!-- Signal Card 4: Critical -->
+<article class="hud-glass border-l-[4px] border-l-error p-5 rounded-lg flex flex-col gap-3 group relative transition-all hover:bg-surface-container-low">
+<div class="flex justify-between items-start">
+<span class="bg-error/20 text-error border border-error/30 px-2 py-0.5 font-label-caps text-[10px] rounded">CRITICAL</span>
+<time class="font-data-mono text-[10px] text-on-surface-variant">3 hours ago</time>
+</div>
+<div class="space-y-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">TechNoCity</h2>
+<p class="font-label-caps text-[11px] text-primary/70">SHARJAH · NOISE POLLUTION</p>
+</div>
+<p class="font-body-sm text-on-surface-variant leading-relaxed">
+                    Noise pollution levels sustained above 90dB for over 8 hours near a residential boundary. Exceeds municipal construction limits.
+                </p>
+<div class="flex gap-2 mt-2">
+<button onclick="window.location.href='../site_detail_abu_dhabi_hub/code.html?company=TechNoCity'" class="px-4 py-2 border border-outline-variant hover:border-primary text-primary font-label-caps text-[10px] rounded transition-all">VIEW SITE</button>
+<button class="px-4 py-2 bg-error text-on-error font-label-caps text-[10px] rounded hover:brightness-110 transition-all">IMPOSE FINE</button>
+</div>
+</article>
+<!-- Signal Card 5: Predictive -->
+<article class="hud-glass border-l-[4px] border-l-tertiary-container p-5 rounded-lg flex flex-col gap-3 group relative transition-all hover:bg-surface-container-low">
+<div class="flex justify-between items-start">
+<span class="bg-tertiary-container/20 text-tertiary-container border border-tertiary-container/30 px-2 py-0.5 font-label-caps text-[10px] rounded">PREDICTIVE</span>
+<time class="font-data-mono text-[10px] text-on-surface-variant">5 hours ago</time>
+</div>
+<div class="space-y-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Proscape</h2>
+<p class="font-label-caps text-[11px] text-primary/70">DUBAI (JLT SITE) · WATER QUALITY</p>
+</div>
+<p class="font-body-sm text-on-surface-variant leading-relaxed">
+                    Water runoff turbidity trending upward for the third consecutive day. Early indicator of erosion control failure at this site.
+                </p>
+<div class="flex gap-2 mt-2">
+<button onclick="window.location.href='../site_detail_abu_dhabi_hub/code.html?company=Proscape'" class="px-4 py-2 border border-outline-variant hover:border-primary text-primary font-label-caps text-[10px] rounded transition-all">VIEW TREND</button>
+</div>
+</article>
+<!-- Signal Card 6: Opportunity -->
+<article class="hud-glass border-l-[4px] border-l-primary p-5 rounded-lg flex flex-col gap-3 group relative transition-all hover:bg-surface-container-low">
+<div class="flex justify-between items-start">
+<span class="bg-primary/20 text-primary border border-primary/30 px-2 py-0.5 font-label-caps text-[10px] rounded">OPPORTUNITY</span>
+<time class="font-data-mono text-[10px] text-on-surface-variant">8 hours ago</time>
+</div>
+<div class="space-y-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Ghantoot</h2>
+<p class="font-label-caps text-[11px] text-primary/70">ABU DHABI · COMPLIANCE RECOGNITION</p>
+</div>
+<p class="font-body-sm text-on-surface-variant leading-relaxed">
+                    Site has maintained a Nominal risk score for 30 consecutive days. Eligible for compliance recognition status.
+                </p>
+<div class="flex gap-2 mt-2">
+<button onclick="window.location.href='../site_detail_abu_dhabi_hub/code.html?company=Ghantoot'" class="px-4 py-2 border border-primary text-primary font-label-caps text-[10px] rounded hover:bg-primary/10 transition-all">VIEW SITE</button>
+</div>
+</article>
+<!-- Signal Card 7: Critical -->
+<article class="hud-glass border-l-[4px] border-l-error p-5 rounded-lg flex flex-col gap-3 group relative transition-all hover:bg-surface-container-low">
+<div class="flex justify-between items-start">
+<span class="bg-error/20 text-error border border-error/30 px-2 py-0.5 font-label-caps text-[10px] rounded">CRITICAL</span>
+<time class="font-data-mono text-[10px] text-on-surface-variant">Yesterday</time>
+</div>
+<div class="space-y-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Al Safa Industrial</h2>
+<p class="font-label-caps text-[11px] text-primary/70">UAE · COASTAL MONITORING</p>
+</div>
+<p class="font-body-sm text-on-surface-variant leading-relaxed">
+                    Toxic particulate runoff detected near primary coastal facility, exceeding water quality thresholds by 2.4x.
+                </p>
+<div class="flex gap-2 mt-2">
+<button onclick="window.location.href='../site_detail_abu_dhabi_hub/code.html?company=Al%20Safa%20Industrial'" class="px-4 py-2 border border-outline-variant hover:border-primary text-primary font-label-caps text-[10px] rounded transition-all">VIEW SITE</button>
+<button class="px-4 py-2 bg-error text-on-error font-label-caps text-[10px] rounded hover:brightness-110 transition-all">IMPOSE FINE</button>
+</div>
+</article>
+<!-- Padding for footer space -->
+<div class="h-12"></div>
+</div>
+<!-- System Stats Overlay (Floating UI elements for HUD feel) -->
+<div class="absolute bottom-8 right-8 flex flex-col gap-2 items-end pointer-events-none">
+<div class="hud-glass px-4 py-2 rounded-lg flex flex-col gap-1">
+<span class="font-label-caps text-[10px] text-on-surface-variant">PROCESSING LOAD</span>
+<div class="w-32 h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-2/3 animate-[pulse_2s_infinite]"></div>
+</div>
+</div>
+<div class="hud-glass px-4 py-2 rounded-lg flex flex-col gap-1">
+<span class="font-label-caps text-[10px] text-on-surface-variant">ACTIVE SENSORS</span>
+<span class="font-data-mono text-primary text-xl">14,208</span>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="relative w-full py-base px-container-padding flex justify-between items-center bg-surface-container-lowest border-t border-outline-variant z-50">
+<span class="font-data-mono text-data-mono text-secondary text-[10px]">© 2024 EcoShield Environmental Intelligence. All systems operational.</span>
+<div class="hidden md:flex gap-4">
+<a class="text-on-surface-variant hover:text-primary transition-colors text-[10px] font-data-mono" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-[10px] font-data-mono" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-[10px] font-data-mono" href="#">Security Disclosure</a>
+<a class="text-primary underline text-[10px] font-data-mono" href="#">Status</a>
+</div>
+</footer>
+<!-- Mobile Bottom Navigation (Visible only on mobile) -->
+<div class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container-low/90 backdrop-blur-lg border-t border-outline-variant flex justify-around items-center h-16 z-[60]">
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">public</span>
+<span class="text-[10px] font-label-caps">EARTH</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">map</span>
+<span class="text-[10px] font-label-caps">MAP</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined">sensors</span>
+<span class="text-[10px] font-label-caps">SIGNALS</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-label-caps">PROFILE</span>
+</button>
+</div>
+<script class="">
+        // Simple micro-interaction for cards
+        document.querySelectorAll('article').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateX(4px)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateX(0)';
+            });
+        });
+
+        // Filter functionality
+        function filterCards(category) {
+            // Update button styles
+            document.querySelectorAll('header button').forEach(btn => {
+                const btnCategory = btn.textContent.trim();
+                if (btnCategory === category) {
+                    btn.className = `px-4 py-1.5 rounded-full border font-label-caps text-[11px] transition-all `;
+                    if (category === 'ALL' || category === 'OPPORTUNITY') {
+                        btn.className += `border-primary bg-primary/10 text-primary hover:bg-primary/20`;
+                    } else if (category === 'CRITICAL') {
+                        btn.className += `border-error bg-error/10 text-error hover:bg-error/20`;
+                    } else if (category === 'PREDICTIVE') {
+                        btn.className += `border-tertiary-container bg-tertiary-container/10 text-tertiary-container hover:bg-tertiary-container/20`;
+                    }
+                } else {
+                    btn.className = `px-4 py-1.5 rounded-full border border-outline-variant text-on-surface-variant font-label-caps text-[11px] transition-all `;
+                    if (btnCategory === 'CRITICAL') btn.className += `hover:border-error hover:text-error`;
+                    else if (btnCategory === 'PREDICTIVE') btn.className += `hover:border-tertiary-container hover:text-tertiary-container`;
+                    else if (btnCategory === 'OPPORTUNITY' || btnCategory === 'ALL') btn.className += `hover:border-primary hover:text-primary`;
+                }
+            });
+
+            // Filter cards
+            document.querySelectorAll('article.hud-glass').forEach(card => {
+                if (category === 'ALL') {
+                    card.style.display = 'flex';
+                    return;
+                }
+                const tag = card.querySelector('span').textContent.trim();
+                if (tag === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Attach click listeners to filter buttons
+        document.querySelectorAll('header button').forEach(btn => {
+            btn.addEventListener('click', () => filterCards(btn.textContent.trim()));
+        });
+    </script>
+
+</body></html>

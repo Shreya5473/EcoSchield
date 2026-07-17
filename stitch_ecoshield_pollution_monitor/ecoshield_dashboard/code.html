@@ -128,7 +128,7 @@
 </div>
 <nav class="hidden md:flex flex-1 justify-center space-x-8">
 <a class="font-headline-sm text-headline-sm text-primary border-b-2 border-primary pb-1 flex items-center h-full" href="#">Earth Pulse</a>
-<a class="font-headline-sm text-headline-sm text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 flex items-center h-full" href="#">Geo Map</a>
+<a class="font-headline-sm text-headline-sm text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 flex items-center h-full" href="../uae_regional_view_glassy_emerald_map/code.html">Geo Map</a>
 <a class="font-headline-sm text-headline-sm text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 flex items-center h-full" href="#">AI Signals</a>
 </nav>
 <div class="flex items-center space-x-4">
@@ -155,7 +155,7 @@
 <div id="globe-container" class="absolute inset-0 flex items-center justify-center z-0 pointer-events-none"></div>
 <!-- Floating Info Pill -->
 <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-20">
-<div class="glass-panel rounded-full px-4 py-2 flex items-center space-x-2 cursor-pointer hover:bg-surface-variant/50 transition-colors">
+<div onclick="window.location.href='../uae_regional_view_glassy_emerald_map/code.html'" class="glass-panel rounded-full px-4 py-2 flex items-center space-x-2 cursor-pointer hover:bg-surface-variant/50 transition-colors">
 <span class="material-symbols-outlined text-primary text-[18px]" data-icon="pin_drop">pin_drop</span>
 <span class="font-body-sm text-body-sm text-on-surface">Click any region to view impact &gt;</span>
 </div>
@@ -418,5 +418,23 @@
         renderer.render(scene, camera);
     }
     animate();
+
+    // Setup Globe Click
+    document.addEventListener('DOMContentLoaded', () => {
+        const checkCanvas = setInterval(() => {
+            const canvas = document.querySelector('#globe-container canvas');
+            if(canvas) {
+                clearInterval(checkCanvas);
+                let isGlobeDragging = false;
+                canvas.addEventListener('mousedown', () => { isGlobeDragging = false; });
+                canvas.addEventListener('mousemove', () => { isGlobeDragging = true; });
+                canvas.addEventListener('mouseup', () => {
+                    if (!isGlobeDragging) {
+                        window.location.href = '../uae_regional_view_glassy_emerald_map/code.html';
+                    }
+                });
+            }
+        }, 500);
+    });
 </script>
 </body></html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EcoShield Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#650911",
+                        "primary-fixed-dim": "#4edea3",
+                        "tertiary-fixed": "#ffdad7",
+                        "outline": "#86948a",
+                        "on-background": "#dce1fb",
+                        "secondary-fixed-dim": "#95d3ba",
+                        "on-tertiary-fixed-variant": "#842225",
+                        "secondary": "#95d3ba",
+                        "primary-container": "#10b981",
+                        "surface": "#0c1324",
+                        "tertiary-container": "#fc7c78",
+                        "secondary-container": "#0b513d",
+                        "on-error": "#690005",
+                        "error-container": "#93000a",
+                        "on-surface": "#dce1fb",
+                        "secondary-fixed": "#b0f0d6",
+                        "primary": "#4edea3",
+                        "on-primary-fixed-variant": "#005236",
+                        "surface-dim": "#0c1324",
+                        "background": "#0c1324",
+                        "on-primary-container": "#00422b",
+                        "surface-variant": "#2e3447",
+                        "inverse-on-surface": "#2a3043",
+                        "error": "#ffb4ab",
+                        "outline-variant": "#3c4a42",
+                        "surface-container-highest": "#2e3447",
+                        "surface-tint": "#4edea3",
+                        "on-tertiary-container": "#711419",
+                        "inverse-surface": "#dce1fb",
+                        "surface-container-high": "#23293c",
+                        "primary-fixed": "#6ffbbe",
+                        "surface-container": "#191f31",
+                        "surface-container-lowest": "#070d1f",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-fixed": "#002117",
+                        "on-secondary-fixed-variant": "#0b513d",
+                        "on-surface-variant": "#bbcabf",
+                        "on-primary-fixed": "#002113",
+                        "on-secondary": "#003829",
+                        "on-secondary-container": "#83c2a9",
+                        "inverse-primary": "#006c49",
+                        "surface-bright": "#33394c",
+                        "tertiary": "#ffb3af",
+                        "on-primary": "#003824",
+                        "tertiary-fixed-dim": "#ffb3af",
+                        "surface-container-low": "#151b2d",
+                        "on-tertiary-fixed": "#410005"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "panel-gap": "12px",
+                        "base": "4px",
+                        "container-padding": "24px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-sm": ["Geist"],
+                        "body-lg": ["Geist"],
+                        "headline-md": ["Geist"],
+                        "body-sm": ["Geist"],
+                        "display-lg": ["Geist"],
+                        "data-mono": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.08em", "fontWeight": "500" }],
+                        "headline-sm": ["18px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-mono": ["14px", { "lineHeight": "1", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #0A0F0C; color: #dce1fb; overflow: hidden; margin: 0; padding: 0; font-family: 'Geist', sans-serif; }
+        .glass-panel { background: rgba(12, 19, 36, 0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid #3c4a42; }
+        .emerald-border { border-color: #4edea3; }
+        .pulse-dot { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(78, 222, 163, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(78, 222, 163, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(78, 222, 163, 0); } }
+        .ticker-wrap { width: 100%; overflow: hidden; background-color: rgba(7, 13, 31, 0.9); box-sizing: content-box; white-space: nowrap; padding-right: 100%; }
+        .ticker { display: inline-block; white-space: nowrap; padding-right: 100%; box-sizing: content-box; animation-iteration-count: infinite; animation-timing-function: linear; animation-name: ticker; animation-duration: 30s; }
+        @keyframes ticker { 0% { transform: translate3d(0, 0, 0); visibility: visible; } 100% { transform: translate3d(-100%, 0, 0); } }
+        .hud-button { border: 1px solid rgba(78, 222, 163, 0.5); background: rgba(78, 222, 163, 0.1); transition: all 0.2s ease; }
+        .hud-button:hover { background: rgba(78, 222, 163, 0.2); border-color: #4edea3; box-shadow: 0 0 8px rgba(78, 222, 163, 0.3) inset; }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-container-padding h-16 bg-surface-container/90 backdrop-blur-md border-b border-outline-variant">
+<div class="flex items-center space-x-6">
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined text-primary" data-icon="eco">eco</span>
+<span class="font-label-caps text-label-caps font-bold tracking-tighter text-primary">EcoShield</span>
+</div>
+<div class="hidden md:flex items-center space-x-3 bg-surface-container-highest px-3 py-1.5 rounded-DEFAULT border border-outline-variant">
+<span class="font-label-caps text-[10px] text-on-surface-variant">GLOBAL POLLUTION INDEX</span>
+<span class="font-data-mono text-primary font-bold">82.4</span>
+<span class="flex items-center text-error font-data-mono text-[11px]"><span class="material-symbols-outlined text-[14px]">arrow_upward</span>+2.1</span>
+<span class="bg-tertiary-container/20 text-tertiary-container border border-tertiary-container px-2 py-0.5 rounded-full font-label-caps text-[9px]">ELEVATED</span>
+</div>
+</div>
+<nav class="hidden md:flex flex-1 justify-center space-x-8">
+<a class="font-headline-sm text-headline-sm text-primary border-b-2 border-primary pb-1 flex items-center h-full" href="#">Earth Pulse</a>
+<a class="font-headline-sm text-headline-sm text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 flex items-center h-full" href="#">Geo Map</a>
+<a class="font-headline-sm text-headline-sm text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 flex items-center h-full" href="#">AI Signals</a>
+</nav>
+<div class="flex items-center space-x-4">
+<div class="flex items-center space-x-2">
+<div class="w-2 h-2 rounded-full bg-primary pulse-dot"></div>
+<span class="font-label-caps text-label-caps text-primary">LIVE 24 feeds</span>
+</div>
+<span class="font-data-mono text-data-mono text-on-surface-variant">19:42 UTC</span>
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</div>
+</header>
+<!-- Main Canvas Area -->
+<main class="flex-1 relative mt-16 mb-10 overflow-hidden">
+<!-- Filters Button -->
+<div class="absolute top-4 left-6 z-20">
+<button class="hud-button flex items-center space-x-2 px-3 py-1.5 rounded-DEFAULT font-label-caps text-label-caps text-primary">
+<span class="material-symbols-outlined text-[16px]" data-icon="filter_list">filter_list</span>
+<span>FILTERS</span>
+</button>
+</div>
+<!-- The Globe Visualization -->
+<div class="absolute inset-0 flex items-center justify-center z-0 pointer-events-none">
+<img class="w-full max-w-4xl max-h-full object-contain pointer-events-auto mix-blend-screen opacity-90 drop-shadow-2xl" data-alt="A detailed rendering of a futuristic Earth globe, focusing on Asia, Africa, and Europe, illuminated against a star-studded deep space background. The globe displays topographical features with vivid green landmasses and deep blue oceans. Crucially, a large area over Russia and parts of Asia is highlighted with a striking, emissive, deep red glow indicating severe pollution or risk levels, with bright golden spots marking specific critical points or cities. The overall style is high-tech, cinematic, and reminiscent of a sophisticated environmental monitoring HUD." src="./globe.png"/>
+</div>
+<!-- Floating Info Pill -->
+<div class="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-20">
+<div class="glass-panel rounded-full px-4 py-2 flex items-center space-x-2 cursor-pointer hover:bg-surface-variant/50 transition-colors">
+<span class="material-symbols-outlined text-primary text-[18px]" data-icon="pin_drop">pin_drop</span>
+<span class="font-body-sm text-body-sm text-on-surface">Click any region to view impact &gt;</span>
+</div>
+</div>
+<!-- Bottom Left Data Cards -->
+<div class="absolute bottom-6 left-6 z-20 flex space-x-4">
+<!-- Risk Level Legend -->
+<div class="glass-panel p-3 rounded-lg w-48">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant pb-1 mb-2">RISK LEVEL</h3>
+<div class="space-y-1.5 font-data-mono text-[12px]">
+<div class="flex items-center justify-between"><div class="flex items-center space-x-2"><div class="w-2 h-2 rounded-full bg-error"></div><span class="text-on-surface">CRITICAL</span></div><span class="text-on-surface-variant">≥80</span></div>
+<div class="flex items-center justify-between"><div class="flex items-center space-x-2"><div class="w-2 h-2 rounded-full bg-tertiary-container"></div><span class="text-on-surface">HIGH</span></div><span class="text-on-surface-variant">≥60</span></div>
+<div class="flex items-center justify-between"><div class="flex items-center space-x-2"><div class="w-2 h-2 rounded-full bg-secondary"></div><span class="text-on-surface">MEDIUM</span></div><span class="text-on-surface-variant">≥35</span></div>
+<div class="flex items-center justify-between"><div class="flex items-center space-x-2"><div class="w-2 h-2 rounded-full bg-primary"></div><span class="text-on-surface">LOW</span></div><span class="text-on-surface-variant">&lt;35</span></div>
+</div>
+</div>
+<!-- GPI Trend Sparkline Placeholder -->
+<div class="glass-panel p-3 rounded-lg w-40 flex flex-col justify-between">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant pb-1 mb-2">GPI TREND</h3>
+<div class="flex items-baseline space-x-2">
+<span class="font-display-lg text-primary text-3xl">82.4</span>
+</div>
+<div class="h-8 mt-2 flex items-end space-x-1 opacity-80">
+<!-- Synthetic Sparkline -->
+<div class="w-1.5 bg-primary h-3"></div><div class="w-1.5 bg-primary h-4"></div><div class="w-1.5 bg-primary h-3"></div><div class="w-1.5 bg-primary h-5"></div>
+<div class="w-1.5 bg-tertiary-container h-6"></div><div class="w-1.5 bg-tertiary-container h-7"></div><div class="w-1.5 bg-error h-full"></div>
+</div>
+</div>
+</div>
+<!-- Right Side Panel -->
+<aside class="absolute top-4 right-4 bottom-6 w-80 glass-panel rounded-lg flex flex-col z-30 shadow-2xl">
+<div class="flex items-center justify-between p-3 border-b border-primary/30">
+<h2 class="font-label-caps text-label-caps text-primary tracking-widest">AT-RISK ENTITIES</h2>
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]" data-icon="close">close</span></button>
+</div>
+<div class="flex-1 overflow-y-auto p-3 space-y-3 custom-scrollbar">
+<!-- Card 1 -->
+<div class="bg-surface-container-high border border-outline-variant rounded-DEFAULT p-3 hover:border-primary/50 transition-colors group cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-error"></div>
+<div class="flex justify-between items-start mb-1 pl-2">
+<h4 class="font-headline-sm text-on-surface text-[15px]">Infranet Corp</h4>
+<span class="bg-error/20 text-error border border-error/50 px-1.5 py-0.5 rounded text-[9px] font-label-caps">CRITICAL</span>
+</div>
+<p class="font-data-mono text-[10px] text-on-surface-variant pl-2 mb-2">Energy / MENA</p>
+<div class="bg-surface-dim p-2 rounded-sm border border-outline-variant/50 pl-2 ml-2">
+<span class="font-label-caps text-[9px] text-primary block mb-1">AI SUMMARY:</span>
+<p class="font-body-sm text-[11px] text-on-surface leading-tight">Unregulated flare emissions detected scaling 300% above baseline.</p>
+</div>
+<div class="w-full bg-surface-dim h-1 mt-3 ml-2 rounded-full overflow-hidden">
+<div class="bg-error h-full w-[95%]"></div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-high border border-outline-variant rounded-DEFAULT p-3 hover:border-primary/50 transition-colors group cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-tertiary-container"></div>
+<div class="flex justify-between items-start mb-1 pl-2">
+<h4 class="font-headline-sm text-on-surface text-[15px]">Al Safa Industrial</h4>
+<span class="bg-tertiary-container/20 text-tertiary-container border border-tertiary-container/50 px-1.5 py-0.5 rounded text-[9px] font-label-caps">HIGH</span>
+</div>
+<p class="font-data-mono text-[10px] text-on-surface-variant pl-2 mb-2">Manufacturing / UAE</p>
+<div class="bg-surface-dim p-2 rounded-sm border border-outline-variant/50 pl-2 ml-2">
+<span class="font-label-caps text-[9px] text-primary block mb-1">AI SUMMARY:</span>
+<p class="font-body-sm text-[11px] text-on-surface leading-tight">Toxic particulate runoff reported near primary coastal facility.</p>
+</div>
+<div class="w-full bg-surface-dim h-1 mt-3 ml-2 rounded-full overflow-hidden">
+<div class="bg-tertiary-container h-full w-[75%]"></div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-high border border-outline-variant rounded-DEFAULT p-3 hover:border-primary/50 transition-colors group cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="flex justify-between items-start mb-1 pl-2">
+<h4 class="font-headline-sm text-on-surface text-[15px]">TechNoCity</h4>
+<span class="bg-primary/20 text-primary border border-primary/50 px-1.5 py-0.5 rounded text-[9px] font-label-caps">ELEVATED</span>
+</div>
+<p class="font-data-mono text-[10px] text-on-surface-variant pl-2 mb-2">Infrastructure / SEA</p>
+<div class="w-full bg-surface-dim h-1 mt-2 ml-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[45%]"></div>
+</div>
+</div>
+</div>
+<div class="p-3 border-t border-outline-variant bg-surface-container-highest/50 rounded-b-lg">
+<button class="w-full flex items-center justify-between font-label-caps text-[10px] text-on-surface-variant hover:text-primary transition-colors">
+<span>ALL MONITORED ENTITIES (1,402)</span>
+<span class="material-symbols-outlined text-[16px]" data-icon="expand_more">expand_more</span>
+</button>
+</div>
+</aside>
+</main>
+<!-- Footer / Ticker Strip -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex items-center h-10 bg-surface-container-lowest/90 backdrop-blur-sm border-t border-primary/30 font-data-mono text-[11px]">
+<div class="flex-1 overflow-hidden border-r border-outline-variant h-full flex items-center bg-error/5">
+<div class="ticker-wrap h-full flex items-center">
+<div class="ticker text-error flex items-center space-x-8 px-4">
+<span class="flex items-center"><span class="material-symbols-outlined text-[14px] mr-1" data-icon="warning">warning</span> CRITICAL ALERT: Excessive Emissions Detected — Al Safa Site, Dubai — 19:35 UTC</span>
+<span class="flex items-center text-tertiary-container"><span class="material-symbols-outlined text-[14px] mr-1" data-icon="warning">warning</span> HIGH RISK: Unplanned Flaring Event — Infranet Corp, Sector 4 — 19:28 UTC</span>
+<span class="flex items-center"><span class="material-symbols-outlined text-[14px] mr-1" data-icon="warning">warning</span> CRITICAL ALERT: Excessive Emissions Detected — Al Safa Site, Dubai — 19:35 UTC</span>
+</div>
+</div>
+</div>
+<div class="flex-shrink-0 flex items-center space-x-6 px-4 text-on-surface-variant">
+<span>© 2026 ECOSHIELD INTEL</span>
+<div class="flex space-x-4">
+<a class="hover:text-primary transition-colors" href="#">Privacy Protocol</a>
+<a class="hover:text-primary transition-colors" href="#">Terminal Docs</a>
+</div>
+</div>
+</footer>
+</body></html>

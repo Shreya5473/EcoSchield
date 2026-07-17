@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EcoShield - UAE Regional View</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style data-purpose="custom-colors">
+    :root {
+      --bg-ocean: #0B3D4C;
+      --bg-panel: #1A2634;
+      --bg-topbar: #14202B;
+      --text-main: #E2E8F0;
+      --text-muted: #94A3B8;
+      --accent-green: #34D399;
+      --accent-red: #F87171;
+      --land-color: #D2B48C;
+      --stroke-color: #000000;
+    }
+    body {
+      background-color: var(--bg-ocean);
+      color: var(--text-main);
+      font-family: 'Courier New', Courier, monospace;
+      margin: 0;
+      overflow: hidden;
+    }
+  </style>
+<style data-purpose="layout-styles">
+    .dashboard-container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    .main-content {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+    .sidebar {
+      width: 320px;
+      background-color: var(--bg-panel);
+      border-right: 1px solid #2D3748;
+      display: flex;
+      flex-direction: column;
+      z-index: 10;
+    }
+    .map-area {
+      flex: 1;
+      position: relative;
+      background-color: var(--bg-ocean);
+    }
+    /* Map Styling */
+    .map-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      height: 90%;
+    }
+    .uae-map-svg {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .landmass {
+      fill: var(--land-color);
+      stroke: var(--stroke-color);
+      stroke-width: 2;
+    }
+    /* Pin Styling */
+    .location-pin {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background-color: white;
+      border-radius: 50%;
+      box-shadow: 0 0 5px rgba(0,0,0,0.5);
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+    }
+    .location-pin::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 6px;
+      height: 6px;
+      background-color: var(--accent-red);
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+<!-- BEGIN: Dashboard Container -->
+<div class="dashboard-container">
+<!-- BEGIN: Top Navigation Bar -->
+<header class="bg-[#14202B] border-b border-gray-700 h-16 flex items-center justify-between px-6 shrink-0 z-20">
+<div class="flex items-center gap-6">
+<div class="flex flex-col">
+<span class="text-[#34D399] font-bold text-lg leading-tight tracking-wider">EcoShield</span>
+<span class="text-xs text-gray-400 tracking-widest uppercase">UAE Regional View</span>
+</div>
+<div class="h-8 w-px bg-gray-700 mx-2"></div>
+<div class="border border-[#F87171] text-[#F87171] px-4 py-1.5 rounded text-sm flex items-center gap-2 bg-red-950/20">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+          GLOBAL POLLUTION INDEX <span class="font-bold ml-2">82.4</span>
+</div>
+</div>
+<nav class="flex gap-8 text-sm">
+<a class="text-gray-400 hover:text-white transition-colors" href="#">Earth Pulse</a>
+<a class="text-[#34D399] border-b-2 border-[#34D399] pb-5 translate-y-[10px]" href="#">Geo Map</a>
+<a class="text-gray-400 hover:text-white transition-colors" href="#">AI Signals</a>
+</nav>
+<div class="flex items-center gap-4 text-gray-400">
+<button class="hover:text-white"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></button>
+<button class="hover:text-white"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></button>
+<button class="hover:text-white"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></button>
+</div>
+</header>
+<!-- END: Top Navigation Bar -->
+<!-- BEGIN: Main Content Area -->
+<main class="main-content">
+<!-- BEGIN: Sidebar Filters -->
+<aside class="sidebar p-6 space-y-8">
+<div>
+<h2 class="text-[#34D399] text-xl font-bold mb-1">Region Filters</h2>
+<p class="text-sm text-gray-400">UAE Territory Analysis</p>
+</div>
+<div class="space-y-4">
+<h3 class="text-xs tracking-widest text-gray-500 uppercase">Risk Severity</h3>
+<label class="flex items-center gap-3 p-3 border border-gray-700 rounded bg-[#1C2938] cursor-pointer">
+<input checked="" class="form-checkbox text-[#34D399] bg-transparent border-gray-600 rounded-sm focus:ring-0" type="checkbox"/>
+<span class="text-sm">Critical (5)</span>
+</label>
+<label class="flex items-center gap-3 p-3 border border-gray-700 rounded bg-[#1A2634] cursor-pointer opacity-70">
+<input class="form-checkbox text-gray-500 bg-transparent border-gray-600 rounded-sm focus:ring-0" type="checkbox"/>
+<span class="text-sm">Elevated (12)</span>
+</label>
+</div>
+<div class="space-y-4">
+<h3 class="text-xs tracking-widest text-gray-500 uppercase">Emission Type</h3>
+<select class="w-full bg-[#1A2634] border border-gray-700 text-sm rounded p-3 focus:border-[#34D399] focus:ring-0 appearance-none">
+<option>All Pollutants</option>
+<option>CO2 Only</option>
+<option>NOx Only</option>
+</select>
+</div>
+<div class="mt-auto border border-gray-700 rounded p-4 bg-[#14202B]/50 space-y-3">
+<h3 class="text-xs tracking-widest text-[#34D399] uppercase mb-4">Regional Metrics</h3>
+<div class="flex justify-between items-center text-sm">
+<span class="text-gray-400">Carbon Footprint</span>
+<span class="font-bold">14.2 Mt</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-gray-400">Air Quality Index</span>
+<span class="font-bold text-[#F87171]">142 AQI</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-gray-400">Active Sensors</span>
+<span class="font-bold text-[#34D399]">84/85</span>
+</div>
+</div>
+</aside>
+<!-- END: Sidebar Filters -->
+<!-- BEGIN: Map Area -->
+<section class="map-area">
+<div class="map-container" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1.2); width: 90%; height: 90%;"><svg class="uae-map-svg" preserveaspectratio="xMidYMid meet" viewbox="0 0 1000 800"><path class="landmass" d="M 219.5,695.5 C 137.9,598.7 85.1,495.2 60.5,471.5 C 51.5,462.8 45.2,437.1 48.5,420.5 C 64.1,399.2 121.5,417.8 152.5,410.5 C 187.2,402.3 216.5,423.5 241.5,425.5 C 265.8,427.4 300.5,418.5 315.5,431.5 C 330.1,444.1 364.5,435.5 385.5,435.5 C 417.8,435.5 425.5,420.5 440.5,420.5 C 455.5,420.5 464.5,438.5 487.5,438.5 C 504.1,438.5 531.5,433.5 540.5,415.5 C 550.8,394.9 570.5,372.5 565.5,355.5 C 560.5,338.5 611.5,296.5 631.5,302.5 C 648.1,307.5 668.5,268.5 690.5,255.5 C 716.8,239.9 746.5,215.5 765.5,188.5 C 775.1,174.8 793.5,130.5 801.5,132.5 C 808.5,134.2 811.5,115.5 832.5,110.5 C 849.1,106.5 876.5,45.5 885.5,35.5 C 895.8,24.1 915.5,26.5 918.5,40.5 C 921.2,53.2 927.5,70.5 911.5,100.5 C 896.1,129.5 871.5,105.5 876.5,115.5 C 881.5,125.5 891.5,110.5 905.5,110.5 C 921.1,110.5 941.5,100.5 956.5,115.5 C 967.5,126.5 961.5,185.5 956.5,200.5 C 951.5,215.5 970.5,225.5 965.5,240.5 C 960.5,255.5 955.5,280.5 931.5,280.5 C 915.1,280.5 905.5,295.5 895.5,310.5 C 884.1,327.5 900.5,310.5 915.5,315.5 C 928.1,319.7 896.5,326.5 885.5,315.5 C 876.5,306.5 871.5,268.5 851.5,265.5 C 833.1,262.7 855.5,325.5 860.5,350.5 C 864.8,371.9 840.5,390.5 835.5,410.5 C 830.5,430.5 845.5,455.5 850.5,465.5 C 856.8,478.1 885.5,455.5 891.5,460.5 C 895.5,463.8 845.5,482.5 825.5,475.5 C 808.1,469.4 815.5,488.5 791.5,490.5 C 775.1,491.9 800.5,530.5 796.5,550.5 C 791.5,575.5 785.5,600.5 765.5,620.5 C 748.1,637.9 750.5,675.5 741.5,690.5 C 731.5,707.2 735.5,745.5 735.5,765.5 C 735.5,765.5 219.5,695.5 219.5,695.5 Z" fill="#D2B48C" stroke="#000000" stroke-width="2" style="fill: rgba(16, 185, 129, 0.4); stroke: #34D399; stroke-width: 1.5; filter: drop-shadow(0 0 15px rgba(52, 211, 153, 0.6));"></path></svg><div class="group absolute" style="top: 25%; left: 86%; transform: translate(-50%, -100%);"><div class="relative flex items-center justify-center w-8 h-8 cursor-pointer">
+<div class="absolute w-full h-full bg-[#F87171] rounded-full opacity-20 animate-ping"></div>
+<svg class="w-6 h-6 drop-shadow-lg relative z-10" viewbox="0 0 24 24">
+<defs>
+<radialgradient cx="50%" cy="30%" id="pinGrad" r="50%">
+<stop offset="0%" stop-color="#FCA5A5"></stop>
+<stop offset="100%" stop-color="#B91C1C"></stop>
+</radialgradient>
+</defs>
+<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="url(#pinGrad)" stroke="white" stroke-width="0.5"></path>
+<circle cx="12" cy="9" fill="white" opacity="0.8" r="2.5"></circle>
+</svg>
+</div>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block bg-[#14202B]/90 backdrop-blur-sm border border-[#34D399] text-[#34D399] text-[10px] px-2 py-1 rounded whitespace-nowrap z-30 shadow-xl">Bin Hamoodah</div></div><div class="group absolute" style="top: 31%; left: 80%; transform: translate(-50%, -100%);"><div class="relative flex items-center justify-center w-8 h-8 cursor-pointer">
+<div class="absolute w-full h-full bg-[#F87171] rounded-full opacity-20 animate-ping"></div>
+<svg class="w-6 h-6 drop-shadow-lg relative z-10" viewbox="0 0 24 24">
+<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#F87171" stroke="white" stroke-width="0.5"></path>
+<circle cx="12" cy="9" fill="white" opacity="0.8" r="2.5"></circle>
+</svg>
+</div>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block bg-[#14202B]/90 backdrop-blur-sm border border-[#34D399] text-[#34D399] text-[10px] px-2 py-1 rounded whitespace-nowrap z-30 shadow-xl">Al Rostamani</div></div><div class="group absolute" style="top: 38%; left: 72%; transform: translate(-50%, -100%);"><div class="relative flex items-center justify-center w-8 h-8 cursor-pointer">
+<div class="absolute w-full h-full bg-[#F87171] rounded-full opacity-20 animate-ping"></div>
+<svg class="w-6 h-6 drop-shadow-lg relative z-10" viewbox="0 0 24 24">
+<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#F87171" stroke="white" stroke-width="0.5"></path>
+<circle cx="12" cy="9" fill="white" opacity="0.8" r="2.5"></circle>
+</svg>
+</div>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block bg-[#14202B]/90 backdrop-blur-sm border border-[#34D399] text-[#34D399] text-[10px] px-2 py-1 rounded whitespace-nowrap z-30 shadow-xl">Ghantoot Group</div></div><div class="group absolute" style="top: 42%; left: 75%; transform: translate(-50%, -100%);"><div class="relative flex items-center justify-center w-8 h-8 cursor-pointer">
+<div class="absolute w-full h-full bg-[#F87171] rounded-full opacity-20 animate-ping"></div>
+<svg class="w-6 h-6 drop-shadow-lg relative z-10" viewbox="0 0 24 24">
+<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#F87171" stroke="white" stroke-width="0.5"></path>
+<circle cx="12" cy="9" fill="white" opacity="0.8" r="2.5"></circle>
+</svg>
+</div>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block bg-[#14202B]/90 backdrop-blur-sm border border-[#34D399] text-[#34D399] text-[10px] px-2 py-1 rounded whitespace-nowrap z-30 shadow-xl">Al Naboodah</div></div><div class="group absolute" style="top: 50%; left: 48%; transform: translate(-50%, -100%);"><div class="relative flex items-center justify-center w-8 h-8 cursor-pointer">
+<div class="absolute w-full h-full bg-[#F87171] rounded-full opacity-20 animate-ping"></div>
+<svg class="w-6 h-6 drop-shadow-lg relative z-10" viewbox="0 0 24 24">
+<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#F87171" stroke="white" stroke-width="0.5"></path>
+<circle cx="12" cy="9" fill="white" opacity="0.8" r="2.5"></circle>
+</svg>
+</div>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block bg-[#14202B]/90 backdrop-blur-sm border border-[#34D399] text-[#34D399] text-[10px] px-2 py-1 rounded whitespace-nowrap z-30 shadow-xl">Depa Interiors</div></div><div class="group absolute" style="top: 60%; left: 59%; transform: translate(-50%, -100%);"><div class="relative flex items-center justify-center w-8 h-8 cursor-pointer">
+<div class="absolute w-full h-full bg-[#F87171] rounded-full opacity-20 animate-ping"></div>
+<svg class="w-6 h-6 drop-shadow-lg relative z-10" viewbox="0 0 24 24">
+<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#F87171" stroke="white" stroke-width="0.5"></path>
+<circle cx="12" cy="9" fill="white" opacity="0.8" r="2.5"></circle>
+</svg>
+</div>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block bg-[#14202B]/90 backdrop-blur-sm border border-[#34D399] text-[#34D399] text-[10px] px-2 py-1 rounded whitespace-nowrap z-30 shadow-xl">Emirates Neon</div></div></div>
+<!-- BEGIN: Floating Overlays -->
+<div class="absolute bottom-6 left-6 flex gap-4">
+<!-- Risk Level Legend -->
+<div class="bg-[#1C2938]/90 border border-gray-700 rounded p-4 backdrop-blur-sm w-48">
+<h4 class="text-xs tracking-widest text-[#34D399] uppercase mb-3">Risk Level Legend</h4>
+<div class="space-y-2 text-sm text-gray-300">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-[#F87171]"></span>
+                Critical (&gt;80)
+              </div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-[#6EE7B7]"></span>
+                Elevated (50-80)
+              </div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-[#10B981]"></span>
+                Nominal (&lt;50)
+              </div>
+</div>
+</div>
+<!-- GPI Trend Chart -->
+<div class="bg-[#1C2938]/90 border border-gray-700 rounded p-4 backdrop-blur-sm w-56 flex flex-col justify-between">
+<div class="flex justify-between items-center mb-4">
+<h4 class="text-xs tracking-widest text-[#34D399] uppercase">GPI Trend (48h)</h4>
+<span class="text-sm font-bold text-gray-300">+2.4%</span>
+</div>
+<div class="flex items-end gap-1 h-12 w-full">
+<div class="w-1/6 bg-[#10B981] h-[30%]"></div>
+<div class="w-1/6 bg-[#34D399] h-[40%]"></div>
+<div class="w-1/6 bg-[#6EE7B7] h-[60%]"></div>
+<div class="w-1/6 bg-[#6EE7B7] h-[55%]"></div>
+<div class="w-1/6 bg-[#FCA5A5] h-[80%]"></div>
+<div class="w-1/6 bg-[#F87171] h-[100%] drop-shadow-[0_0_8px_rgba(248,113,113,0.8)]"></div>
+</div>
+</div>
+</div>
+<!-- END: Floating Overlays -->
+</section>
+<!-- END: Map Area -->
+</main>
+<!-- END: Main Content Area -->
+<!-- BEGIN: Bottom Alert Ticker -->
+<footer class="bg-[#14202B] border-t border-gray-700 h-10 flex items-center px-6 shrink-0 z-20 text-xs">
+<div class="flex items-center gap-2 text-[#34D399] font-bold w-1/4">
+<span>© 2024 ECOSHIELD INTEL</span>
+<span class="w-1 h-1 bg-[#34D399] rounded-full mx-1"></span>
+<span>LIVE FEED ACTIVE</span>
+</div>
+<div class="flex-1 overflow-hidden mx-4 border border-[#F87171]/50 bg-red-950/30 text-[#FCA5A5] px-3 py-1 flex items-center">
+<svg class="w-3.5 h-3.5 mr-2 shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<div class="whitespace-nowrap animate-marquee">
+          CRITICAL ALERT: UAE REGIONAL INDEX EXCEEDS SAFE LIMITS IN 5 ZONES. IMMEDIATE REMEDIATION PROTOCOLS ADVISED.
+        </div>
+</div>
+<div class="flex gap-4 text-gray-500 w-1/4 justify-end">
+<a class="hover:text-gray-300" href="#">Privacy Protocol</a>
+<a class="hover:text-gray-300" href="#">Security Standards</a>
+<a class="hover:text-gray-300" href="#">Terminal Docs</a>
+</div>
+</footer>
+<!-- END: Bottom Alert Ticker -->
+</div>
+<!-- END: Dashboard Container -->
+<style data-purpose="animations">
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    .animate-marquee {
+      display: inline-block;
+      animation: marquee 20s linear infinite;
+    }
+  </style>
+</body></html>

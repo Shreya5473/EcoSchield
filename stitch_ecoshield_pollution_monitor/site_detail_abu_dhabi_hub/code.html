@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EcoShield | Site Detail — Abu Dhabi Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Geist:wght@100;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .hud-glass {
+            background: rgba(12, 19, 36, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(78, 222, 163, 0.2);
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0c1324; }
+        ::-webkit-scrollbar-thumb { background: #191f31; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4edea3; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#ffb3af",
+                        "surface-dim": "#0c1324",
+                        "on-background": "#dce1fb",
+                        "surface-container-highest": "#2e3447",
+                        "error": "#ffb4ab",
+                        "surface": "#0c1324",
+                        "on-secondary-fixed-variant": "#0b513d",
+                        "on-tertiary-fixed-variant": "#842225",
+                        "on-surface-variant": "#bbcabf",
+                        "secondary-container": "#0b513d",
+                        "tertiary": "#ffb3af",
+                        "on-primary-fixed-variant": "#005236",
+                        "surface-variant": "#2e3447",
+                        "surface-container": "#191f31",
+                        "primary-container": "#10b981",
+                        "primary-fixed": "#6ffbbe",
+                        "primary": "#4edea3",
+                        "on-primary-container": "#00422b",
+                        "on-error": "#690005",
+                        "on-secondary-container": "#83c2a9",
+                        "surface-tint": "#4edea3",
+                        "secondary-fixed-dim": "#95d3ba",
+                        "outline-variant": "#3c4a42",
+                        "surface-container-low": "#151b2d",
+                        "on-tertiary": "#650911",
+                        "secondary-fixed": "#b0f0d6",
+                        "on-surface": "#dce1fb",
+                        "on-secondary-fixed": "#002117",
+                        "surface-bright": "#33394c",
+                        "on-primary-fixed": "#002113",
+                        "inverse-surface": "#dce1fb",
+                        "on-tertiary-container": "#711419",
+                        "on-primary": "#003824",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#410005",
+                        "inverse-primary": "#006c49",
+                        "outline": "#86948a",
+                        "primary-fixed-dim": "#4edea3",
+                        "background": "#0c1324",
+                        "inverse-on-surface": "#2a3043",
+                        "error-container": "#93000a",
+                        "tertiary-container": "#fc7c78",
+                        "surface-container-lowest": "#070d1f",
+                        "tertiary-fixed": "#ffdad7",
+                        "secondary": "#95d3ba",
+                        "surface-container-high": "#23293c",
+                        "on-secondary": "#003829"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-padding": "24px",
+                        "gutter": "16px",
+                        "panel-gap": "12px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-sm": ["Geist"],
+                        "data-mono": ["JetBrains Mono"],
+                        "headline-md": ["Geist"],
+                        "body-lg": ["Geist"],
+                        "body-sm": ["Geist"],
+                        "display-lg": ["Geist"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.08em", "fontWeight": "500"}],
+                        "headline-sm": ["18px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "data-mono": ["14px", {"lineHeight": "1", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-lg min-h-screen overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant shadow-sm flex items-center justify-between px-container-padding h-16 transition-all duration-200 ease-in-out">
+<div class="flex items-center gap-8">
+<div class="font-display-lg text-headline-md text-primary tracking-tight">EcoShield</div>
+<nav class="hidden md:flex items-center space-x-6">
+<a class="font-headline-sm text-headline-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Earth Pulse</a>
+<a class="font-headline-sm text-headline-sm text-primary font-bold border-b-2 border-primary pb-1" href="#">Geo Map</a>
+<a class="font-headline-sm text-headline-sm text-on-surface-variant hover:text-primary transition-colors" href="#">AI Signals</a>
+</nav>
+</div>
+<div class="flex items-center gap-panel-gap">
+<div class="relative flex items-center bg-surface-container px-3 py-1.5 rounded-lg border border-outline-variant">
+<span class="material-symbols-outlined text-outline text-[20px] mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-sm w-48 text-on-surface p-0 placeholder-outline" placeholder="Search sectors..." type="text"/>
+</div>
+<button class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-primary/10 rounded-full transition-all">notifications</button>
+<button class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-primary/10 rounded-full transition-all">settings</button>
+<div class="h-8 w-8 rounded-full overflow-hidden border border-primary/30 ml-2">
+<img class="object-cover w-full h-full" data-alt="Close-up portrait of a high-level environmental systems administrator with a neutral expression, wearing professional technical gear. The lighting is dramatic with cool blue and emerald green rim lights reflecting a modern, dark command center aesthetic. High-fidelity photography style with shallow depth of field." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtH0TWW5Hzq7Q9OBR7iyG4PqdrW5QeilhQn-Q9fMvQOA5i1OWavx4gtekLOMGtS5Yb2qJJYPiPS5trS3RZgJtFdOPspZyxb8VeeRKwvuselY-20PKzKnOeMcalTGK8bafg5lBZGOAmhTjfjiQ3AKLl5BKs2kFrhOQBiTxHwKFKxVql-3QtcR-5gdrge4Qizru0MasKMU2g2pfrqKhzuU50-1JY4Zkavv7-kg8S-alcoGb3bgfePXTl"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-surface-container-low/90 backdrop-blur-md border-r border-outline-variant flex flex-col p-panel-gap space-y-base z-40 hidden md:flex">
+<div class="py-4 px-2 border-b border-outline-variant/30 mb-2">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 bg-primary/20 rounded flex items-center justify-center border border-primary/40">
+<span class="material-symbols-outlined text-primary">hub</span>
+</div>
+<div>
+<div class="font-headline-sm text-label-caps text-primary">Environmental Shell</div>
+<div class="text-[10px] text-tertiary-container uppercase tracking-widest font-bold">Vigilance Level: High</div>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<button class="w-full flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-transform active:scale-90 rounded-lg group">
+<span class="material-symbols-outlined text-outline group-hover:text-primary">filter_alt</span>
+<span class="font-label-caps text-label-caps">Filters</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-transform active:scale-90 rounded-lg group">
+<span class="material-symbols-outlined text-outline group-hover:text-primary">analytics</span>
+<span class="font-label-caps text-label-caps">Regional Metrics</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 bg-secondary-container text-on-secondary-container rounded-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">map</span>
+<span class="font-label-caps text-label-caps">Risk Map</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-transform active:scale-90 rounded-lg group">
+<span class="material-symbols-outlined text-outline group-hover:text-primary">warning</span>
+<span class="font-label-caps text-label-caps">Alert History</span>
+</button>
+</nav>
+<div class="pt-4 border-t border-outline-variant/30">
+<button class="w-full py-3 bg-primary/10 text-primary border border-primary/20 rounded-lg font-label-caps text-label-caps hover:bg-primary/20 transition-all mb-4">
+                Update Assets
+            </button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-caps text-label-caps">Support</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined">terminal</span>
+<span class="font-label-caps text-label-caps">Logs</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="pt-16 pl-0 md:pl-64 min-h-screen">
+<div class="p-container-padding">
+<!-- Breadcrumbs -->
+<div class="mb-6 flex items-center gap-2 text-on-surface-variant font-label-caps text-label-caps">
+<span>GEO MAP</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span>UNITED ARAB EMIRATES</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary">ABU DHABI HUB</span>
+</div>
+<!-- Site Report Card -->
+<div class="bg-white rounded-xl shadow-2xl overflow-hidden border-t-[8px] border-primary-container relative">
+<!-- Card Header Section -->
+<div class="p-8 border-b border-gray-100">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h1 class="font-headline-md text-display-lg text-slate-900 mb-1 leading-none">AIR QUALITY OF THIS SITE</h1>
+<p class="text-slate-500 font-label-caps flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+                                Live sensor data — Abu Dhabi Hub, Sector 4
+                            </p>
+</div>
+<div class="text-right">
+<div class="text-slate-400 text-label-caps uppercase tracking-tighter mb-1">Last Updated</div>
+<div class="text-slate-900 font-data-mono font-bold">09:14:22 GST</div>
+</div>
+</div>
+<!-- Stat Blocks -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+<div class="border border-slate-200 rounded-lg p-4 bg-slate-50/50">
+<div class="text-slate-500 text-label-caps mb-2">Air Quality Index</div>
+<div class="text-headline-md font-bold text-red-600">156</div>
+<div class="text-body-sm font-bold text-red-600 uppercase">Unhealthy</div>
+</div>
+<div class="border border-slate-200 rounded-lg p-4 bg-slate-50/50">
+<div class="text-slate-500 text-label-caps mb-2">PM2.5 Level</div>
+<div class="text-headline-md font-bold text-slate-900">43 <span class="text-body-sm font-normal">µg/m³</span></div>
+<div class="text-body-sm font-bold text-amber-600 uppercase">3x WHO Guideline</div>
+</div>
+<div class="border border-slate-200 rounded-lg p-4 bg-slate-50/50">
+<div class="text-slate-500 text-label-caps mb-2">NOx Output</div>
+<div class="text-headline-md font-bold text-red-600">210 <span class="text-body-sm font-normal">kg/day</span></div>
+<div class="text-body-sm font-bold text-red-600 uppercase">Above Limit</div>
+</div>
+<div class="border border-slate-200 rounded-lg p-4 bg-slate-50/50">
+<div class="text-slate-500 text-label-caps mb-2">Noise Level</div>
+<div class="text-headline-md font-bold text-slate-900">87 <span class="text-body-sm font-normal">dB</span></div>
+<div class="text-body-sm font-bold text-amber-600 uppercase">Elevated</div>
+</div>
+<div class="border border-slate-200 rounded-lg p-4 bg-slate-50/50">
+<div class="text-slate-500 text-label-caps mb-2">Water Quality</div>
+<div class="text-headline-md font-bold text-slate-900">Moderate</div>
+<div class="text-body-sm font-bold text-amber-600 uppercase">Runoff Risk</div>
+</div>
+</div>
+</div>
+<!-- Machine Table Section -->
+<div class="overflow-x-auto p-0">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 border-b border-slate-200">
+<th class="p-6 font-label-caps text-slate-500">Machine</th>
+<th class="p-4 font-label-caps text-slate-500">Smoke</th>
+<th class="p-4 font-label-caps text-slate-500">Fuel Cons.</th>
+<th class="p-4 font-label-caps text-slate-500">Carbon</th>
+<th class="p-4 font-label-caps text-slate-500">Risk Score</th>
+<th class="p-4 font-label-caps text-slate-500">Replacement Available</th>
+<th class="p-4 font-label-caps text-slate-500">Action</th>
+</tr>
+</thead>
+<tbody class="text-slate-900 font-body-sm">
+<!-- Row 1 -->
+<tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+<td class="p-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400">agriculture</span>
+<div>
+<div class="font-bold">Excavator</div>
+<div class="text-xs text-slate-400">Tier 2 Diesel</div>
+</div>
+</td>
+<td class="p-4 font-data-mono">78%</td>
+<td class="p-4 font-data-mono">98%</td>
+<td class="p-4 font-data-mono">92%</td>
+<td class="p-4">
+<span class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-bold">97% CRITICAL</span>
+</td>
+<td class="p-4">
+<div class="flex items-center gap-2 text-emerald-600 bg-emerald-50 px-3 py-2 rounded-lg border border-emerald-100">
+<span class="material-symbols-outlined text-[18px]">electric_bolt</span>
+<span class="text-xs font-bold leading-tight">Electric Excavator<br/><span class="font-normal">(Tier 4 / Battery)</span></span>
+<span class="material-symbols-outlined text-emerald-500 ml-auto">check_circle</span>
+</div>
+</td>
+<td class="p-4">
+<button class="border-2 border-red-500 text-red-600 px-4 py-2 rounded font-bold text-xs hover:bg-red-50 transition-colors uppercase">Impose Fine</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+<td class="p-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400">construction</span>
+<div>
+<div class="font-bold">Bulldozer</div>
+<div class="text-xs text-slate-400">Tier 2 Diesel</div>
+</div>
+</td>
+<td class="p-4 font-data-mono">71%</td>
+<td class="p-4 font-data-mono">89%</td>
+<td class="p-4 font-data-mono">85%</td>
+<td class="p-4">
+<span class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-bold">91% CRITICAL</span>
+</td>
+<td class="p-4">
+<div class="flex items-center gap-2 text-slate-600 px-3 py-2 rounded-lg border border-slate-200">
+<span class="material-symbols-outlined text-[18px]">precision_manufacturing</span>
+<span class="text-xs font-bold leading-tight">Bulldozer<br/><span class="font-normal">(Tier 4 DEF/SCR)</span></span>
+</div>
+</td>
+<td class="p-4">
+<button class="border-2 border-red-500 text-red-600 px-4 py-2 rounded font-bold text-xs hover:bg-red-50 transition-colors uppercase">Impose Fine</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+<td class="p-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400">settings_input_component</span>
+<div>
+<div class="font-bold">Diesel Generator</div>
+<div class="text-xs text-slate-400">Backup Power</div>
+</div>
+</td>
+<td class="p-4 font-data-mono">65%</td>
+<td class="p-4 font-data-mono">80%</td>
+<td class="p-4 font-data-mono">74%</td>
+<td class="p-4">
+<span class="bg-orange-100 text-orange-700 px-2 py-1 rounded text-xs font-bold">83% HIGH</span>
+</td>
+<td class="p-4">
+<div class="flex items-center gap-2 text-slate-600 px-3 py-2 rounded-lg border border-slate-200">
+<span class="material-symbols-outlined text-[18px]">battery_charging_full</span>
+<span class="text-xs font-bold leading-tight">Hybrid/Battery<br/><span class="font-normal">Generator</span></span>
+</div>
+</td>
+<td class="p-4">
+<button class="border-2 border-red-500 text-red-600 px-4 py-2 rounded font-bold text-xs hover:bg-red-50 transition-colors uppercase">Impose Fine</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+<td class="p-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400">handyman</span>
+<div>
+<div class="font-bold">Backhoe Loader</div>
+<div class="text-xs text-slate-400">Standard Operations</div>
+</div>
+</td>
+<td class="p-4 font-data-mono">58%</td>
+<td class="p-4 font-data-mono">70%</td>
+<td class="p-4 font-data-mono">66%</td>
+<td class="p-4">
+<span class="bg-orange-100 text-orange-700 px-2 py-1 rounded text-xs font-bold">74% HIGH</span>
+</td>
+<td class="p-4">
+<div class="flex items-center gap-2 text-slate-600 px-3 py-2 rounded-lg border border-slate-200">
+<span class="material-symbols-outlined text-[18px]">build</span>
+<span class="text-xs font-bold leading-tight">Backhoe Loader<br/><span class="font-normal">(Tier 4)</span></span>
+</div>
+</td>
+<td class="p-4">
+<button class="border-2 border-red-500 text-red-600 px-4 py-2 rounded font-bold text-xs hover:bg-red-50 transition-colors uppercase">Impose Fine</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+<td class="p-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400">local_shipping</span>
+<div>
+<div class="font-bold">Concrete Mixer Truck</div>
+<div class="text-xs text-slate-400">Logistics</div>
+</div>
+</td>
+<td class="p-4 font-data-mono">40%</td>
+<td class="p-4 font-data-mono">55%</td>
+<td class="p-4 font-data-mono">48%</td>
+<td class="p-4">
+<span class="bg-amber-100 text-amber-700 px-2 py-1 rounded text-xs font-bold">52% MODERATE</span>
+</td>
+<td class="p-4">
+<div class="flex items-center gap-2 text-slate-600 px-3 py-2 rounded-lg border border-slate-200">
+<span class="material-symbols-outlined text-[18px]">eco</span>
+<span class="text-xs font-bold leading-tight">Low-Emission variant</span>
+</div>
+</td>
+<td class="p-4">
+<button class="border-2 border-slate-300 text-slate-400 px-4 py-2 rounded font-bold text-xs uppercase cursor-default">Under Review</button>
+</td>
+</tr>
+<!-- Row 6 -->
+<tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+<td class="p-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400">brick</span>
+<div>
+<div class="font-bold">Dump Truck</div>
+<div class="text-xs text-slate-400">Hauling</div>
+</div>
+</td>
+<td class="p-4 font-data-mono">34%</td>
+<td class="p-4 font-data-mono">47%</td>
+<td class="p-4 font-data-mono">41%</td>
+<td class="p-4">
+<span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold">44% FAIR</span>
+</td>
+<td class="p-4">
+<div class="text-xs text-slate-400 font-bold uppercase italic">NO REPLACEMENT NEEDED</div>
+</td>
+<td class="p-4">
+<button class="border border-slate-200 text-slate-300 px-4 py-2 rounded font-bold text-xs uppercase cursor-not-allowed bg-slate-50" disabled="">No Action Needed</button>
+</td>
+</tr>
+<!-- Row 7 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="p-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400">roller_skating</span>
+<div>
+<div class="font-bold">Compactor/Roller</div>
+<div class="text-xs text-slate-400">Compaction</div>
+</div>
+</td>
+<td class="p-4 font-data-mono">20%</td>
+<td class="p-4 font-data-mono">28%</td>
+<td class="p-4 font-data-mono">25%</td>
+<td class="p-4">
+<span class="bg-emerald-100 text-emerald-700 px-2 py-1 rounded text-xs font-bold">27% OPTIMAL</span>
+</td>
+<td class="p-4">
+<div class="text-xs text-slate-400 font-bold uppercase italic">NO REPLACEMENT NEEDED</div>
+</td>
+<td class="p-4">
+<button class="border border-slate-200 text-slate-300 px-4 py-2 rounded font-bold text-xs uppercase cursor-not-allowed bg-slate-50" disabled="">No Action Needed</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Footer of Card -->
+<div class="p-8 bg-slate-50 border-t border-slate-200">
+<div class="flex items-center gap-6 mb-6">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-slate-400"></span>
+<span class="text-slate-600 font-label-caps text-xs">7 machines audited</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="text-slate-600 font-label-caps text-xs">4 replacement opportunities identified</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-red-500"></span>
+<span class="text-slate-600 font-label-caps text-xs">4 fines eligible</span>
+</div>
+</div>
+<button class="w-full py-4 bg-primary-container text-white font-headline-sm rounded-lg hover:bg-emerald-600 transition-all shadow-lg hover:shadow-emerald-200/50 flex items-center justify-center gap-3">
+<span class="material-symbols-outlined">description</span>
+                        Generate Full Compliance Report
+                    </button>
+</div>
+</div>
+<!-- Dashboard Analytics Bottom Section -->
+<div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-panel-gap">
+<div class="hud-glass p-6 rounded-xl">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-label-caps text-primary uppercase text-xs">Aerosol Concentration (24h)</h3>
+<span class="material-symbols-outlined text-outline">show_chart</span>
+</div>
+<div class="h-32 flex items-end gap-1">
+<!-- Simple CSS Bar Chart -->
+<div class="flex-1 bg-primary/20 h-[40%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 h-[50%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 h-[45%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/30 h-[60%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/40 h-[75%] rounded-t-sm"></div>
+<div class="flex-1 bg-red-500/50 h-[95%] rounded-t-sm"></div>
+<div class="flex-1 bg-red-500 h-full rounded-t-sm"></div>
+<div class="flex-1 bg-red-500/80 h-[85%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/40 h-[65%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/30 h-[55%] rounded-t-sm"></div>
+</div>
+</div>
+<div class="hud-glass p-6 rounded-xl">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-label-caps text-primary uppercase text-xs">Compliance Trajectory</h3>
+<span class="material-symbols-outlined text-outline">query_stats</span>
+</div>
+<div class="space-y-4">
+<div class="flex items-center gap-4">
+<span class="text-xs font-data-mono w-24">CARBON OFFSET</span>
+<div class="flex-1 bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[12%]"></div>
+</div>
+<span class="text-xs font-bold text-primary">12%</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-xs font-data-mono w-24">RENEWABLE CAP</span>
+<div class="flex-1 bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[45%]"></div>
+</div>
+<span class="text-xs font-bold text-primary">45%</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-xs font-data-mono w-24">SITE RECOVERY</span>
+<div class="flex-1 bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-amber-500 h-full w-[68%]"></div>
+</div>
+<span class="text-xs font-bold text-amber-500">68%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest text-outline w-full py-4 border-t border-outline-variant flex justify-between items-center px-container-padding z-50">
+<div class="font-label-caps text-label-caps text-on-surface">© 2024 EcoShield Environmental Intelligence</div>
+<div class="flex items-center gap-6">
+<a class="font-body-sm text-body-sm hover:text-primary transition-colors underline-offset-4 hover:underline" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm hover:text-primary transition-colors underline-offset-4 hover:underline" href="#">Compliance Matrix</a>
+<a class="font-body-sm text-body-sm hover:text-primary transition-colors underline-offset-4 hover:underline" href="#">API Docs</a>
+</div>
+</footer>
+<script>
+        // Micro-interaction for buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (this.disabled) return;
+                let ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+    </script>
+<style>
+        .ripple {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+        @keyframes ripple-animation {
+            to { transform: scale(4); opacity: 0; }
+        }
+    </style>
+</body></html>

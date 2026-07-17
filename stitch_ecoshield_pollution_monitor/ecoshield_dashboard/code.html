@@ -8,6 +8,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -150,9 +152,7 @@
 </button>
 </div>
 <!-- The Globe Visualization -->
-<div class="absolute inset-0 flex items-center justify-center z-0 pointer-events-none">
-<img class="w-full max-w-4xl max-h-full object-contain pointer-events-auto mix-blend-screen opacity-90 drop-shadow-2xl" data-alt="A detailed rendering of a futuristic Earth globe, focusing on Asia, Africa, and Europe, illuminated against a star-studded deep space background. The globe displays topographical features with vivid green landmasses and deep blue oceans. Crucially, a large area over Russia and parts of Asia is highlighted with a striking, emissive, deep red glow indicating severe pollution or risk levels, with bright golden spots marking specific critical points or cities. The overall style is high-tech, cinematic, and reminiscent of a sophisticated environmental monitoring HUD." src="./globe.png"/>
-</div>
+<div id="globe-container" class="absolute inset-0 flex items-center justify-center z-0 pointer-events-none"></div>
 <!-- Floating Info Pill -->
 <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-20">
 <div class="glass-panel rounded-full px-4 py-2 flex items-center space-x-2 cursor-pointer hover:bg-surface-variant/50 transition-colors">
@@ -264,4 +264,159 @@
 </div>
 </div>
 </footer>
+<script>
+    const container = document.getElementById('globe-container');
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    const scene = new THREE.Scene();
+    
+    // Camera
+    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+    camera.position.z = 2.8; // Adjust zoom to fit the 4xl max-width roughly
+
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.domElement.style.pointerEvents = 'auto'; // allow interaction
+    container.appendChild(renderer.domElement);
+
+    // OrbitControls
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.enablePan = false;
+    controls.minDistance = 1.5;
+    controls.maxDistance = 5.0;
+
+    let isDragging = false;
+    controls.addEventListener('start', () => { isDragging = true; });
+    controls.addEventListener('end', () => { isDragging = false; });
+
+    // Globe Group
+    const globeGroup = new THREE.Group();
+    scene.add(globeGroup);
+
+    // Earth Texture
+    const textureLoader = new THREE.TextureLoader();
+    const earthTexture = textureLoader.load('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg');
+
+    // Earth Mesh
+    const sphereGeometry = new THREE.SphereGeometry(1, 64, 64);
+    const earthMaterial = new THREE.MeshStandardMaterial({
+        map: earthTexture,
+        roughness: 0.6,
+        metalness: 0.1
+    });
+    const earthMesh = new THREE.Mesh(sphereGeometry, earthMaterial);
+    globeGroup.add(earthMesh);
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+    scene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    directionalLight.position.set(5, 3, 5);
+    scene.add(directionalLight);
+
+    // Atmospheric Edge Glow (Rim lighting using simple custom shader)
+    const atmosphereVertexShader = `
+        varying vec3 vNormal;
+        void main() {
+            vNormal = normalize(normalMatrix * normal);
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+    `;
+    const atmosphereFragmentShader = `
+        varying vec3 vNormal;
+        void main() {
+            float intensity = pow(0.65 - dot(vNormal, vec3(0, 0, 1.0)), 4.0);
+            gl_FragColor = vec4(0.3, 0.8, 1.0, 1.0) * intensity;
+        }
+    `;
+    const atmosphereMaterial = new THREE.ShaderMaterial({
+        vertexShader: atmosphereVertexShader,
+        fragmentShader: atmosphereFragmentShader,
+        blending: THREE.AdditiveBlending,
+        side: THREE.BackSide,
+        transparent: true
+    });
+    const atmosphereMesh = new THREE.Mesh(new THREE.SphereGeometry(1.15, 64, 64), atmosphereMaterial);
+    scene.add(atmosphereMesh);
+
+    // Pollution Heatmap Overlay (Eurasia)
+    // We use UV coordinates. Eurasia is roughly UV (0.5 to 0.8 on X, 0.6 to 0.85 on Y)
+    const heatVertexShader = `
+        varying vec2 vUv;
+        void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+    `;
+    const heatFragmentShader = `
+        varying vec2 vUv;
+        uniform float time;
+        void main() {
+            // Rough bounds for Eurasia region on standard equirectangular map
+            float cx = 0.68;
+            float cy = 0.72;
+            float dist = distance(vUv, vec2(cx, cy));
+            
+            // create an irregular blob shape
+            float blob = sin(vUv.x * 20.0 + time) * 0.05 + sin(vUv.y * 15.0 - time) * 0.05;
+            float radius = 0.12 + blob;
+            
+            if (dist < radius) {
+                float intensity = (1.0 - (dist / radius)) * 0.8; // fade out at edges
+                float pulse = 0.8 + 0.2 * sin(time * 2.0); // simple pulse animation
+                gl_FragColor = vec4(1.0, 0.1, 0.0, intensity * pulse);
+            } else {
+                gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
+            }
+        }
+    `;
+    const heatMaterial = new THREE.ShaderMaterial({
+        vertexShader: heatVertexShader,
+        fragmentShader: heatFragmentShader,
+        blending: THREE.AdditiveBlending,
+        transparent: true,
+        depthWrite: false,
+        uniforms: {
+            time: { value: 0 }
+        }
+    });
+    const heatMesh = new THREE.Mesh(new THREE.SphereGeometry(1.005, 64, 64), heatMaterial);
+    globeGroup.add(heatMesh);
+    
+    // Initial rotation to show Eurasia primarily
+    globeGroup.rotation.y = 4.0; // adjust to face Eurasia
+    globeGroup.rotation.x = 0.4;
+
+    // Window Resize
+    window.addEventListener('resize', () => {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        renderer.setSize(w, h);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+    });
+
+    // Animation Loop
+    const clock = new THREE.Clock();
+    function animate() {
+        requestAnimationFrame(animate);
+        
+        const elapsedTime = clock.getElapsedTime();
+        heatMaterial.uniforms.time.value = elapsedTime;
+
+        if (!isDragging) {
+            globeGroup.rotation.y -= 0.001; // slow continuous rotation
+        }
+
+        controls.update();
+        renderer.render(scene, camera);
+    }
+    animate();
+</script>
 </body></html>

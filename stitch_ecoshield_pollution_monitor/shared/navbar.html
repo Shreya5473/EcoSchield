@@ -1,0 +1,28 @@
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 h-16 bg-[#191f31]/90 backdrop-blur-md border-b border-[#3c4a42] transition-all duration-200" style="font-family: 'Geist', sans-serif;">
+<div class="flex items-center space-x-6">
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined text-[#4edea3]" data-icon="eco">eco</span>
+<span class="font-bold tracking-tighter text-[#4edea3]" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.08em;">EcoShield</span>
+</div>
+<div class="hidden md:flex items-center space-x-3 bg-[#2e3447] px-3 py-1.5 rounded border border-[#3c4a42]">
+<span class="text-[#bbcabf]" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.08em;">GLOBAL POLLUTION INDEX</span>
+<span class="text-[#4edea3] font-bold" style="font-family: 'JetBrains Mono', monospace; font-size: 14px;">82.4</span>
+<span class="flex items-center text-[#ffb4ab]" style="font-family: 'JetBrains Mono', monospace; font-size: 11px;"><span class="material-symbols-outlined text-[14px]">arrow_upward</span>+2.1</span>
+<span class="bg-[#fc7c78]/20 text-[#fc7c78] border border-[#fc7c78] px-2 py-0.5 rounded-full" style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 500; letter-spacing: 0.08em;">ELEVATED</span>
+</div>
+</div>
+<nav class="hidden md:flex flex-1 justify-center space-x-8">
+<a id="nav-screen-dashboard" class="es-nav-link text-[#4edea3] border-b-2 border-[#4edea3] pb-1 flex items-center h-full text-[18px] font-semibold transition-colors duration-200" href="javascript:void(0)" onclick="navigate('screen-dashboard')">Earth Pulse</a>
+<a id="nav-screen-geomap" class="es-nav-link text-[#bbcabf] font-medium hover:text-[#4edea3] border-b-2 border-transparent pb-1 flex items-center h-full text-[18px] transition-colors duration-200" href="javascript:void(0)" onclick="navigate('screen-geomap')">Geo Map</a>
+<a id="nav-screen-ai-signals" class="es-nav-link text-[#bbcabf] font-medium hover:text-[#4edea3] border-b-2 border-transparent pb-1 flex items-center h-full text-[18px] transition-colors duration-200" href="javascript:void(0)" onclick="navigate('screen-ai-signals')">AI Signals</a>
+</nav>
+<div class="flex items-center space-x-4">
+<div class="flex items-center space-x-2">
+<div class="w-2 h-2 rounded-full bg-[#4edea3] pulse-dot"></div>
+<span class="text-[#4edea3]" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em;">LIVE 24 feeds</span>
+</div>
+<span class="text-[#bbcabf]" style="font-family: 'JetBrains Mono', monospace; font-size: 14px;">19:42 UTC</span>
+<div id="es-header-actions" class="flex items-center gap-4 text-[#bbcabf]"></div>
+</div>
+</header>

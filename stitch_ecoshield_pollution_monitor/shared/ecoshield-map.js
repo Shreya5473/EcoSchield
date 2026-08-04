@@ -11,20 +11,7 @@
     return;
   }
 
-  const SITES = [
-    { name: 'Bin Hamoodah', sector: 'Construction', lng: 54.52, lat: 24.48, risk: 'critical' },
-    { name: 'Al Rostamani', sector: 'Logistics', lng: 55.18, lat: 25.12, risk: 'critical' },
-    { name: 'Ghantoot Group', sector: 'Construction', lng: 54.55, lat: 24.42, risk: 'nominal' },
-    { name: 'Al Naboodah', sector: 'Infrastructure', lng: 55.28, lat: 25.18, risk: 'elevated' },
-    { name: 'Depa Interiors', sector: 'Fit-out', lng: 55.14, lat: 25.07, risk: 'elevated' },
-    { name: 'Emirates Neon', sector: 'Manufacturing', lng: 55.35, lat: 24.95, risk: 'elevated' },
-    { name: 'Infranet Corp', sector: 'Energy', lng: 55.51, lat: 25.41, risk: 'critical' },
-    { name: 'Al Safa Industrial', sector: 'Manufacturing', lng: 55.22, lat: 25.15, risk: 'critical' },
-    { name: 'TechNoCity', sector: 'Infrastructure', lng: 55.42, lat: 25.35, risk: 'elevated' },
-    { name: 'Proscape', sector: 'Landscaping', lng: 55.27, lat: 25.2, risk: 'elevated' },
-    { name: 'Suntech', sector: 'Energy', lng: 55.94, lat: 25.79, risk: 'nominal' },
-    { name: 'Missan Group', sector: 'Construction', lng: 56.33, lat: 25.13, risk: 'critical' }
-  ];
+  let SITES = [];
 
   const RISK_COLOR = {
     critical: '#C45C26',
@@ -106,45 +93,53 @@
     window.__esMap = map;
     el.classList.add('es-map-warm');
 
-    // Emission heat as translucent circles (Leaflet-friendly)
-    const heatLayer = L.layerGroup();
-    SITES.filter((s) => s.risk !== 'nominal').forEach((s) => {
-      const radius = s.risk === 'critical' ? 38000 : 26000;
-      const color = s.risk === 'critical' ? '#C45C26' : '#D4A017';
-      L.circle([s.lat, s.lng], {
-        radius,
-        color,
-        weight: 0,
-        fillColor: color,
-        fillOpacity: 0.28
-      }).addTo(heatLayer);
-    });
-
-    SITES.forEach((site) => {
-      const color = pinColor(site);
-      const icon = L.divIcon({
-        className: 'es-leaflet-pin',
-        html:
-          `<div class="es-map-pin" style="position:relative;width:28px;height:36px">` +
-          `<span class="es-map-pin-pulse" style="background:${color}"></span>` +
-          `<span class="es-map-pin-dot" style="background:${color}"></span>` +
-          `<span class="es-map-pin-label">${site.name}</span></div>`,
-        iconSize: [28, 36],
-        iconAnchor: [14, 36]
-      });
-
-      L.marker([site.lat, site.lng], { icon })
-        .addTo(map)
-        .bindPopup(
-          `<strong>${site.name}</strong><br/><span style="color:#A89B88">${site.sector}</span><br/>` +
-            `<em style="color:${color}">${RISK_LABEL[site.risk]} risk</em>`
-        )
-        .on('click', () => {
-          // allow popup first; double-nav on popup link feel
+    // Fetch live company data from backend
+    fetch('http://localhost:8000/api/companies')
+      .then(res => res.json())
+      .then(data => {
+        SITES = data;
+        
+        // Emission heat as translucent circles (Leaflet-friendly)
+        const heatLayer = L.layerGroup();
+        SITES.filter((s) => s.risk !== 'nominal').forEach((s) => {
+          const radius = s.risk === 'critical' ? 38000 : 26000;
+          const color = s.risk === 'critical' ? '#C45C26' : '#D4A017';
+          L.circle([s.lat, s.lng], {
+            radius,
+            color,
+            weight: 0,
+            fillColor: color,
+            fillOpacity: 0.28
+          }).addTo(heatLayer);
         });
 
-      // Navigate on pin double-click / popup title click via custom
-    });
+        SITES.forEach((site) => {
+          const color = pinColor(site);
+          const icon = L.divIcon({
+            className: 'es-leaflet-pin',
+            html:
+              `<div class="es-map-pin" style="position:relative;width:28px;height:36px">` +
+              `<span class="es-map-pin-pulse" style="background:${color}"></span>` +
+              `<span class="es-map-pin-dot" style="background:${color}"></span>` +
+              `<span class="es-map-pin-label">${site.name}</span></div>`,
+            iconSize: [28, 36],
+            iconAnchor: [14, 36]
+          });
+
+          L.marker([site.lat, site.lng], { icon })
+            .addTo(map)
+            .bindPopup(
+              `<strong>${site.name}</strong><br/><span style="color:#A89B88">${site.sector}</span><br/>` +
+                `<em style="color:${color}">${RISK_LABEL[site.risk]} risk</em>`
+            )
+            .on('click', () => {
+              // allow popup first; double-nav on popup link feel
+            });
+        });
+
+        wireToggles(map, { terrain, outdoor, satellite, heatLayer });
+      })
+      .catch(err => console.error('Error fetching sites:', err));
 
     // Click pin label area → site detail (delegate)
     el.addEventListener('click', (e) => {
@@ -187,7 +182,6 @@
       { padding: [40, 40] }
     );
 
-    wireToggles(map, { terrain, outdoor, satellite, heatLayer });
     setTimeout(() => map.invalidateSize(), 200);
   }
 

@@ -1,0 +1,1859 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoShield SPA</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+
+
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#650911",
+                        "primary-fixed-dim": "#4edea3",
+                        "tertiary-fixed": "#ffdad7",
+                        "outline": "#86948a",
+                        "on-background": "#dce1fb",
+                        "secondary-fixed-dim": "#95d3ba",
+                        "on-tertiary-fixed-variant": "#842225",
+                        "secondary": "#95d3ba",
+                        "primary-container": "#10b981",
+                        "surface": "#0c1324",
+                        "tertiary-container": "#fc7c78",
+                        "secondary-container": "#0b513d",
+                        "on-error": "#690005",
+                        "error-container": "#93000a",
+                        "on-surface": "#dce1fb",
+                        "secondary-fixed": "#b0f0d6",
+                        "primary": "#4edea3",
+                        "on-primary-fixed-variant": "#005236",
+                        "surface-dim": "#0c1324",
+                        "background": "#0c1324",
+                        "on-primary-container": "#00422b",
+                        "surface-variant": "#2e3447",
+                        "inverse-on-surface": "#2a3043",
+                        "error": "#ffb4ab",
+                        "outline-variant": "#3c4a42",
+                        "surface-container-highest": "#2e3447",
+                        "surface-tint": "#4edea3",
+                        "on-tertiary-container": "#711419",
+                        "inverse-surface": "#dce1fb",
+                        "surface-container-high": "#23293c",
+                        "primary-fixed": "#6ffbbe",
+                        "surface-container": "#191f31",
+                        "surface-container-lowest": "#070d1f",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-fixed": "#002117",
+                        "on-secondary-fixed-variant": "#0b513d",
+                        "on-surface-variant": "#bbcabf",
+                        "on-primary-fixed": "#002113",
+                        "on-secondary": "#003829",
+                        "on-secondary-container": "#83c2a9",
+                        "inverse-primary": "#006c49",
+                        "surface-bright": "#33394c",
+                        "tertiary": "#ffb3af",
+                        "on-primary": "#003824",
+                        "tertiary-fixed-dim": "#ffb3af",
+                        "surface-container-low": "#151b2d",
+                        "on-tertiary-fixed": "#410005"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "panel-gap": "12px",
+                        "base": "4px",
+                        "container-padding": "24px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-sm": ["Geist"],
+                        "body-lg": ["Geist"],
+                        "headline-md": ["Geist"],
+                        "body-sm": ["Geist"],
+                        "display-lg": ["Geist"],
+                        "data-mono": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.08em", "fontWeight": "500" }],
+                        "headline-sm": ["18px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-mono": ["14px", { "lineHeight": "1", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #0A0F0C; color: #dce1fb; overflow: hidden; margin: 0; padding: 0; font-family: 'Geist', sans-serif; }
+        .glass-panel { background: rgba(12, 19, 36, 0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid #3c4a42; }
+        .emerald-border { border-color: #4edea3; }
+        .pulse-dot { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(78, 222, 163, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(78, 222, 163, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(78, 222, 163, 0); } }
+        .ticker-wrap { width: 100%; overflow: hidden; background-color: rgba(7, 13, 31, 0.9); box-sizing: content-box; white-space: nowrap; padding-right: 100%; }
+        .ticker { display: inline-block; white-space: nowrap; padding-right: 100%; box-sizing: content-box; animation-iteration-count: infinite; animation-timing-function: linear; animation-name: ticker; animation-duration: 30s; }
+        @keyframes ticker { 0% { transform: translate3d(0, 0, 0); visibility: visible; } 100% { transform: translate3d(-100%, 0, 0); } }
+        .hud-button { border: 1px solid rgba(78, 222, 163, 0.5); background: rgba(78, 222, 163, 0.1); transition: all 0.2s ease; }
+        .hud-button:hover { background: rgba(78, 222, 163, 0.2); border-color: #4edea3; box-shadow: 0 0 8px rgba(78, 222, 163, 0.3) inset; }
+    </style>
+<link href="shared/ecoshield-live.css" rel="stylesheet"/>
+
+    
+
+
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<link href="shared/ecoshield-live.css" rel="stylesheet"/>
+<style>
+  :root {
+    --bg-sand: #E8DFD0;
+    --bg-panel: #2A241C;
+    --bg-topbar: #1F1A14;
+    --text-main: #F5F0E8;
+    --text-muted: #A89B88;
+    --accent: #3D7A5A;
+    --accent-warm: #C45C26;
+    --accent-gold: #D4A017;
+    --land-edge: #C4A574;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: var(--bg-sand);
+    color: var(--text-main);
+    font-family: 'DM Sans', system-ui, sans-serif;
+  }
+  .dashboard-container { display: flex; flex-direction: column; height: 100vh; }
+  .main-content { display: flex; flex: 1; overflow: hidden; }
+  .sidebar {
+    width: 300px;
+    background: var(--bg-panel);
+    border-right: 1px solid #3D3428;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .map-area {
+    flex: 1;
+    position: relative;
+    background: #D9CDB8;
+  }
+  #es-maptiler {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  /* Leaflet tile images — subtle warm wash, keeps geography readable */
+  #es-maptiler.es-map-warm .leaflet-tile-pane {
+    filter: sepia(0.14) saturate(0.9) hue-rotate(-6deg) contrast(1.03);
+  }
+  #es-maptiler.es-map-sat .leaflet-tile-pane {
+    filter: saturate(1.12) contrast(1.06);
+  }
+  .leaflet-container {
+    background: #D9CDB8;
+    font-family: 'DM Sans', system-ui, sans-serif;
+  }
+  .leaflet-tile {
+    opacity: 1 !important;
+  }
+  .leaflet-fade-anim .leaflet-tile {
+    opacity: 1 !important;
+  }
+  .leaflet-control-zoom a {
+    background: #2A241C !important;
+    color: #E8C988 !important;
+    border-color: #4A3F32 !important;
+  }
+  .leaflet-control-attribution {
+    background: rgba(31, 26, 20, 0.8) !important;
+    color: #A89B88 !important;
+  }
+  .leaflet-control-attribution a { color: #C4A574 !important; }
+  .leaflet-popup-content-wrapper {
+    background: #1F1A14;
+    color: #F5F0E8;
+    border: 1px solid #C4A574;
+    border-radius: 6px;
+    box-shadow: 0 8px 24px rgba(31, 26, 20, 0.4);
+  }
+  .leaflet-popup-tip { background: #1F1A14; }
+  .es-leaflet-pin { background: none !important; border: none !important; }
+
+  .es-map-pin {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    position: relative;
+    width: 28px;
+    height: 36px;
+  }
+  .es-map-pin-dot {
+    position: absolute;
+    left: 50%;
+    bottom: 4px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50% 50% 50% 0;
+    transform: translateX(-50%) rotate(-45deg);
+    border: 2px solid #F5F0E8;
+    box-shadow: 0 2px 8px rgba(31, 26, 20, 0.45);
+  }
+  .es-map-pin-pulse {
+    position: absolute;
+    left: 50%;
+    bottom: 6px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    transform: translateX(-50%);
+    opacity: 0.35;
+    animation: pinPulse 2.2s ease-out infinite;
+  }
+  @keyframes pinPulse {
+    0% { transform: translateX(-50%) scale(0.6); opacity: 0.45; }
+    100% { transform: translateX(-50%) scale(1.8); opacity: 0; }
+  }
+  .es-map-pin-label {
+    display: none;
+    position: absolute;
+    left: 50%;
+    bottom: 100%;
+    transform: translateX(-50%);
+    margin-bottom: 6px;
+    white-space: nowrap;
+    background: #1F1A14;
+    color: #E8DFD0;
+    border: 1px solid #C4A574;
+    font-size: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    padding: 4px 8px;
+    border-radius: 4px;
+    pointer-events: none;
+  }
+  .es-map-pin:hover .es-map-pin-label { display: block; }
+
+  .es-map-popup .maplibregl-popup-content {
+    background: #1F1A14;
+    color: #F5F0E8;
+    border: 1px solid #C4A574;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    box-shadow: 0 8px 24px rgba(31, 26, 20, 0.4);
+  }
+  .es-map-popup .maplibregl-popup-tip {
+    border-top-color: #1F1A14 !important;
+  }
+  .es-map-popup strong { color: #E8DFD0; }
+  .es-map-popup span { color: #A89B88; font-size: 11px; }
+
+  .layer-btn {
+    flex: 1;
+    padding: 8px 6px;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid #4A3F32;
+    background: #1F1A14;
+    color: #A89B88;
+    cursor: pointer;
+    border-radius: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+    transition: all 0.2s ease;
+  }
+  .layer-btn:hover { color: #E8DFD0; border-color: #C4A574; }
+  .layer-btn.active {
+    background: rgba(196, 165, 116, 0.18);
+    color: #E8C988;
+    border-color: #C4A574;
+  }
+
+  .filter-check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid #3D3428;
+    border-radius: 6px;
+    background: #1F1A14;
+    cursor: pointer;
+    font-size: 13px;
+    color: #E8DFD0;
+  }
+  .filter-check input { accent-color: #C45C26; }
+</style>
+
+    
+
+
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Geist:wght@100;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="shared/ecoshield-live.css" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .hud-glass {
+            background: rgba(12, 19, 36, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(78, 222, 163, 0.2);
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0c1324; }
+        ::-webkit-scrollbar-thumb { background: #191f31; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4edea3; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#ffb3af",
+                        "surface-dim": "#0c1324",
+                        "on-background": "#dce1fb",
+                        "surface-container-highest": "#2e3447",
+                        "error": "#ffb4ab",
+                        "surface": "#0c1324",
+                        "on-secondary-fixed-variant": "#0b513d",
+                        "on-tertiary-fixed-variant": "#842225",
+                        "on-surface-variant": "#bbcabf",
+                        "secondary-container": "#0b513d",
+                        "tertiary": "#ffb3af",
+                        "on-primary-fixed-variant": "#005236",
+                        "surface-variant": "#2e3447",
+                        "surface-container": "#191f31",
+                        "primary-container": "#10b981",
+                        "primary-fixed": "#6ffbbe",
+                        "primary": "#4edea3",
+                        "on-primary-container": "#00422b",
+                        "on-error": "#690005",
+                        "on-secondary-container": "#83c2a9",
+                        "surface-tint": "#4edea3",
+                        "secondary-fixed-dim": "#95d3ba",
+                        "outline-variant": "#3c4a42",
+                        "surface-container-low": "#151b2d",
+                        "on-tertiary": "#650911",
+                        "secondary-fixed": "#b0f0d6",
+                        "on-surface": "#dce1fb",
+                        "on-secondary-fixed": "#002117",
+                        "surface-bright": "#33394c",
+                        "on-primary-fixed": "#002113",
+                        "inverse-surface": "#dce1fb",
+                        "on-tertiary-container": "#711419",
+                        "on-primary": "#003824",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#410005",
+                        "inverse-primary": "#006c49",
+                        "outline": "#86948a",
+                        "primary-fixed-dim": "#4edea3",
+                        "background": "#0c1324",
+                        "inverse-on-surface": "#2a3043",
+                        "error-container": "#93000a",
+                        "tertiary-container": "#fc7c78",
+                        "surface-container-lowest": "#070d1f",
+                        "tertiary-fixed": "#ffdad7",
+                        "secondary": "#95d3ba",
+                        "surface-container-high": "#23293c",
+                        "on-secondary": "#003829"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-padding": "24px",
+                        "gutter": "16px",
+                        "panel-gap": "12px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-sm": ["Geist"],
+                        "data-mono": ["JetBrains Mono"],
+                        "headline-md": ["Geist"],
+                        "body-lg": ["Geist"],
+                        "body-sm": ["Geist"],
+                        "display-lg": ["Geist"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.08em", "fontWeight": "500"}],
+                        "headline-sm": ["18px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "data-mono": ["14px", {"lineHeight": "1", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Geist:wght@400;600;700&amp;display=swap" rel="stylesheet"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-fixed-variant": "#842225",
+                      "surface-bright": "#33394c",
+                      "on-primary-fixed": "#002113",
+                      "on-background": "#dce1fb",
+                      "surface": "#0c1324",
+                      "primary-fixed-dim": "#4edea3",
+                      "surface-container-highest": "#2e3447",
+                      "outline": "#86948a",
+                      "on-primary-container": "#00422b",
+                      "inverse-on-surface": "#2a3043",
+                      "on-secondary": "#003829",
+                      "surface-container-low": "#151b2d",
+                      "surface-tint": "#4edea3",
+                      "inverse-surface": "#dce1fb",
+                      "surface-dim": "#0c1324",
+                      "surface-container-high": "#23293c",
+                      "tertiary-fixed-dim": "#ffb3af",
+                      "on-error-container": "#ffdad6",
+                      "primary-container": "#10b981",
+                      "on-primary-fixed-variant": "#005236",
+                      "surface-variant": "#2e3447",
+                      "secondary": "#95d3ba",
+                      "error": "#ffb4ab",
+                      "primary": "#4edea3",
+                      "tertiary-fixed": "#ffdad7",
+                      "secondary-fixed": "#b0f0d6",
+                      "on-surface-variant": "#bbcabf",
+                      "on-tertiary": "#650911",
+                      "on-secondary-fixed-variant": "#0b513d",
+                      "error-container": "#93000a",
+                      "secondary-container": "#0b513d",
+                      "primary-fixed": "#6ffbbe",
+                      "tertiary": "#ffb3af",
+                      "on-tertiary-fixed": "#410005",
+                      "outline-variant": "#3c4a42",
+                      "surface-container-lowest": "#070d1f",
+                      "on-surface": "#dce1fb",
+                      "tertiary-container": "#fc7c78",
+                      "on-primary": "#003824",
+                      "on-secondary-fixed": "#002117",
+                      "secondary-fixed-dim": "#95d3ba",
+                      "on-secondary-container": "#83c2a9",
+                      "on-error": "#690005",
+                      "inverse-primary": "#006c49",
+                      "on-tertiary-container": "#711419",
+                      "surface-container": "#191f31",
+                      "background": "#0c1324"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "gutter": "16px",
+                      "base": "4px",
+                      "panel-gap": "12px",
+                      "container-padding": "24px"
+              },
+              "fontFamily": {
+                      "label-caps": ["JetBrains Mono"],
+                      "display-lg": ["Geist"],
+                      "headline-sm": ["Geist"],
+                      "body-sm": ["Geist"],
+                      "headline-md": ["Geist"],
+                      "body-lg": ["Geist"],
+                      "data-mono": ["JetBrains Mono"]
+              },
+              "fontSize": {
+                      "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.08em", "fontWeight": "500"}],
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-sm": ["18px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                      "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "body-lg": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "data-mono": ["14px", {"lineHeight": "1", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    }catch(_e){}</script><link href="shared/ecoshield-live.css" rel="stylesheet"/>
+
+    <style>
+        .screen { display: none; width: 100vw; height: 100vh; overflow: hidden; position: absolute; top:0; left:0; }
+        .screen.active { display: flex; flex-direction: column; }
+        #screen-site-detail.active { overflow-y: auto; overflow-x: hidden; }
+    </style>
+</head>
+<body class="bg-background text-on-surface m-0 p-0 overflow-hidden w-screen h-screen relative">
+    
+    <!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 h-16 bg-[#191f31]/90 backdrop-blur-md border-b border-[#3c4a42] transition-all duration-200" style="font-family: 'Geist', sans-serif;">
+<div class="flex items-center space-x-6">
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined text-[#4edea3]" data-icon="eco">eco</span>
+<span class="font-bold tracking-tighter text-[#4edea3]" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.08em;">EcoShield</span>
+</div>
+<div class="hidden md:flex items-center space-x-3 bg-[#2e3447] px-3 py-1.5 rounded border border-[#3c4a42]">
+<span class="text-[#bbcabf]" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.08em;">GLOBAL POLLUTION INDEX</span>
+<span class="text-[#4edea3] font-bold" style="font-family: 'JetBrains Mono', monospace; font-size: 14px;">82.4</span>
+<span class="flex items-center text-[#ffb4ab]" style="font-family: 'JetBrains Mono', monospace; font-size: 11px;"><span class="material-symbols-outlined text-[14px]">arrow_upward</span>+2.1</span>
+<span class="bg-[#fc7c78]/20 text-[#fc7c78] border border-[#fc7c78] px-2 py-0.5 rounded-full" style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 500; letter-spacing: 0.08em;">ELEVATED</span>
+</div>
+</div>
+<nav class="hidden md:flex flex-1 justify-center space-x-8">
+<a id="nav-screen-dashboard" class="es-nav-link text-[#4edea3] border-b-2 border-[#4edea3] pb-1 flex items-center h-full text-[18px] font-semibold transition-colors duration-200" href="javascript:void(0)" onclick="navigate('screen-dashboard')">Earth Pulse</a>
+<a id="nav-screen-geomap" class="es-nav-link text-[#bbcabf] font-medium hover:text-[#4edea3] border-b-2 border-transparent pb-1 flex items-center h-full text-[18px] transition-colors duration-200" href="javascript:void(0)" onclick="navigate('screen-geomap')">Geo Map</a>
+<a id="nav-screen-ai-signals" class="es-nav-link text-[#bbcabf] font-medium hover:text-[#4edea3] border-b-2 border-transparent pb-1 flex items-center h-full text-[18px] transition-colors duration-200" href="javascript:void(0)" onclick="navigate('screen-ai-signals')">AI Signals</a>
+</nav>
+<div class="flex items-center space-x-4">
+<div class="flex items-center space-x-2">
+<div class="w-2 h-2 rounded-full bg-[#4edea3] pulse-dot"></div>
+<span class="text-[#4edea3]" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.08em;">LIVE 24 feeds</span>
+</div>
+<span class="text-[#bbcabf]" style="font-family: 'JetBrains Mono', monospace; font-size: 14px;">19:42 UTC</span>
+<div id="es-header-actions" class="flex items-center gap-4 text-[#bbcabf]"></div>
+</div>
+</header>
+
+
+    <div id="screen-dashboard" class="screen active">
+        
+<!-- TopAppBar -->
+
+<!-- Main Canvas Area -->
+<main class="flex-1 relative mt-16 mb-10 overflow-hidden">
+<!-- Filters Button -->
+<div class="absolute top-4 left-6 z-20">
+<button class="hud-button flex items-center space-x-2 px-3 py-1.5 rounded-DEFAULT font-label-caps text-label-caps text-primary">
+<span class="material-symbols-outlined text-[16px]" data-icon="filter_list">filter_list</span>
+<span>FILTERS</span>
+</button>
+</div>
+<!-- The Globe Visualization -->
+<div id="globe-container" class="absolute inset-0 flex items-center justify-center z-0 pointer-events-none"></div>
+<!-- Floating Info Pill -->
+<div class="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-20">
+<div onclick="window.location.href='../uae_regional_view_glassy_emerald_map/code.html'" class="glass-panel rounded-full px-4 py-2 flex items-center space-x-2 cursor-pointer hover:bg-surface-variant/50 transition-colors">
+<span class="material-symbols-outlined text-primary text-[18px]" data-icon="pin_drop">pin_drop</span>
+<span class="font-body-sm text-body-sm text-on-surface">Click any region to view impact &gt;</span>
+</div>
+</div>
+<!-- Bottom Left Data Cards -->
+<div class="absolute bottom-6 left-6 z-20 flex space-x-4">
+<!-- Risk Level Legend -->
+<div class="glass-panel p-3 rounded-lg w-48">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant pb-1 mb-2">RISK LEVEL</h3>
+<div class="space-y-1.5 font-data-mono text-[12px]">
+<div class="flex items-center justify-between"><div class="flex items-center space-x-2"><div class="w-2 h-2 rounded-full bg-error"></div><span class="text-on-surface">CRITICAL</span></div><span class="text-on-surface-variant">≥80</span></div>
+<div class="flex items-center justify-between"><div class="flex items-center space-x-2"><div class="w-2 h-2 rounded-full bg-tertiary-container"></div><span class="text-on-surface">HIGH</span></div><span class="text-on-surface-variant">≥60</span></div>
+<div class="flex items-center justify-between"><div class="flex items-center space-x-2"><div class="w-2 h-2 rounded-full bg-secondary"></div><span class="text-on-surface">MEDIUM</span></div><span class="text-on-surface-variant">≥35</span></div>
+<div class="flex items-center justify-between"><div class="flex items-center space-x-2"><div class="w-2 h-2 rounded-full bg-primary"></div><span class="text-on-surface">LOW</span></div><span class="text-on-surface-variant">&lt;35</span></div>
+</div>
+</div>
+<!-- GPI Trend Sparkline Placeholder -->
+<div class="glass-panel p-3 rounded-lg w-40 flex flex-col justify-between">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant border-b border-outline-variant pb-1 mb-2">GPI TREND</h3>
+<div class="flex items-baseline space-x-2">
+<span class="font-display-lg text-primary text-3xl">82.4</span>
+</div>
+<div class="h-8 mt-2 flex items-end space-x-1 opacity-80">
+<!-- Synthetic Sparkline -->
+<div class="w-1.5 bg-primary h-3"></div><div class="w-1.5 bg-primary h-4"></div><div class="w-1.5 bg-primary h-3"></div><div class="w-1.5 bg-primary h-5"></div>
+<div class="w-1.5 bg-tertiary-container h-6"></div><div class="w-1.5 bg-tertiary-container h-7"></div><div class="w-1.5 bg-error h-full"></div>
+</div>
+</div>
+</div>
+<!-- Right Side Panel -->
+<aside class="absolute top-4 right-4 bottom-6 w-80 glass-panel rounded-lg flex flex-col z-30 shadow-2xl">
+<div class="flex items-center justify-between p-3 border-b border-primary/30">
+<h2 class="font-label-caps text-label-caps text-primary tracking-widest">AT-RISK ENTITIES</h2>
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]" data-icon="close">close</span></button>
+</div>
+<div class="flex-1 overflow-y-auto p-3 space-y-3 custom-scrollbar">
+<!-- Card 1 -->
+<div class="bg-surface-container-high border border-outline-variant rounded-DEFAULT p-3 hover:border-primary/50 transition-colors group cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-error"></div>
+<div class="flex justify-between items-start mb-1 pl-2">
+<h4 class="font-headline-sm text-on-surface text-[15px]">Infranet Corp</h4>
+<span class="bg-error/20 text-error border border-error/50 px-1.5 py-0.5 rounded text-[9px] font-label-caps">CRITICAL</span>
+</div>
+<p class="font-data-mono text-[10px] text-on-surface-variant pl-2 mb-2">Energy / MENA</p>
+<div class="bg-surface-dim p-2 rounded-sm border border-outline-variant/50 pl-2 ml-2">
+<span class="font-label-caps text-[9px] text-primary block mb-1">AI SUMMARY:</span>
+<p class="font-body-sm text-[11px] text-on-surface leading-tight">Unregulated flare emissions detected scaling 300% above baseline.</p>
+</div>
+<div class="w-full bg-surface-dim h-1 mt-3 ml-2 rounded-full overflow-hidden">
+<div class="bg-error h-full w-[95%]"></div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-high border border-outline-variant rounded-DEFAULT p-3 hover:border-primary/50 transition-colors group cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-tertiary-container"></div>
+<div class="flex justify-between items-start mb-1 pl-2">
+<h4 class="font-headline-sm text-on-surface text-[15px]">Al Safa Industrial</h4>
+<span class="bg-tertiary-container/20 text-tertiary-container border border-tertiary-container/50 px-1.5 py-0.5 rounded text-[9px] font-label-caps">HIGH</span>
+</div>
+<p class="font-data-mono text-[10px] text-on-surface-variant pl-2 mb-2">Manufacturing / UAE</p>
+<div class="bg-surface-dim p-2 rounded-sm border border-outline-variant/50 pl-2 ml-2">
+<span class="font-label-caps text-[9px] text-primary block mb-1">AI SUMMARY:</span>
+<p class="font-body-sm text-[11px] text-on-surface leading-tight">Toxic particulate runoff reported near primary coastal facility.</p>
+</div>
+<div class="w-full bg-surface-dim h-1 mt-3 ml-2 rounded-full overflow-hidden">
+<div class="bg-tertiary-container h-full w-[75%]"></div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-high border border-outline-variant rounded-DEFAULT p-3 hover:border-primary/50 transition-colors group cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="flex justify-between items-start mb-1 pl-2">
+<h4 class="font-headline-sm text-on-surface text-[15px]">TechNoCity</h4>
+<span class="bg-primary/20 text-primary border border-primary/50 px-1.5 py-0.5 rounded text-[9px] font-label-caps">ELEVATED</span>
+</div>
+<p class="font-data-mono text-[10px] text-on-surface-variant pl-2 mb-2">Infrastructure / SEA</p>
+<div class="w-full bg-surface-dim h-1 mt-2 ml-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[45%]"></div>
+</div>
+</div>
+</div>
+<div class="p-3 border-t border-outline-variant bg-surface-container-highest/50 rounded-b-lg">
+<button class="w-full flex items-center justify-between font-label-caps text-[10px] text-on-surface-variant hover:text-primary transition-colors">
+<span>ALL MONITORED ENTITIES (1,402)</span>
+<span class="material-symbols-outlined text-[16px]" data-icon="expand_more">expand_more</span>
+</button>
+</div>
+</aside>
+</main>
+<!-- Footer / Ticker Strip -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex items-center h-10 bg-surface-container-lowest/90 backdrop-blur-sm border-t border-primary/30 font-data-mono text-[11px]">
+<div class="flex-1 overflow-hidden border-r border-outline-variant h-full flex items-center bg-error/5">
+<div class="ticker-wrap h-full flex items-center">
+<div class="ticker text-error flex items-center space-x-8 px-4">
+<span class="flex items-center"><span class="material-symbols-outlined text-[14px] mr-1" data-icon="warning">warning</span> CRITICAL ALERT: Excessive Emissions Detected — Al Safa Site, Dubai — 19:35 UTC</span>
+<span class="flex items-center text-tertiary-container"><span class="material-symbols-outlined text-[14px] mr-1" data-icon="warning">warning</span> HIGH RISK: Unplanned Flaring Event — Infranet Corp, Sector 4 — 19:28 UTC</span>
+<span class="flex items-center"><span class="material-symbols-outlined text-[14px] mr-1" data-icon="warning">warning</span> CRITICAL ALERT: Excessive Emissions Detected — Al Safa Site, Dubai — 19:35 UTC</span>
+</div>
+</div>
+</div>
+<div class="flex-shrink-0 flex items-center space-x-6 px-4 text-on-surface-variant">
+<span>© 2026 ECOSHIELD INTEL</span>
+<div class="flex space-x-4">
+<a class="hover:text-primary transition-colors" href="javascript:void(0)">Privacy Protocol</a>
+<a class="hover:text-primary transition-colors" href="javascript:void(0)">Terminal Docs</a>
+</div>
+</div>
+</footer>
+<script>
+    const container = document.getElementById('globe-container');
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    const scene = new THREE.Scene();
+    
+    // Camera
+    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+    camera.position.z = 2.8; // Adjust zoom to fit the 4xl max-width roughly
+
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.domElement.style.pointerEvents = 'auto'; // allow interaction
+    container.appendChild(renderer.domElement);
+
+    // OrbitControls
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.enablePan = false;
+    controls.minDistance = 1.5;
+    controls.maxDistance = 5.0;
+
+    let isDragging = false;
+    controls.addEventListener('start', () => { isDragging = true; });
+    controls.addEventListener('end', () => { isDragging = false; });
+
+    // Globe Group
+    const globeGroup = new THREE.Group();
+    scene.add(globeGroup);
+
+    // Earth Texture
+    const textureLoader = new THREE.TextureLoader();
+    const earthTexture = textureLoader.load('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg');
+
+    // Earth Mesh
+    const sphereGeometry = new THREE.SphereGeometry(1, 64, 64);
+    const earthMaterial = new THREE.MeshStandardMaterial({
+        map: earthTexture,
+        roughness: 0.6,
+        metalness: 0.1
+    });
+    const earthMesh = new THREE.Mesh(sphereGeometry, earthMaterial);
+    globeGroup.add(earthMesh);
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+    scene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    directionalLight.position.set(5, 3, 5);
+    scene.add(directionalLight);
+
+    // Atmospheric Edge Glow (Rim lighting using simple custom shader)
+    const atmosphereVertexShader = `
+        varying vec3 vNormal;
+        void main() {
+            vNormal = normalize(normalMatrix * normal);
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+    `;
+    const atmosphereFragmentShader = `
+        varying vec3 vNormal;
+        void main() {
+            float intensity = pow(0.65 - dot(vNormal, vec3(0, 0, 1.0)), 4.0);
+            gl_FragColor = vec4(0.3, 0.8, 1.0, 1.0) * intensity;
+        }
+    `;
+    const atmosphereMaterial = new THREE.ShaderMaterial({
+        vertexShader: atmosphereVertexShader,
+        fragmentShader: atmosphereFragmentShader,
+        blending: THREE.AdditiveBlending,
+        side: THREE.BackSide,
+        transparent: true
+    });
+    const atmosphereMesh = new THREE.Mesh(new THREE.SphereGeometry(1.15, 64, 64), atmosphereMaterial);
+    scene.add(atmosphereMesh);
+
+    // Pollution Heatmap Overlay (Eurasia)
+    // We use UV coordinates. Eurasia is roughly UV (0.5 to 0.8 on X, 0.6 to 0.85 on Y)
+    const heatVertexShader = `
+        varying vec2 vUv;
+        void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+    `;
+    const heatFragmentShader = `
+        varying vec2 vUv;
+        uniform float time;
+        void main() {
+            // Rough bounds for Eurasia region on standard equirectangular map
+            float cx = 0.68;
+            float cy = 0.72;
+            float dist = distance(vUv, vec2(cx, cy));
+            
+            // create an irregular blob shape
+            float blob = sin(vUv.x * 20.0 + time) * 0.05 + sin(vUv.y * 15.0 - time) * 0.05;
+            float radius = 0.12 + blob;
+            
+            if (dist < radius) {
+                float intensity = (1.0 - (dist / radius)) * 0.8; // fade out at edges
+                float pulse = 0.8 + 0.2 * sin(time * 2.0); // simple pulse animation
+                gl_FragColor = vec4(1.0, 0.1, 0.0, intensity * pulse);
+            } else {
+                gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
+            }
+        }
+    `;
+    const heatMaterial = new THREE.ShaderMaterial({
+        vertexShader: heatVertexShader,
+        fragmentShader: heatFragmentShader,
+        blending: THREE.AdditiveBlending,
+        transparent: true,
+        depthWrite: false,
+        uniforms: {
+            time: { value: 0 }
+        }
+    });
+    const heatMesh = new THREE.Mesh(new THREE.SphereGeometry(1.005, 64, 64), heatMaterial);
+    globeGroup.add(heatMesh);
+    
+    // Initial rotation to show Eurasia primarily
+    globeGroup.rotation.y = 4.0; // adjust to face Eurasia
+    globeGroup.rotation.x = 0.4;
+
+    // Window Resize
+    window.addEventListener('resize', () => {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        renderer.setSize(w, h);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+    });
+
+    // Animation Loop
+    const clock = new THREE.Clock();
+    function animate() {
+        requestAnimationFrame(animate);
+        
+        const elapsedTime = clock.getElapsedTime();
+        heatMaterial.uniforms.time.value = elapsedTime;
+
+        if (!isDragging) {
+            globeGroup.rotation.y -= 0.001; // slow continuous rotation
+        }
+
+        controls.update();
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    // Setup Globe Click
+    document.addEventListener('DOMContentLoaded', () => {
+        const checkCanvas = setInterval(() => {
+            const canvas = document.querySelector('#globe-container canvas');
+            if(canvas) {
+                clearInterval(checkCanvas);
+                let isGlobeDragging = false;
+                canvas.addEventListener('mousedown', () => { isGlobeDragging = false; });
+                canvas.addEventListener('mousemove', () => { isGlobeDragging = true; });
+                canvas.addEventListener('mouseup', () => {
+                    if (!isGlobeDragging) {
+                        window.location.href = '../uae_regional_view_glassy_emerald_map/code.html';
+                    }
+                });
+            }
+        }, 500);
+    });
+</script>
+<script src="shared/ecoshield-live.js"></script>
+
+    </div>
+
+    <div id="screen-geomap" class="screen" style="background-color: var(--bg-ocean);">
+        
+<div class="dashboard-container">
+<div class="h-16 shrink-0 w-full"></div>
+
+<main class="main-content">
+<aside class="sidebar p-5 space-y-6">
+  <div>
+    <h2 class="text-lg font-bold mb-1" style="color:#E8C988;font-family:'DM Sans',sans-serif">Region Filters</h2>
+    <p class="text-xs" style="color:var(--text-muted)">Live MapTiler tiles · UAE territory</p>
+  </div>
+
+  <div class="space-y-2">
+    <h3 class="text-[10px] tracking-widest uppercase" style="color:var(--text-muted)">Map layers</h3>
+    <div class="flex gap-2">
+      <button type="button" id="es-style-terrain" class="layer-btn active">Terrain</button>
+      <button type="button" id="es-style-satellite" class="layer-btn">Satellite</button>
+      <button type="button" id="es-style-heat" class="layer-btn">Heat</button>
+    </div>
+    <p class="text-[10px] leading-relaxed" style="color:var(--text-muted)">Satellite + Heat = emission-density overlay for the demo story.</p>
+  </div>
+
+  <div class="space-y-2">
+    <h3 class="text-[10px] tracking-widest uppercase" style="color:var(--text-muted)">Risk severity</h3>
+    <label class="filter-check">
+      <input checked type="checkbox"/>
+      <span>Critical (5)</span>
+      <span class="ml-auto w-2.5 h-2.5 rounded-full" style="background:#C45C26"></span>
+    </label>
+    <label class="filter-check" style="opacity:0.75">
+      <input type="checkbox"/>
+      <span>Elevated (5)</span>
+      <span class="ml-auto w-2.5 h-2.5 rounded-full" style="background:#D4A017"></span>
+    </label>
+    <label class="filter-check" style="opacity:0.75">
+      <input type="checkbox"/>
+      <span>Nominal (2)</span>
+      <span class="ml-auto w-2.5 h-2.5 rounded-full" style="background:#3D7A5A"></span>
+    </label>
+  </div>
+
+  <div class="mt-auto border rounded p-4 space-y-3" style="border-color:#3D3428;background:rgba(31,26,20,0.6)">
+    <h3 class="text-[10px] tracking-widest uppercase mb-2" style="color:#E8C988">Regional metrics</h3>
+    <div class="flex justify-between items-center text-sm">
+      <span style="color:var(--text-muted)">Carbon footprint</span>
+      <span class="font-bold" style="font-family:'IBM Plex Mono',monospace">14.2 Mt</span>
+    </div>
+    <div class="flex justify-between items-center text-sm">
+      <span style="color:var(--text-muted)">Air quality</span>
+      <span class="font-bold" style="color:var(--accent-warm);font-family:'IBM Plex Mono',monospace">142 AQI</span>
+    </div>
+    <div class="flex justify-between items-center text-sm">
+      <span style="color:var(--text-muted)">Live sensors</span>
+      <span class="font-bold" style="color:#3D7A5A;font-family:'IBM Plex Mono',monospace">84/85</span>
+    </div>
+  </div>
+</aside>
+
+<section class="map-area es-map">
+  <div id="es-maptiler" class="es-map-warm"></div>
+
+  <div class="absolute bottom-6 left-6 flex gap-3 z-10 pointer-events-none">
+    <div class="rounded p-4 backdrop-blur-sm pointer-events-auto" style="background:rgba(31,26,20,0.9);border:1px solid #4A3F32;width:180px">
+      <h4 class="text-[10px] tracking-widest uppercase mb-3" style="color:#E8C988;font-family:'IBM Plex Mono',monospace">Risk legend</h4>
+      <div class="space-y-2 text-sm" style="color:#E8DFD0">
+        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full" style="background:#C45C26"></span> Critical</div>
+        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full" style="background:#D4A017"></span> Elevated</div>
+        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full" style="background:#3D7A5A"></span> Nominal</div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="h-10 flex items-center px-6 shrink-0 z-20 text-xs" style="background:var(--bg-topbar);border-top:1px solid #3D3428;font-family:'IBM Plex Mono',monospace">
+  <div class="flex items-center gap-2 w-1/4" style="color:#E8C988">
+    <span>© 2026 ECOSHIELD</span>
+    <span class="w-1 h-1 rounded-full" style="background:#3D7A5A"></span>
+    <span>MAPTILER LIVE</span>
+  </div>
+  <div class="flex-1 mx-4 px-3 py-1 flex items-center overflow-hidden" style="border:1px solid rgba(196,92,38,0.4);background:rgba(196,92,38,0.1);color:#E8A882">
+    LIVE: emission anomalies tracked across 12 UAE industrial sites — click a pin for machine audit
+  </div>
+  <div class="w-1/4 flex justify-end gap-4" style="color:var(--text-muted)">
+    <a href="javascript:void(0)">Privacy</a>
+    <a href="javascript:void(0)">API</a>
+  </div>
+</footer>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="shared/maptiler-config.js"></script>
+<script src="shared/ecoshield-map.js"></script>
+<script src="shared/ecoshield-live.js"></script>
+
+    </div>
+
+    <div id="screen-company-sites" class="screen" style="background-color: var(--bg-ocean);">
+        
+<div class="dashboard-container">
+<div class="h-16 shrink-0 w-full"></div>
+
+<main class="main-content">
+<aside class="sidebar p-5 space-y-6">
+  <div>
+    <h2 class="text-lg font-bold mb-1" style="color:#E8C988;font-family:'DM Sans',sans-serif">Region Filters</h2>
+    <p class="text-xs" style="color:var(--text-muted)">Live MapTiler tiles · UAE territory</p>
+  </div>
+
+  <div class="space-y-2">
+    <h3 class="text-[10px] tracking-widest uppercase" style="color:var(--text-muted)">Map layers</h3>
+    <div class="flex gap-2">
+      <button type="button" id="es-style-terrain" class="layer-btn active">Terrain</button>
+      <button type="button" id="es-style-satellite" class="layer-btn">Satellite</button>
+      <button type="button" id="es-style-heat" class="layer-btn">Heat</button>
+    </div>
+    <p class="text-[10px] leading-relaxed" style="color:var(--text-muted)">Satellite + Heat = emission-density overlay for the demo story.</p>
+  </div>
+
+  <div class="space-y-2">
+    <h3 class="text-[10px] tracking-widest uppercase" style="color:var(--text-muted)">Risk severity</h3>
+    <label class="filter-check">
+      <input checked type="checkbox"/>
+      <span>Critical (5)</span>
+      <span class="ml-auto w-2.5 h-2.5 rounded-full" style="background:#C45C26"></span>
+    </label>
+    <label class="filter-check" style="opacity:0.75">
+      <input type="checkbox"/>
+      <span>Elevated (5)</span>
+      <span class="ml-auto w-2.5 h-2.5 rounded-full" style="background:#D4A017"></span>
+    </label>
+    <label class="filter-check" style="opacity:0.75">
+      <input type="checkbox"/>
+      <span>Nominal (2)</span>
+      <span class="ml-auto w-2.5 h-2.5 rounded-full" style="background:#3D7A5A"></span>
+    </label>
+  </div>
+
+  <div class="mt-auto border rounded p-4 space-y-3" style="border-color:#3D3428;background:rgba(31,26,20,0.6)">
+    <h3 class="text-[10px] tracking-widest uppercase mb-2" style="color:#E8C988">Regional metrics</h3>
+    <div class="flex justify-between items-center text-sm">
+      <span style="color:var(--text-muted)">Carbon footprint</span>
+      <span class="font-bold" style="font-family:'IBM Plex Mono',monospace">14.2 Mt</span>
+    </div>
+    <div class="flex justify-between items-center text-sm">
+      <span style="color:var(--text-muted)">Air quality</span>
+      <span class="font-bold" style="color:var(--accent-warm);font-family:'IBM Plex Mono',monospace">142 AQI</span>
+    </div>
+    <div class="flex justify-between items-center text-sm">
+      <span style="color:var(--text-muted)">Live sensors</span>
+      <span class="font-bold" style="color:#3D7A5A;font-family:'IBM Plex Mono',monospace">84/85</span>
+    </div>
+  </div>
+</aside>
+
+<section class="map-area es-map">
+  <div id="es-maptiler-company" class="es-map-warm"></div>
+
+  <div class="absolute bottom-6 left-6 flex gap-3 z-10 pointer-events-none">
+    <div class="rounded p-4 backdrop-blur-sm pointer-events-auto" style="background:rgba(31,26,20,0.9);border:1px solid #4A3F32;width:180px">
+      <h4 class="text-[10px] tracking-widest uppercase mb-3" style="color:#E8C988;font-family:'IBM Plex Mono',monospace">Risk legend</h4>
+      <div class="space-y-2 text-sm" style="color:#E8DFD0">
+        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full" style="background:#C45C26"></span> Critical</div>
+        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full" style="background:#D4A017"></span> Elevated</div>
+        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full" style="background:#3D7A5A"></span> Nominal</div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="h-10 flex items-center px-6 shrink-0 z-20 text-xs" style="background:var(--bg-topbar);border-top:1px solid #3D3428;font-family:'IBM Plex Mono',monospace">
+  <div class="flex items-center gap-2 w-1/4" style="color:#E8C988">
+    <span>© 2026 ECOSHIELD</span>
+    <span class="w-1 h-1 rounded-full" style="background:#3D7A5A"></span>
+    <span>MAPTILER LIVE</span>
+  </div>
+  <div class="flex-1 mx-4 px-3 py-1 flex items-center overflow-hidden" style="border:1px solid rgba(196,92,38,0.4);background:rgba(196,92,38,0.1);color:#E8A882">
+    LIVE: emission anomalies tracked across 12 UAE industrial sites — click a pin for machine audit
+  </div>
+  <div class="w-1/4 flex justify-end gap-4" style="color:var(--text-muted)">
+    <a href="javascript:void(0)">Privacy</a>
+    <a href="javascript:void(0)">API</a>
+  </div>
+</footer>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="shared/maptiler-config.js"></script>
+
+<script src="shared/ecoshield-live.js"></script>
+
+    </div>
+
+    <div id="screen-site-detail" class="screen bg-[#0c1324]">
+        
+<!-- TopNavBar -->
+
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-surface-container-low/90 backdrop-blur-md border-r border-outline-variant flex flex-col p-panel-gap space-y-base z-40 hidden md:flex">
+<div class="py-4 px-2 border-b border-outline-variant/30 mb-2">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 bg-primary/20 rounded flex items-center justify-center border border-primary/40">
+<span class="material-symbols-outlined text-primary">hub</span>
+</div>
+<div>
+<div class="font-headline-sm text-label-caps text-primary">Environmental Shell</div>
+<div class="text-[10px] text-tertiary-container uppercase tracking-widest font-bold">Vigilance Level: High</div>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<button class="w-full flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-transform active:scale-90 rounded-lg group">
+<span class="material-symbols-outlined text-outline group-hover:text-primary">filter_alt</span>
+<span class="font-label-caps text-label-caps">Filters</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-transform active:scale-90 rounded-lg group">
+<span class="material-symbols-outlined text-outline group-hover:text-primary">analytics</span>
+<span class="font-label-caps text-label-caps">Regional Metrics</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 bg-secondary-container text-on-secondary-container rounded-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">map</span>
+<span class="font-label-caps text-label-caps">Risk Map</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-highest transition-transform active:scale-90 rounded-lg group">
+<span class="material-symbols-outlined text-outline group-hover:text-primary">warning</span>
+<span class="font-label-caps text-label-caps">Alert History</span>
+</button>
+</nav>
+<div class="pt-4 border-t border-outline-variant/30">
+<button class="w-full py-3 bg-primary/10 text-primary border border-primary/20 rounded-lg font-label-caps text-label-caps hover:bg-primary/20 transition-all mb-4">
+                Update Assets
+            </button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-caps text-label-caps">Support</span>
+</button>
+<button class="w-full flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined">terminal</span>
+<span class="font-label-caps text-label-caps">Logs</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="pt-16 pl-0 md:pl-64 min-h-screen">
+<div class="p-container-padding">
+<!-- Breadcrumbs -->
+
+<div class="mb-4 cursor-pointer text-primary hover:text-white flex items-center gap-2 w-fit transition-colors" onclick="navigate('screen-company-sites', {company: window.currentCompany})">
+    <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+    <span class="font-bold text-sm">Back to Company Sites</span>
+</div>
+
+<div class="mb-4 cursor-pointer text-primary hover:text-white flex items-center gap-2 w-fit transition-colors" onclick="window.history.back()">
+    <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+    <span class="font-bold text-sm">Back to Company Sites</span>
+</div>
+<div class="mb-6 flex items-center gap-2 text-on-surface-variant font-label-caps text-label-caps">
+<span>GEO MAP</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span>UNITED ARAB EMIRATES</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary">ABU DHABI HUB</span>
+</div>
+<!-- Site Report Card -->
+<div class="bg-white rounded-xl shadow-2xl overflow-hidden border-t-[8px] border-primary-container relative">
+<!-- Card Header Section -->
+<div class="p-8 border-b border-gray-100">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h1 class="font-headline-md text-display-lg text-slate-900 mb-1 leading-none">AIR QUALITY OF THIS SITE</h1>
+<p class="text-slate-500 font-label-caps flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span id="site-detail-dynamic-title"><span id="site-detail-dynamic-title">Live sensor data — Abu Dhabi Hub, Sector 4</span></span>
+                            </p>
+</div>
+<div class="text-right">
+<div class="text-slate-400 text-label-caps uppercase tracking-tighter mb-1">Last Updated</div>
+<div class="text-slate-900 font-data-mono font-bold">09:14:22 GST</div>
+</div>
+</div>
+<!-- Stat Blocks -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+<div class="border border-slate-200 rounded-lg p-4 bg-slate-50/50">
+<div class="text-slate-500 text-label-caps mb-2">Air Quality Index</div>
+<div class="text-headline-md font-bold text-red-600">156</div>
+<div class="text-body-sm font-bold text-red-600 uppercase">Unhealthy</div>
+</div>
+<div class="border border-slate-200 rounded-lg p-4 bg-slate-50/50">
+<div class="text-slate-500 text-label-caps mb-2">PM2.5 Level</div>
+<div class="text-headline-md font-bold text-slate-900">43 <span class="text-body-sm font-normal">µg/m³</span></div>
+<div class="text-body-sm font-bold text-amber-600 uppercase">3x WHO Guideline</div>
+</div>
+<div class="border border-slate-200 rounded-lg p-4 bg-slate-50/50">
+<div class="text-slate-500 text-label-caps mb-2">NOx Output</div>
+<div class="text-headline-md font-bold text-red-600">210 <span class="text-body-sm font-normal">kg/day</span></div>
+<div class="text-body-sm font-bold text-red-600 uppercase">Above Limit</div>
+</div>
+<div class="border border-slate-200 rounded-lg p-4 bg-slate-50/50">
+<div class="text-slate-500 text-label-caps mb-2">Noise Level</div>
+<div class="text-headline-md font-bold text-slate-900">87 <span class="text-body-sm font-normal">dB</span></div>
+<div class="text-body-sm font-bold text-amber-600 uppercase">Elevated</div>
+</div>
+<div class="border border-slate-200 rounded-lg p-4 bg-slate-50/50">
+<div class="text-slate-500 text-label-caps mb-2">Water Quality</div>
+<div class="text-headline-md font-bold text-slate-900">Moderate</div>
+<div class="text-body-sm font-bold text-amber-600 uppercase">Runoff Risk</div>
+</div>
+</div>
+</div>
+<!-- Machine Table Section -->
+<div class="overflow-x-auto p-0">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 border-b border-slate-200">
+<th class="p-6 font-label-caps text-slate-500">Machine</th>
+<th class="p-4 font-label-caps text-slate-500">Smoke</th>
+<th class="p-4 font-label-caps text-slate-500">Fuel Cons.</th>
+<th class="p-4 font-label-caps text-slate-500">Carbon</th>
+<th class="p-4 font-label-caps text-slate-500">Risk Score</th>
+<th class="p-4 font-label-caps text-slate-500">Replacement Available</th>
+<th class="p-4 font-label-caps text-slate-500">Action</th>
+</tr>
+</thead>
+<tbody class="text-slate-900 font-body-sm">
+<!-- Row 1 -->
+<tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+<td class="p-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400">agriculture</span>
+<div>
+<div class="font-bold">Excavator</div>
+<div class="text-xs text-slate-400">Tier 2 Diesel</div>
+</div>
+</td>
+<td class="p-4 font-data-mono">78%</td>
+<td class="p-4 font-data-mono">98%</td>
+<td class="p-4 font-data-mono">92%</td>
+<td class="p-4">
+<span class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-bold">97% CRITICAL</span>
+</td>
+<td class="p-4">
+<div class="flex items-center gap-2 text-emerald-600 bg-emerald-50 px-3 py-2 rounded-lg border border-emerald-100">
+<span class="material-symbols-outlined text-[18px]">electric_bolt</span>
+<span class="text-xs font-bold leading-tight">Electric Excavator<br/><span class="font-normal">(Tier 4 / Battery)</span></span>
+<span class="material-symbols-outlined text-emerald-500 ml-auto">check_circle</span>
+</div>
+</td>
+<td class="p-4">
+<button class="border-2 border-red-500 text-red-600 px-4 py-2 rounded font-bold text-xs hover:bg-red-50 transition-colors uppercase">Impose Fine</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+<td class="p-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400">construction</span>
+<div>
+<div class="font-bold">Bulldozer</div>
+<div class="text-xs text-slate-400">Tier 2 Diesel</div>
+</div>
+</td>
+<td class="p-4 font-data-mono">71%</td>
+<td class="p-4 font-data-mono">89%</td>
+<td class="p-4 font-data-mono">85%</td>
+<td class="p-4">
+<span class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-bold">91% CRITICAL</span>
+</td>
+<td class="p-4">
+<div class="flex items-center gap-2 text-slate-600 px-3 py-2 rounded-lg border border-slate-200">
+<span class="material-symbols-outlined text-[18px]">precision_manufacturing</span>
+<span class="text-xs font-bold leading-tight">Bulldozer<br/><span class="font-normal">(Tier 4 DEF/SCR)</span></span>
+</div>
+</td>
+<td class="p-4">
+<button class="border-2 border-red-500 text-red-600 px-4 py-2 rounded font-bold text-xs hover:bg-red-50 transition-colors uppercase">Impose Fine</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+<td class="p-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400">settings_input_component</span>
+<div>
+<div class="font-bold">Diesel Generator</div>
+<div class="text-xs text-slate-400">Backup Power</div>
+</div>
+</td>
+<td class="p-4 font-data-mono">65%</td>
+<td class="p-4 font-data-mono">80%</td>
+<td class="p-4 font-data-mono">74%</td>
+<td class="p-4">
+<span class="bg-orange-100 text-orange-700 px-2 py-1 rounded text-xs font-bold">83% HIGH</span>
+</td>
+<td class="p-4">
+<div class="flex items-center gap-2 text-slate-600 px-3 py-2 rounded-lg border border-slate-200">
+<span class="material-symbols-outlined text-[18px]">battery_charging_full</span>
+<span class="text-xs font-bold leading-tight">Hybrid/Battery<br/><span class="font-normal">Generator</span></span>
+</div>
+</td>
+<td class="p-4">
+<button class="border-2 border-red-500 text-red-600 px-4 py-2 rounded font-bold text-xs hover:bg-red-50 transition-colors uppercase">Impose Fine</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+<td class="p-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400">handyman</span>
+<div>
+<div class="font-bold">Backhoe Loader</div>
+<div class="text-xs text-slate-400">Standard Operations</div>
+</div>
+</td>
+<td class="p-4 font-data-mono">58%</td>
+<td class="p-4 font-data-mono">70%</td>
+<td class="p-4 font-data-mono">66%</td>
+<td class="p-4">
+<span class="bg-orange-100 text-orange-700 px-2 py-1 rounded text-xs font-bold">74% HIGH</span>
+</td>
+<td class="p-4">
+<div class="flex items-center gap-2 text-slate-600 px-3 py-2 rounded-lg border border-slate-200">
+<span class="material-symbols-outlined text-[18px]">build</span>
+<span class="text-xs font-bold leading-tight">Backhoe Loader<br/><span class="font-normal">(Tier 4)</span></span>
+</div>
+</td>
+<td class="p-4">
+<button class="border-2 border-red-500 text-red-600 px-4 py-2 rounded font-bold text-xs hover:bg-red-50 transition-colors uppercase">Impose Fine</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+<td class="p-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400">local_shipping</span>
+<div>
+<div class="font-bold">Concrete Mixer Truck</div>
+<div class="text-xs text-slate-400">Logistics</div>
+</div>
+</td>
+<td class="p-4 font-data-mono">40%</td>
+<td class="p-4 font-data-mono">55%</td>
+<td class="p-4 font-data-mono">48%</td>
+<td class="p-4">
+<span class="bg-amber-100 text-amber-700 px-2 py-1 rounded text-xs font-bold">52% MODERATE</span>
+</td>
+<td class="p-4">
+<div class="flex items-center gap-2 text-slate-600 px-3 py-2 rounded-lg border border-slate-200">
+<span class="material-symbols-outlined text-[18px]">eco</span>
+<span class="text-xs font-bold leading-tight">Low-Emission variant</span>
+</div>
+</td>
+<td class="p-4">
+<button class="border-2 border-slate-300 text-slate-400 px-4 py-2 rounded font-bold text-xs uppercase cursor-default">Under Review</button>
+</td>
+</tr>
+<!-- Row 6 -->
+<tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+<td class="p-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400">brick</span>
+<div>
+<div class="font-bold">Dump Truck</div>
+<div class="text-xs text-slate-400">Hauling</div>
+</div>
+</td>
+<td class="p-4 font-data-mono">34%</td>
+<td class="p-4 font-data-mono">47%</td>
+<td class="p-4 font-data-mono">41%</td>
+<td class="p-4">
+<span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold">44% FAIR</span>
+</td>
+<td class="p-4">
+<div class="text-xs text-slate-400 font-bold uppercase italic">NO REPLACEMENT NEEDED</div>
+</td>
+<td class="p-4">
+<button class="border border-slate-200 text-slate-300 px-4 py-2 rounded font-bold text-xs uppercase cursor-not-allowed bg-slate-50" disabled="">No Action Needed</button>
+</td>
+</tr>
+<!-- Row 7 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="p-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400">roller_skating</span>
+<div>
+<div class="font-bold">Compactor/Roller</div>
+<div class="text-xs text-slate-400">Compaction</div>
+</div>
+</td>
+<td class="p-4 font-data-mono">20%</td>
+<td class="p-4 font-data-mono">28%</td>
+<td class="p-4 font-data-mono">25%</td>
+<td class="p-4">
+<span class="bg-emerald-100 text-emerald-700 px-2 py-1 rounded text-xs font-bold">27% OPTIMAL</span>
+</td>
+<td class="p-4">
+<div class="text-xs text-slate-400 font-bold uppercase italic">NO REPLACEMENT NEEDED</div>
+</td>
+<td class="p-4">
+<button class="border border-slate-200 text-slate-300 px-4 py-2 rounded font-bold text-xs uppercase cursor-not-allowed bg-slate-50" disabled="">No Action Needed</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Footer of Card -->
+<div class="p-8 bg-slate-50 border-t border-slate-200">
+<div class="flex items-center gap-6 mb-6">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-slate-400"></span>
+<span class="text-slate-600 font-label-caps text-xs">7 machines audited</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="text-slate-600 font-label-caps text-xs">4 replacement opportunities identified</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-red-500"></span>
+<span class="text-slate-600 font-label-caps text-xs">4 fines eligible</span>
+</div>
+</div>
+<button class="w-full py-4 bg-primary-container text-white font-headline-sm rounded-lg hover:bg-emerald-600 transition-all shadow-lg hover:shadow-emerald-200/50 flex items-center justify-center gap-3">
+<span class="material-symbols-outlined">description</span>
+                        Generate Full Compliance Report
+                    </button>
+</div>
+</div>
+<!-- Dashboard Analytics Bottom Section -->
+<div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-panel-gap">
+<div class="hud-glass p-6 rounded-xl">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-label-caps text-primary uppercase text-xs">Aerosol Concentration (24h)</h3>
+<span class="material-symbols-outlined text-outline">show_chart</span>
+</div>
+<div class="h-32 flex items-end gap-1">
+<!-- Simple CSS Bar Chart -->
+<div class="flex-1 bg-primary/20 h-[40%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 h-[50%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 h-[45%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/30 h-[60%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/40 h-[75%] rounded-t-sm"></div>
+<div class="flex-1 bg-red-500/50 h-[95%] rounded-t-sm"></div>
+<div class="flex-1 bg-red-500 h-full rounded-t-sm"></div>
+<div class="flex-1 bg-red-500/80 h-[85%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/40 h-[65%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/30 h-[55%] rounded-t-sm"></div>
+</div>
+</div>
+<div class="hud-glass p-6 rounded-xl">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-label-caps text-primary uppercase text-xs">Compliance Trajectory</h3>
+<span class="material-symbols-outlined text-outline">query_stats</span>
+</div>
+<div class="space-y-4">
+<div class="flex items-center gap-4">
+<span class="text-xs font-data-mono w-24">CARBON OFFSET</span>
+<div class="flex-1 bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[12%]"></div>
+</div>
+<span class="text-xs font-bold text-primary">12%</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-xs font-data-mono w-24">RENEWABLE CAP</span>
+<div class="flex-1 bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[45%]"></div>
+</div>
+<span class="text-xs font-bold text-primary">45%</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-xs font-data-mono w-24">SITE RECOVERY</span>
+<div class="flex-1 bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-amber-500 h-full w-[68%]"></div>
+</div>
+<span class="text-xs font-bold text-amber-500">68%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest text-outline w-full py-4 border-t border-outline-variant flex justify-between items-center px-container-padding z-50">
+<div class="font-label-caps text-label-caps text-on-surface">© 2024 EcoShield Environmental Intelligence</div>
+<div class="flex items-center gap-6">
+<a class="font-body-sm text-body-sm hover:text-primary transition-colors underline-offset-4 hover:underline" href="javascript:void(0)">Privacy Policy</a>
+<a class="font-body-sm text-body-sm hover:text-primary transition-colors underline-offset-4 hover:underline" href="javascript:void(0)">Compliance Matrix</a>
+<a class="font-body-sm text-body-sm hover:text-primary transition-colors underline-offset-4 hover:underline" href="javascript:void(0)">API Docs</a>
+</div>
+</footer>
+<script>
+        // Micro-interaction for buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (this.disabled) return;
+                let ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const company = params.get('company');
+            const site = params.get('site');
+            if (company && site) {
+                document.getElementById('site-detail-dynamic-title').innerText = `Live sensor data — ${company}, Site #${site}`;
+            }
+        });
+    </script>
+<style>
+        .ripple {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+        @keyframes ripple-animation {
+            to { transform: scale(4); opacity: 0; }
+        }
+    </style>
+<script src="shared/ecoshield-live.js"></script>
+
+    </div>
+
+    <div id="screen-ai-signals" class="screen bg-[#0c1324] overflow-y-auto">
+        
+
+<!-- Side Navigation Shell (Hidden on mobile) -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] z-40 flex flex-col bg-surface-container-low/90 backdrop-blur-lg border-r border-outline-variant w-64 hidden lg:flex">
+<div class="p-6 border-b border-outline-variant">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary">System Active</h3>
+<p class="font-label-caps text-[10px] text-on-surface-variant uppercase">Regional Monitoring</p>
+</div>
+</div>
+</div>
+<div class="flex-1 py-4">
+<nav class="space-y-1">
+<a class="flex items-center gap-3 bg-secondary-container/20 text-primary border-l-4 border-primary px-4 py-3 hover:bg-surface-container-high transition-all group" href="javascript:void(0)">
+<span class="material-symbols-outlined">filter_list</span>
+<span class="font-label-caps text-label-caps">Filters</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-surface-container-high hover:text-on-surface transition-all group" href="javascript:void(0)">
+<span class="material-symbols-outlined">layers</span>
+<span class="font-label-caps text-label-caps">Layers</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-surface-container-high hover:text-on-surface transition-all group" href="javascript:void(0)">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-caps text-label-caps">Analysis</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-surface-container-high hover:text-on-surface transition-all group" href="javascript:void(0)">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-caps text-label-caps">Reports</span>
+</a>
+</nav>
+</div>
+<div class="p-4 space-y-4">
+<button class="w-full py-3 border border-primary/30 bg-primary/10 text-primary font-label-caps text-label-caps rounded hover:bg-primary/20 transition-all active:scale-95">
+                EXPORT DATA
+            </button>
+<div class="pt-4 border-t border-outline-variant flex justify-around">
+<button class="text-on-surface-variant hover:text-primary flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-sm">help</span>
+<span class="font-label-caps text-[10px]">SUPPORT</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-sm">code</span>
+<span class="font-label-caps text-[10px]">API</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="mt-16 lg:ml-64 flex-1 flex flex-col h-[calc(100vh-64px)] relative overflow-hidden">
+<!-- Background Animation Overlay -->
+
+<!-- Filter Bar -->
+<header class="sticky top-0 z-30 px-container-padding py-4 bg-surface/40 backdrop-blur-md flex flex-wrap items-center justify-between gap-4 border-b border-outline-variant">
+<div class="flex flex-wrap gap-2 items-center">
+<button class="px-4 py-1.5 rounded-full border border-primary bg-primary/10 text-primary font-label-caps text-[11px] hover:bg-primary/20 transition-all">ALL</button>
+<button class="px-4 py-1.5 rounded-full border border-outline-variant text-on-surface-variant font-label-caps text-[11px] hover:border-error hover:text-error transition-all">CRITICAL</button>
+<button class="px-4 py-1.5 rounded-full border border-outline-variant text-on-surface-variant font-label-caps text-[11px] hover:border-tertiary-container hover:text-tertiary-container transition-all">PREDICTIVE</button>
+<button class="px-4 py-1.5 rounded-full border border-outline-variant text-on-surface-variant font-label-caps text-[11px] hover:border-primary hover:text-primary transition-all">OPPORTUNITY</button>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-data-mono text-data-mono text-primary text-xs uppercase tracking-widest">LIVE 24 feeds</span>
+</div>
+</header>
+<!-- Scrolling Intelligence Feed -->
+<div class="flex-1 overflow-y-auto px-container-padding py-6 space-y-4 custom-scrollbar">
+<!-- Signal Card 1: Critical -->
+<article class="hud-glass border-l-[4px] border-l-error p-5 rounded-lg flex flex-col gap-3 group relative transition-all hover:bg-surface-container-low glow-red">
+<div class="flex justify-between items-start">
+<span class="bg-error/20 text-error border border-error/30 px-2 py-0.5 font-label-caps text-[10px] rounded">CRITICAL</span>
+<time class="font-data-mono text-[10px] text-on-surface-variant">2 min ago</time>
+</div>
+<div class="space-y-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Infranet Corp</h2>
+<p class="font-label-caps text-[11px] text-primary/70">SECTOR 4 · EMISSION MONITORING</p>
+</div>
+<p class="font-body-sm text-on-surface-variant leading-relaxed">
+                    Flare emissions have scaled 300% above baseline over the past 6 hours. Pattern matches unregulated venting, not equipment malfunction. Recommend immediate inspection.
+                </p>
+<div class="flex gap-2 mt-2">
+<button onclick="window.location.href='../site_detail_abu_dhabi_hub/code.html?company=Infranet%20Corp'" class="px-4 py-2 border border-outline-variant hover:border-primary text-primary font-label-caps text-[10px] rounded transition-all">VIEW SITE</button>
+<button class="px-4 py-2 bg-error text-on-error font-label-caps text-[10px] rounded hover:brightness-110 transition-all">IMPOSE FINE</button>
+</div>
+</article>
+<!-- Signal Card 2: Predictive -->
+<article class="hud-glass border-l-[4px] border-l-tertiary-container p-5 rounded-lg flex flex-col gap-3 group relative transition-all hover:bg-surface-container-low">
+<div class="flex justify-between items-start">
+<span class="bg-tertiary-container/20 text-tertiary-container border border-tertiary-container/30 px-2 py-0.5 font-label-caps text-[10px] rounded">PREDICTIVE</span>
+<time class="font-data-mono text-[10px] text-on-surface-variant">14 min ago</time>
+</div>
+<div class="space-y-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Al Safa Industrial</h2>
+<p class="font-label-caps text-[11px] text-primary/70">UAE · NOx ANALYTICS</p>
+</div>
+<p class="font-body-sm text-on-surface-variant leading-relaxed">
+                    Based on current NOx trajectory, this site will cross the Critical risk threshold within approximately 36 hours if current equipment usage continues.
+                </p>
+<div class="flex gap-2 mt-2">
+<button onclick="window.location.href='../site_detail_abu_dhabi_hub/code.html?company=Al%20Safa%20Industrial'" class="px-4 py-2 border border-outline-variant hover:border-primary text-primary font-label-caps text-[10px] rounded transition-all">VIEW TREND</button>
+<button class="px-4 py-2 border border-tertiary-container text-tertiary-container font-label-caps text-[10px] rounded hover:bg-tertiary-container/10 transition-all">NOTIFY COMPANY</button>
+</div>
+</article>
+<!-- Signal Card 3: Opportunity -->
+<article class="hud-glass border-l-[4px] border-l-primary p-5 rounded-lg flex flex-col gap-3 group relative transition-all hover:bg-surface-container-low glow-emerald">
+<div class="flex justify-between items-start">
+<span class="bg-primary/20 text-primary border border-primary/30 px-2 py-0.5 font-label-caps text-[10px] rounded">OPPORTUNITY</span>
+<time class="font-data-mono text-[10px] text-on-surface-variant">1 hour ago</time>
+</div>
+<div class="space-y-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Suntech</h2>
+<p class="font-label-caps text-[11px] text-primary/70">RAS AL KHAIMAH · SUSTAINABILITY UPGRADE</p>
+</div>
+<p class="font-body-sm text-on-surface-variant leading-relaxed">
+                    3 of 6 flagged machines have eco-replacement options available. Estimated fleet-wide carbon reduction if adopted: 42%.
+                </p>
+<div class="flex gap-2 mt-2">
+<button class="px-4 py-2 bg-primary text-on-primary font-label-caps text-[10px] rounded hover:brightness-110 transition-all">VIEW MACHINES</button>
+</div>
+</article>
+<!-- Signal Card 4: Critical -->
+<article class="hud-glass border-l-[4px] border-l-error p-5 rounded-lg flex flex-col gap-3 group relative transition-all hover:bg-surface-container-low">
+<div class="flex justify-between items-start">
+<span class="bg-error/20 text-error border border-error/30 px-2 py-0.5 font-label-caps text-[10px] rounded">CRITICAL</span>
+<time class="font-data-mono text-[10px] text-on-surface-variant">3 hours ago</time>
+</div>
+<div class="space-y-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">TechNoCity</h2>
+<p class="font-label-caps text-[11px] text-primary/70">SHARJAH · NOISE POLLUTION</p>
+</div>
+<p class="font-body-sm text-on-surface-variant leading-relaxed">
+                    Noise pollution levels sustained above 90dB for over 8 hours near a residential boundary. Exceeds municipal construction limits.
+                </p>
+<div class="flex gap-2 mt-2">
+<button onclick="window.location.href='../site_detail_abu_dhabi_hub/code.html?company=TechNoCity'" class="px-4 py-2 border border-outline-variant hover:border-primary text-primary font-label-caps text-[10px] rounded transition-all">VIEW SITE</button>
+<button class="px-4 py-2 bg-error text-on-error font-label-caps text-[10px] rounded hover:brightness-110 transition-all">IMPOSE FINE</button>
+</div>
+</article>
+<!-- Signal Card 5: Predictive -->
+<article class="hud-glass border-l-[4px] border-l-tertiary-container p-5 rounded-lg flex flex-col gap-3 group relative transition-all hover:bg-surface-container-low">
+<div class="flex justify-between items-start">
+<span class="bg-tertiary-container/20 text-tertiary-container border border-tertiary-container/30 px-2 py-0.5 font-label-caps text-[10px] rounded">PREDICTIVE</span>
+<time class="font-data-mono text-[10px] text-on-surface-variant">5 hours ago</time>
+</div>
+<div class="space-y-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Proscape</h2>
+<p class="font-label-caps text-[11px] text-primary/70">DUBAI (JLT SITE) · WATER QUALITY</p>
+</div>
+<p class="font-body-sm text-on-surface-variant leading-relaxed">
+                    Water runoff turbidity trending upward for the third consecutive day. Early indicator of erosion control failure at this site.
+                </p>
+<div class="flex gap-2 mt-2">
+<button onclick="window.location.href='../site_detail_abu_dhabi_hub/code.html?company=Proscape'" class="px-4 py-2 border border-outline-variant hover:border-primary text-primary font-label-caps text-[10px] rounded transition-all">VIEW TREND</button>
+</div>
+</article>
+<!-- Signal Card 6: Opportunity -->
+<article class="hud-glass border-l-[4px] border-l-primary p-5 rounded-lg flex flex-col gap-3 group relative transition-all hover:bg-surface-container-low">
+<div class="flex justify-between items-start">
+<span class="bg-primary/20 text-primary border border-primary/30 px-2 py-0.5 font-label-caps text-[10px] rounded">OPPORTUNITY</span>
+<time class="font-data-mono text-[10px] text-on-surface-variant">8 hours ago</time>
+</div>
+<div class="space-y-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Ghantoot</h2>
+<p class="font-label-caps text-[11px] text-primary/70">ABU DHABI · COMPLIANCE RECOGNITION</p>
+</div>
+<p class="font-body-sm text-on-surface-variant leading-relaxed">
+                    Site has maintained a Nominal risk score for 30 consecutive days. Eligible for compliance recognition status.
+                </p>
+<div class="flex gap-2 mt-2">
+<button onclick="window.location.href='../site_detail_abu_dhabi_hub/code.html?company=Ghantoot'" class="px-4 py-2 border border-primary text-primary font-label-caps text-[10px] rounded hover:bg-primary/10 transition-all">VIEW SITE</button>
+</div>
+</article>
+<!-- Signal Card 7: Critical -->
+<article class="hud-glass border-l-[4px] border-l-error p-5 rounded-lg flex flex-col gap-3 group relative transition-all hover:bg-surface-container-low">
+<div class="flex justify-between items-start">
+<span class="bg-error/20 text-error border border-error/30 px-2 py-0.5 font-label-caps text-[10px] rounded">CRITICAL</span>
+<time class="font-data-mono text-[10px] text-on-surface-variant">Yesterday</time>
+</div>
+<div class="space-y-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Al Safa Industrial</h2>
+<p class="font-label-caps text-[11px] text-primary/70">UAE · COASTAL MONITORING</p>
+</div>
+<p class="font-body-sm text-on-surface-variant leading-relaxed">
+                    Toxic particulate runoff detected near primary coastal facility, exceeding water quality thresholds by 2.4x.
+                </p>
+<div class="flex gap-2 mt-2">
+<button onclick="window.location.href='../site_detail_abu_dhabi_hub/code.html?company=Al%20Safa%20Industrial'" class="px-4 py-2 border border-outline-variant hover:border-primary text-primary font-label-caps text-[10px] rounded transition-all">VIEW SITE</button>
+<button class="px-4 py-2 bg-error text-on-error font-label-caps text-[10px] rounded hover:brightness-110 transition-all">IMPOSE FINE</button>
+</div>
+</article>
+<!-- Padding for footer space -->
+<div class="h-12"></div>
+</div>
+<!-- System Stats Overlay (Floating UI elements for HUD feel) -->
+<div class="absolute bottom-8 right-8 flex flex-col gap-2 items-end pointer-events-none">
+<div class="hud-glass px-4 py-2 rounded-lg flex flex-col gap-1">
+<span class="font-label-caps text-[10px] text-on-surface-variant">PROCESSING LOAD</span>
+<div class="w-32 h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-2/3 animate-[pulse_2s_infinite]"></div>
+</div>
+</div>
+<div class="hud-glass px-4 py-2 rounded-lg flex flex-col gap-1">
+<span class="font-label-caps text-[10px] text-on-surface-variant">ACTIVE SENSORS</span>
+<span class="font-data-mono text-primary text-xl">14,208</span>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="relative w-full py-base px-container-padding flex justify-between items-center bg-surface-container-lowest border-t border-outline-variant z-50">
+<span class="font-data-mono text-data-mono text-secondary text-[10px]">© 2024 EcoShield Environmental Intelligence. All systems operational.</span>
+<div class="hidden md:flex gap-4">
+<a class="text-on-surface-variant hover:text-primary transition-colors text-[10px] font-data-mono" href="javascript:void(0)">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-[10px] font-data-mono" href="javascript:void(0)">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-[10px] font-data-mono" href="javascript:void(0)">Security Disclosure</a>
+<a class="text-primary underline text-[10px] font-data-mono" href="javascript:void(0)">Status</a>
+</div>
+</footer>
+<!-- Mobile Bottom Navigation (Visible only on mobile) -->
+<div class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container-low/90 backdrop-blur-lg border-t border-outline-variant flex justify-around items-center h-16 z-[60]">
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">public</span>
+<span class="text-[10px] font-label-caps">EARTH</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">map</span>
+<span class="text-[10px] font-label-caps">MAP</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined">sensors</span>
+<span class="text-[10px] font-label-caps">SIGNALS</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-label-caps">PROFILE</span>
+</button>
+</div>
+<script class="">
+        // Simple micro-interaction for cards
+        document.querySelectorAll('article').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateX(4px)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateX(0)';
+            });
+        });
+
+        // Filter functionality
+        function filterCards(category) {
+            // Update button styles
+            document.querySelectorAll('header button').forEach(btn => {
+                const btnCategory = btn.textContent.trim();
+                if (btnCategory === category) {
+                    btn.className = `px-4 py-1.5 rounded-full border font-label-caps text-[11px] transition-all `;
+                    if (category === 'ALL' || category === 'OPPORTUNITY') {
+                        btn.className += `border-primary bg-primary/10 text-primary hover:bg-primary/20`;
+                    } else if (category === 'CRITICAL') {
+                        btn.className += `border-error bg-error/10 text-error hover:bg-error/20`;
+                    } else if (category === 'PREDICTIVE') {
+                        btn.className += `border-tertiary-container bg-tertiary-container/10 text-tertiary-container hover:bg-tertiary-container/20`;
+                    }
+                } else {
+                    btn.className = `px-4 py-1.5 rounded-full border border-outline-variant text-on-surface-variant font-label-caps text-[11px] transition-all `;
+                    if (btnCategory === 'CRITICAL') btn.className += `hover:border-error hover:text-error`;
+                    else if (btnCategory === 'PREDICTIVE') btn.className += `hover:border-tertiary-container hover:text-tertiary-container`;
+                    else if (btnCategory === 'OPPORTUNITY' || btnCategory === 'ALL') btn.className += `hover:border-primary hover:text-primary`;
+                }
+            });
+
+            // Filter cards
+            document.querySelectorAll('article.hud-glass').forEach(card => {
+                if (category === 'ALL') {
+                    card.style.display = 'flex';
+                    return;
+                }
+                const tag = card.querySelector('span').textContent.trim();
+                if (tag === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Attach click listeners to filter buttons
+        document.querySelectorAll('header button').forEach(btn => {
+            btn.addEventListener('click', () => filterCards(btn.textContent.trim()));
+        });
+    </script>
+
+<script src="shared/ecoshield-live.js"></script>
+
+    </div>
+
+    <script>
+        window.currentCompany = '';
+        
+        function navigate(screenId, state = {}) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            
+            // Update active state in navbar
+            document.querySelectorAll('.es-nav-link').forEach(link => {
+                link.classList.remove('text-[#4edea3]', 'border-[#4edea3]');
+                link.classList.add('text-[#bbcabf]', 'border-transparent');
+            });
+            const activeLink = document.getElementById('nav-' + screenId) || document.getElementById('nav-screen-geomap'); // Fallback for company sites
+            if (activeLink) {
+                activeLink.classList.remove('text-[#bbcabf]', 'border-transparent');
+                activeLink.classList.add('text-[#4edea3]', 'border-[#4edea3]');
+            }
+
+            if (screenId === 'screen-company-sites') {
+                window.currentCompany = state.company || 'Unknown';
+                document.getElementById('company-sites-title').innerText = window.currentCompany;
+                generateCompanyPins(window.currentCompany);
+            }
+            
+            if (screenId === 'screen-site-detail') {
+                const co = state.company || window.currentCompany;
+                const sid = state.siteId || '1';
+                document.getElementById('site-detail-dynamic-title').innerText = `Live sensor data — ${co}, Site #${sid}`;
+            }
+
+            if ((screenId === 'screen-geomap' || screenId === 'screen-company-sites') && window.__esMap) {
+                setTimeout(() => {
+                    window.__esMap.invalidateSize();
+                    window.__esMap.fitBounds([
+                      [22.6, 51.5],
+                      [26.2, 56.6]
+                    ], { padding: [40, 40] });
+                }, 100);
+            }
+        }
+
+        function generateCompanyPins(companyName) {
+            const container = document.getElementById('company-pins-container');
+            if(!container) return;
+            container.innerHTML = '';
+            
+            for (let i = 1; i <= 40; i++) {
+                const left = 30 + Math.random() * 50; 
+                const top = 20 + Math.random() * 60; 
+                
+                const pin = document.createElement('div');
+                pin.className = 'absolute w-3 h-3 bg-black rounded-full border-2 border-gray-400 cursor-pointer hover:scale-[1.5] hover:bg-white hover:border-black transition-all shadow-lg pointer-events-auto';
+                pin.style.left = left + '%';
+                pin.style.top = top + '%';
+                pin.title = `Site #${i}`;
+                
+                pin.onclick = (e) => {
+                    e.stopPropagation();
+                    navigate('screen-site-detail', { company: companyName, siteId: i });
+                };
+                
+                container.appendChild(pin);
+            }
+        }
+
+        // Setup Globe Click
+        document.addEventListener('DOMContentLoaded', () => {
+            // Wait for Three.js canvas to mount
+            const checkCanvas = setInterval(() => {
+                const canvas = document.querySelector('#screen-dashboard canvas');
+                if(canvas) {
+                    clearInterval(checkCanvas);
+                    
+                    let isDragging = false;
+                    canvas.addEventListener('mousedown', () => { isDragging = false; });
+                    canvas.addEventListener('mousemove', () => { isDragging = true; });
+                    canvas.addEventListener('mouseup', () => {
+                        if (!isDragging) {
+                            navigate('screen-geomap');
+                        }
+                    });
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>

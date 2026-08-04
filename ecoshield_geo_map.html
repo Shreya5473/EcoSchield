@@ -357,19 +357,8 @@ const EMIRATE_COLORS = {
   "Ajman": "#6B7FA8"
 };
 
-// Company site locations, placed on the correct emirate territory
-const SITES = [
-  {name:"Proscape", emirate:"Dubai", x:780, y:270, risk:"critical", sector:"Construction"},
-  {name:"Al Safa Industrial", emirate:"Dubai", x:820, y:230, risk:"elevated", sector:"Manufacturing"},
-  {name:"TechnoCity", emirate:"Sharjah", x:895, y:220, risk:"elevated", sector:"Infrastructure"},
-  {name:"Infranet Corp", emirate:"Ajman", x:855, y:175, risk:"critical", sector:"Energy"},
-  {name:"Suntech", emirate:"Ras Al Khaimah", x:930, y:100, risk:"elevated", sector:"Manufacturing"},
-  {name:"Missan Group", emirate:"Fujairah", x:955, y:190, risk:"critical", sector:"Construction"},
-  {name:"Ghantoot", emirate:"Abu Dhabi", x:530, y:540, risk:"nominal", sector:"Construction"},
-  {name:"Al Safa (Al Ain)", emirate:"Abu Dhabi", x:620, y:600, risk:"elevated", sector:"Industrial"},
-  {name:"Proscape (Abu Dhabi)", emirate:"Abu Dhabi", x:370, y:670, risk:"nominal", sector:"Construction"}
-];
-
+// Company site locations, dynamically loaded from backend
+let SITES = [];
 const RISK_LABEL = {critical:"Critical Risk", elevated:"Elevated Risk", nominal:"Nominal"};
 
 // Build emirate polygons
@@ -403,25 +392,37 @@ function makePinSVG(x, y, riskClass){
     </g>`;
 }
 
-SITES.forEach(site => {
-  pinsGroup.insertAdjacentHTML('beforeend', makePinSVG(site.x, site.y, site.risk));
-});
+function renderPinsAndTooltips() {
+  pinsGroup.innerHTML = '';
+  SITES.forEach(site => {
+    pinsGroup.insertAdjacentHTML('beforeend', makePinSVG(site.x, site.y, site.risk));
+  });
 
-// Tooltip interactivity
-document.querySelectorAll('.pin').forEach((pinEl, i) => {
-  const site = SITES[i];
-  pinEl.addEventListener('mouseenter', (e) => {
-    ttName.textContent = site.name;
-    const riskClass = "risk-" + site.risk;
-    ttMeta.innerHTML = `${site.sector} · ${site.emirate} · <span class="${riskClass}">${RISK_LABEL[site.risk]}</span>`;
-    tooltip.classList.add('show');
-    positionTooltip(e);
+  // Tooltip interactivity
+  document.querySelectorAll('.pin').forEach((pinEl, i) => {
+    const site = SITES[i];
+    pinEl.addEventListener('mouseenter', (e) => {
+      ttName.textContent = site.name;
+      const riskClass = "risk-" + site.risk;
+      ttMeta.innerHTML = `${site.sector} · ${site.emirate} · <span class="${riskClass}">${RISK_LABEL[site.risk]}</span>`;
+      tooltip.classList.add('show');
+      positionTooltip(e);
+    });
+    pinEl.addEventListener('mousemove', positionTooltip);
+    pinEl.addEventListener('mouseleave', () => {
+      tooltip.classList.remove('show');
+    });
   });
-  pinEl.addEventListener('mousemove', positionTooltip);
-  pinEl.addEventListener('mouseleave', () => {
-    tooltip.classList.remove('show');
-  });
-});
+}
+
+// Fetch live company data from backend
+fetch('http://localhost:8000/api/companies')
+  .then(res => res.json())
+  .then(data => {
+    SITES = data;
+    renderPinsAndTooltips();
+  })
+  .catch(err => console.error("Error fetching site data:", err));
 
 function positionTooltip(e){
   const rect = mapArea.getBoundingClientRect();

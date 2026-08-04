@@ -284,7 +284,7 @@
   }
 
   async function callBackendSummary(payload) {
-    const res = await fetch('/api/ai-summary', {
+    const res = await fetch('http://localhost:8000/api/ai-summary', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)

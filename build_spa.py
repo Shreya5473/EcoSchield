@@ -14,30 +14,48 @@ def extract_head_styles_and_scripts(html):
     start = html.find('<head>') + 6
     end = html.rfind('</head>')
     content = html[start:end]
-    lines = content.split('\n')
-    filtered = []
-    for line in lines:
-        if '<title>' not in line and '<meta' not in line:
-            filtered.append(line)
-    return '\n'.join(filtered)
+    import re
+    content = re.sub(r'<meta[^>]*>', '', content)
+    content = re.sub(r'<title[^>]*>.*?</title>', '', content, flags=re.IGNORECASE)
+    return content
 
 dash_html = read_file('stitch_ecoshield_pollution_monitor/ecoshield_dashboard/code.html')
 geomap_html = read_file('stitch_ecoshield_pollution_monitor/uae_regional_view_glassy_emerald_map/code.html')
 detail_html = read_file('stitch_ecoshield_pollution_monitor/site_detail_abu_dhabi_hub/code.html')
+ai_signals_html = read_file('stitch_ecoshield_pollution_monitor/ai_signals/code.html')
 
 dash_head = extract_head_styles_and_scripts(dash_html)
 geomap_head = extract_head_styles_and_scripts(geomap_html)
 detail_head = extract_head_styles_and_scripts(detail_html)
+ai_signals_head = extract_head_styles_and_scripts(ai_signals_html)
 
 dash_body = extract_body_content(dash_html)
 geomap_body = extract_body_content(geomap_html)
 detail_body = extract_body_content(detail_html)
+ai_signals_body = extract_body_content(ai_signals_html)
+
+import re
+def strip_header(html, is_fixed=False):
+    replacement = '' if is_fixed else '<div class="h-16 shrink-0 w-full"></div>'
+    return re.sub(r'<header.*?</header>', replacement, html, flags=re.DOTALL)
+
+dash_body = strip_header(dash_body, is_fixed=True)
+detail_body = strip_header(detail_body, is_fixed=True)
+geomap_body = strip_header(geomap_body, is_fixed=False)
+
+# AI Signals uses <nav class="fixed top-0..."> for its top header instead of <header>.
+# DO NOT strip <header> from ai_signals, because its <header> is actually the internal filter bar!
+ai_signals_body = re.sub(r'<!-- Top Navigation Bar -->\s*<nav class="fixed top-0[^>]*>.*?</nav>', '', ai_signals_body, flags=re.DOTALL)
+
+shared_navbar = read_file('stitch_ecoshield_pollution_monitor/shared/navbar.html')
 
 # Wire up Navbars
-for body_ref in ['dash_body', 'geomap_body', 'detail_body']:
+for body_ref in ['dash_body', 'geomap_body', 'detail_body', 'ai_signals_body']:
     locals()[body_ref] = locals()[body_ref].replace('href="#"', 'href="javascript:void(0)"')
+    locals()[body_ref] = re.sub(r'href="\.\.[^"]+"', 'href="javascript:void(0)"', locals()[body_ref])
     locals()[body_ref] = locals()[body_ref].replace('>Geo Map</a>', ' onclick="navigate(\'screen-geomap\')">Geo Map</a>')
     locals()[body_ref] = locals()[body_ref].replace('>Earth Pulse</a>', ' onclick="navigate(\'screen-dashboard\')">Earth Pulse</a>')
+    locals()[body_ref] = locals()[body_ref].replace('>AI Signals</a>', ' onclick="navigate(\'screen-ai-signals\')">AI Signals</a>')
 
 # Wire up the floating info pill on dashboard
 dash_body = dash_body.replace('<div class="glass-panel rounded-full', '<div onclick="navigate(\'screen-geomap\')" class="glass-panel rounded-full')
@@ -47,6 +65,8 @@ geomap_body = geomap_body.replace('class="group absolute"', 'class="group absolu
 
 # Create company sites screen based on geomap
 company_sites_body = geomap_body
+company_sites_body = company_sites_body.replace('id="es-maptiler"', 'id="es-maptiler-company"')
+company_sites_body = company_sites_body.replace('<script src="../shared/ecoshield-map.js"></script>', '')
 pin_start = company_sites_body.find('<div class="group absolute')
 if pin_start != -1:
     pin_end = company_sites_body.find('<!-- BEGIN: Floating Overlays -->')
@@ -84,6 +104,7 @@ unified_html = f"""<!DOCTYPE html>
     {dash_head}
     {geomap_head}
     {detail_head}
+    {ai_signals_head}
     <style>
         .screen {{ display: none; width: 100vw; height: 100vh; overflow: hidden; position: absolute; top:0; left:0; }}
         .screen.active {{ display: flex; flex-direction: column; }}
@@ -91,6 +112,8 @@ unified_html = f"""<!DOCTYPE html>
     </style>
 </head>
 <body class="bg-background text-on-surface m-0 p-0 overflow-hidden w-screen h-screen relative">
+    
+    {shared_navbar}
 
     <div id="screen-dashboard" class="screen active">
         {dash_body}
@@ -108,6 +131,10 @@ unified_html = f"""<!DOCTYPE html>
         {detail_body}
     </div>
 
+    <div id="screen-ai-signals" class="screen bg-[#0c1324] overflow-y-auto">
+        {ai_signals_body}
+    </div>
+
     <script>
         window.currentCompany = '';
         
@@ -115,6 +142,17 @@ unified_html = f"""<!DOCTYPE html>
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
             
+            // Update active state in navbar
+            document.querySelectorAll('.es-nav-link').forEach(link => {{
+                link.classList.remove('text-[#4edea3]', 'border-[#4edea3]');
+                link.classList.add('text-[#bbcabf]', 'border-transparent');
+            }});
+            const activeLink = document.getElementById('nav-' + screenId) || document.getElementById('nav-screen-geomap'); // Fallback for company sites
+            if (activeLink) {{
+                activeLink.classList.remove('text-[#bbcabf]', 'border-transparent');
+                activeLink.classList.add('text-[#4edea3]', 'border-[#4edea3]');
+            }}
+
             if (screenId === 'screen-company-sites') {{
                 window.currentCompany = state.company || 'Unknown';
                 document.getElementById('company-sites-title').innerText = window.currentCompany;
@@ -125,6 +163,16 @@ unified_html = f"""<!DOCTYPE html>
                 const co = state.company || window.currentCompany;
                 const sid = state.siteId || '1';
                 document.getElementById('site-detail-dynamic-title').innerText = `Live sensor data — ${{co}}, Site #${{sid}}`;
+            }}
+
+            if ((screenId === 'screen-geomap' || screenId === 'screen-company-sites') && window.__esMap) {{
+                setTimeout(() => {{
+                    window.__esMap.invalidateSize();
+                    window.__esMap.fitBounds([
+                      [22.6, 51.5],
+                      [26.2, 56.6]
+                    ], {{ padding: [40, 40] }});
+                }}, 100);
             }}
         }}
 
@@ -177,6 +225,6 @@ unified_html = f"""<!DOCTYPE html>
 """
 
 with open('stitch_ecoshield_pollution_monitor/index.html', 'w') as f:
-    f.write(unified_html)
+    f.write(unified_html.replace('../shared/', 'shared/'))
 
 print("SPA Built successfully!")

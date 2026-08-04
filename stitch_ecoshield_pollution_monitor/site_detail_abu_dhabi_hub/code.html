@@ -185,16 +185,16 @@
 <main class="pt-16 pl-0 md:pl-64 min-h-screen">
 <div class="p-container-padding">
 <!-- Breadcrumbs -->
-<div class="mb-4 cursor-pointer text-primary hover:text-white flex items-center gap-2 w-fit transition-colors" onclick="window.history.back()">
+<div class="mb-4 cursor-pointer text-primary hover:text-white flex items-center gap-2 w-fit transition-colors" onclick="navigate('screen-geomap')">
     <span class="material-symbols-outlined text-[18px]">arrow_back</span>
-    <span class="font-bold text-sm">Back to Company Sites</span>
+    <span class="font-bold text-sm">Back to Geo Map</span>
 </div>
 <div class="mb-6 flex items-center gap-2 text-on-surface-variant font-label-caps text-label-caps">
 <span>GEO MAP</span>
 <span class="material-symbols-outlined text-[14px]">chevron_right</span>
 <span>UNITED ARAB EMIRATES</span>
 <span class="material-symbols-outlined text-[14px]">chevron_right</span>
-<span class="text-primary">ABU DHABI HUB</span>
+<span id="detail-company-breadcrumb" class="text-primary uppercase">ABU DHABI HUB</span>
 </div>
 <!-- Site Report Card -->
 <div class="bg-white rounded-xl shadow-2xl overflow-hidden border-t-[8px] border-primary-container relative">
@@ -217,8 +217,8 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
 <div class="border border-slate-200 rounded-lg p-4 bg-slate-50/50">
 <div class="text-slate-500 text-label-caps mb-2">Air Quality Index</div>
-<div class="text-headline-md font-bold text-red-600">156</div>
-<div class="text-body-sm font-bold text-red-600 uppercase">Unhealthy</div>
+<div id="detail-risk-score" class="text-headline-md font-bold text-red-600">156</div>
+<div id="detail-risk-tier" class="text-body-sm font-bold text-red-600 uppercase">Unhealthy</div>
 </div>
 <div class="border border-slate-200 rounded-lg p-4 bg-slate-50/50">
 <div class="text-slate-500 text-label-caps mb-2">PM2.5 Level</div>
@@ -227,7 +227,7 @@
 </div>
 <div class="border border-slate-200 rounded-lg p-4 bg-slate-50/50">
 <div class="text-slate-500 text-label-caps mb-2">NOx Output</div>
-<div class="text-headline-md font-bold text-red-600">210 <span class="text-body-sm font-normal">kg/day</span></div>
+<div class="text-headline-md font-bold text-red-600"><span id="detail-nox">210</span> <span class="text-body-sm font-normal">kg/day</span></div>
 <div class="text-body-sm font-bold text-red-600 uppercase">Above Limit</div>
 </div>
 <div class="border border-slate-200 rounded-lg p-4 bg-slate-50/50">
@@ -241,6 +241,11 @@
 <div class="text-body-sm font-bold text-amber-600 uppercase">Runoff Risk</div>
 </div>
 </div>
+</div>
+<!-- AI Summary Section -->
+<div class="bg-blue-50/50 border-t border-b border-blue-100 p-6 mt-6 mb-6">
+<h3 class="font-headline-sm text-blue-900 mb-2 flex items-center gap-2"><span class="material-symbols-outlined text-blue-600">psychology</span> AI Audit Summary</h3>
+<p id="detail-ai-summary" class="text-blue-800 text-sm leading-relaxed">Loading AI insights...</p>
 </div>
 <!-- Machine Table Section -->
 <div class="overflow-x-auto p-0">
@@ -256,7 +261,7 @@
 <th class="p-4 font-label-caps text-slate-500">Action</th>
 </tr>
 </thead>
-<tbody class="text-slate-900 font-body-sm">
+<tbody id="detail-equipment-table" class="text-slate-900 font-body-sm">
 <!-- Row 1 -->
 <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
 <td class="p-6 flex items-center gap-3">
@@ -505,15 +510,6 @@
 </div>
 </div>
 </main>
-<!-- Footer -->
-<footer class="bg-surface-container-lowest text-outline w-full py-4 border-t border-outline-variant flex justify-between items-center px-container-padding z-50">
-<div class="font-label-caps text-label-caps text-on-surface">© 2024 EcoShield Environmental Intelligence</div>
-<div class="flex items-center gap-6">
-<a class="font-body-sm text-body-sm hover:text-primary transition-colors underline-offset-4 hover:underline" href="#">Privacy Policy</a>
-<a class="font-body-sm text-body-sm hover:text-primary transition-colors underline-offset-4 hover:underline" href="#">Compliance Matrix</a>
-<a class="font-body-sm text-body-sm hover:text-primary transition-colors underline-offset-4 hover:underline" href="#">API Docs</a>
-</div>
-</footer>
 <script>
         // Micro-interaction for buttons
         document.querySelectorAll('button').forEach(btn => {

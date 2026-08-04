@@ -264,3 +264,21 @@ def get_ai_summary(req: schemas.AiSummaryRequest, db: Session = Depends(get_db))
         f"Adopting the {req.flaggedReplacements} flagged replacements would cut site carbon footprint and avoid future fines."
     )
     return {"summary": summary}
+
+@app.get("/api/leaderboard/metrics")
+def get_leaderboard_metrics():
+    return {
+        "smoke_aqi": {
+            "labels": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+            "values": [45, 52, 60, 58, 65, 70, 72]
+        },
+        "risk_probability": {
+            "labels": ["Low", "Medium", "Elevated", "Critical"],
+            "values": [40, 30, 20, 10]
+        },
+        "emissions_forecast": {
+            "labels": ["Q1", "Q2", "Q3", "Q4", "Next Q1", "Next Q2"],
+            "baseline": [1000, 1100, 1200, 1250, 1300, 1400],
+            "optimized": [1000, 1050, 1000, 950, 850, 700]
+        }
+    }

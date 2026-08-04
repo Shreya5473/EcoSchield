@@ -512,10 +512,28 @@
         }
     }catch(_e){}</script><link href="shared/ecoshield-live.css" rel="stylesheet"/>
 
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .lb-card {
+            background: rgba(12, 19, 36, 0.7);
+            border: 1px solid rgba(78, 222, 163, 0.2);
+            backdrop-filter: blur(12px);
+        }
+        .lb-glass {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.7));
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+    </style>
+
     <style>
         .screen { display: none; width: 100vw; height: 100vh; overflow: hidden; position: absolute; top:0; left:0; }
         .screen.active { display: flex; flex-direction: column; }
         #screen-site-detail.active { overflow-y: auto; overflow-x: hidden; }
+        #screen-leaderboard.active { overflow-y: auto; overflow-x: hidden; }
     </style>
 </head>
 <body class="bg-background text-on-surface m-0 p-0 overflow-hidden w-screen h-screen relative">
@@ -538,6 +556,7 @@
 <a id="nav-screen-dashboard" class="es-nav-link text-[#4edea3] border-b-2 border-[#4edea3] pb-1 flex items-center h-full text-[18px] font-semibold transition-colors duration-200" href="javascript:void(0)" onclick="navigate('screen-dashboard')">Earth Pulse</a>
 <a id="nav-screen-geomap" class="es-nav-link text-[#bbcabf] font-medium hover:text-[#4edea3] border-b-2 border-transparent pb-1 flex items-center h-full text-[18px] transition-colors duration-200" href="javascript:void(0)" onclick="navigate('screen-geomap')">Geo Map</a>
 <a id="nav-screen-ai-signals" class="es-nav-link text-[#bbcabf] font-medium hover:text-[#4edea3] border-b-2 border-transparent pb-1 flex items-center h-full text-[18px] transition-colors duration-200" href="javascript:void(0)" onclick="navigate('screen-ai-signals')">AI Signals</a>
+<a id="nav-screen-leaderboard" class="es-nav-link text-[#bbcabf] font-medium hover:text-[#4edea3] border-b-2 border-transparent pb-1 flex items-center h-full text-[18px] transition-colors duration-200" href="javascript:void(0)" onclick="navigate('screen-leaderboard')">Leaderboard</a>
 </nav>
 <div class="flex items-center space-x-4">
 <div class="flex items-center space-x-2">
@@ -1100,22 +1119,16 @@
 <main class="pt-16 pl-0 md:pl-64 min-h-screen">
 <div class="p-container-padding">
 <!-- Breadcrumbs -->
-
-<div class="mb-4 cursor-pointer text-primary hover:text-white flex items-center gap-2 w-fit transition-colors" onclick="navigate('screen-company-sites', {company: window.currentCompany})">
+<div class="mb-4 cursor-pointer text-primary hover:text-white flex items-center gap-2 w-fit transition-colors" onclick="navigate('screen-geomap')">
     <span class="material-symbols-outlined text-[18px]">arrow_back</span>
-    <span class="font-bold text-sm">Back to Company Sites</span>
-</div>
-
-<div class="mb-4 cursor-pointer text-primary hover:text-white flex items-center gap-2 w-fit transition-colors" onclick="window.history.back()">
-    <span class="material-symbols-outlined text-[18px]">arrow_back</span>
-    <span class="font-bold text-sm">Back to Company Sites</span>
+    <span class="font-bold text-sm">Back to Geo Map</span>
 </div>
 <div class="mb-6 flex items-center gap-2 text-on-surface-variant font-label-caps text-label-caps">
 <span>GEO MAP</span>
 <span class="material-symbols-outlined text-[14px]">chevron_right</span>
 <span>UNITED ARAB EMIRATES</span>
 <span class="material-symbols-outlined text-[14px]">chevron_right</span>
-<span class="text-primary">ABU DHABI HUB</span>
+<span id="detail-company-breadcrumb" class="text-primary uppercase">ABU DHABI HUB</span>
 </div>
 <!-- Site Report Card -->
 <div class="bg-white rounded-xl shadow-2xl overflow-hidden border-t-[8px] border-primary-container relative">
@@ -1138,8 +1151,8 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
 <div class="border border-slate-200 rounded-lg p-4 bg-slate-50/50">
 <div class="text-slate-500 text-label-caps mb-2">Air Quality Index</div>
-<div class="text-headline-md font-bold text-red-600">156</div>
-<div class="text-body-sm font-bold text-red-600 uppercase">Unhealthy</div>
+<div id="detail-risk-score" class="text-headline-md font-bold text-red-600">156</div>
+<div id="detail-risk-tier" class="text-body-sm font-bold text-red-600 uppercase">Unhealthy</div>
 </div>
 <div class="border border-slate-200 rounded-lg p-4 bg-slate-50/50">
 <div class="text-slate-500 text-label-caps mb-2">PM2.5 Level</div>
@@ -1148,7 +1161,7 @@
 </div>
 <div class="border border-slate-200 rounded-lg p-4 bg-slate-50/50">
 <div class="text-slate-500 text-label-caps mb-2">NOx Output</div>
-<div class="text-headline-md font-bold text-red-600">210 <span class="text-body-sm font-normal">kg/day</span></div>
+<div class="text-headline-md font-bold text-red-600"><span id="detail-nox">210</span> <span class="text-body-sm font-normal">kg/day</span></div>
 <div class="text-body-sm font-bold text-red-600 uppercase">Above Limit</div>
 </div>
 <div class="border border-slate-200 rounded-lg p-4 bg-slate-50/50">
@@ -1162,6 +1175,11 @@
 <div class="text-body-sm font-bold text-amber-600 uppercase">Runoff Risk</div>
 </div>
 </div>
+</div>
+<!-- AI Summary Section -->
+<div class="bg-blue-50/50 border-t border-b border-blue-100 p-6 mt-6 mb-6">
+<h3 class="font-headline-sm text-blue-900 mb-2 flex items-center gap-2"><span class="material-symbols-outlined text-blue-600">psychology</span> AI Audit Summary</h3>
+<p id="detail-ai-summary" class="text-blue-800 text-sm leading-relaxed">Loading AI insights...</p>
 </div>
 <!-- Machine Table Section -->
 <div class="overflow-x-auto p-0">
@@ -1177,7 +1195,7 @@
 <th class="p-4 font-label-caps text-slate-500">Action</th>
 </tr>
 </thead>
-<tbody class="text-slate-900 font-body-sm">
+<tbody id="detail-equipment-table" class="text-slate-900 font-body-sm">
 <!-- Row 1 -->
 <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
 <td class="p-6 flex items-center gap-3">
@@ -1426,15 +1444,6 @@
 </div>
 </div>
 </main>
-<!-- Footer -->
-<footer class="bg-surface-container-lowest text-outline w-full py-4 border-t border-outline-variant flex justify-between items-center px-container-padding z-50">
-<div class="font-label-caps text-label-caps text-on-surface">© 2024 EcoShield Environmental Intelligence</div>
-<div class="flex items-center gap-6">
-<a class="font-body-sm text-body-sm hover:text-primary transition-colors underline-offset-4 hover:underline" href="javascript:void(0)">Privacy Policy</a>
-<a class="font-body-sm text-body-sm hover:text-primary transition-colors underline-offset-4 hover:underline" href="javascript:void(0)">Compliance Matrix</a>
-<a class="font-body-sm text-body-sm hover:text-primary transition-colors underline-offset-4 hover:underline" href="javascript:void(0)">API Docs</a>
-</div>
-</footer>
 <script>
         // Micro-interaction for buttons
         document.querySelectorAll('button').forEach(btn => {
@@ -1557,7 +1566,7 @@
                     Flare emissions have scaled 300% above baseline over the past 6 hours. Pattern matches unregulated venting, not equipment malfunction. Recommend immediate inspection.
                 </p>
 <div class="flex gap-2 mt-2">
-<button onclick="window.location.href='../site_detail_abu_dhabi_hub/code.html?company=Infranet%20Corp'" class="px-4 py-2 border border-outline-variant hover:border-primary text-primary font-label-caps text-[10px] rounded transition-all">VIEW SITE</button>
+<button onclick="navigate('screen-site-detail', { company: 'Infranet Corp' })" class="px-4 py-2 border border-outline-variant hover:border-primary text-primary font-label-caps text-[10px] rounded transition-all">VIEW SITE</button>
 <button class="px-4 py-2 bg-error text-on-error font-label-caps text-[10px] rounded hover:brightness-110 transition-all">IMPOSE FINE</button>
 </div>
 </article>
@@ -1575,7 +1584,7 @@
                     Based on current NOx trajectory, this site will cross the Critical risk threshold within approximately 36 hours if current equipment usage continues.
                 </p>
 <div class="flex gap-2 mt-2">
-<button onclick="window.location.href='../site_detail_abu_dhabi_hub/code.html?company=Al%20Safa%20Industrial'" class="px-4 py-2 border border-outline-variant hover:border-primary text-primary font-label-caps text-[10px] rounded transition-all">VIEW TREND</button>
+<button onclick="navigate('screen-site-detail', { company: 'Al Safa Industrial' })" class="px-4 py-2 border border-outline-variant hover:border-primary text-primary font-label-caps text-[10px] rounded transition-all">VIEW TREND</button>
 <button class="px-4 py-2 border border-tertiary-container text-tertiary-container font-label-caps text-[10px] rounded hover:bg-tertiary-container/10 transition-all">NOTIFY COMPANY</button>
 </div>
 </article>
@@ -1610,7 +1619,7 @@
                     Noise pollution levels sustained above 90dB for over 8 hours near a residential boundary. Exceeds municipal construction limits.
                 </p>
 <div class="flex gap-2 mt-2">
-<button onclick="window.location.href='../site_detail_abu_dhabi_hub/code.html?company=TechNoCity'" class="px-4 py-2 border border-outline-variant hover:border-primary text-primary font-label-caps text-[10px] rounded transition-all">VIEW SITE</button>
+<button onclick="navigate('screen-site-detail', { company: 'TechNoCity' })" class="px-4 py-2 border border-outline-variant hover:border-primary text-primary font-label-caps text-[10px] rounded transition-all">VIEW SITE</button>
 <button class="px-4 py-2 bg-error text-on-error font-label-caps text-[10px] rounded hover:brightness-110 transition-all">IMPOSE FINE</button>
 </div>
 </article>
@@ -1628,7 +1637,7 @@
                     Water runoff turbidity trending upward for the third consecutive day. Early indicator of erosion control failure at this site.
                 </p>
 <div class="flex gap-2 mt-2">
-<button onclick="window.location.href='../site_detail_abu_dhabi_hub/code.html?company=Proscape'" class="px-4 py-2 border border-outline-variant hover:border-primary text-primary font-label-caps text-[10px] rounded transition-all">VIEW TREND</button>
+<button onclick="navigate('screen-site-detail', { company: 'Proscape' })" class="px-4 py-2 border border-outline-variant hover:border-primary text-primary font-label-caps text-[10px] rounded transition-all">VIEW TREND</button>
 </div>
 </article>
 <!-- Signal Card 6: Opportunity -->
@@ -1645,7 +1654,7 @@
                     Site has maintained a Nominal risk score for 30 consecutive days. Eligible for compliance recognition status.
                 </p>
 <div class="flex gap-2 mt-2">
-<button onclick="window.location.href='../site_detail_abu_dhabi_hub/code.html?company=Ghantoot'" class="px-4 py-2 border border-primary text-primary font-label-caps text-[10px] rounded hover:bg-primary/10 transition-all">VIEW SITE</button>
+<button onclick="navigate('screen-site-detail', { company: 'Ghantoot' })" class="px-4 py-2 border border-primary text-primary font-label-caps text-[10px] rounded hover:bg-primary/10 transition-all">VIEW SITE</button>
 </div>
 </article>
 <!-- Signal Card 7: Critical -->
@@ -1662,7 +1671,7 @@
                     Toxic particulate runoff detected near primary coastal facility, exceeding water quality thresholds by 2.4x.
                 </p>
 <div class="flex gap-2 mt-2">
-<button onclick="window.location.href='../site_detail_abu_dhabi_hub/code.html?company=Al%20Safa%20Industrial'" class="px-4 py-2 border border-outline-variant hover:border-primary text-primary font-label-caps text-[10px] rounded transition-all">VIEW SITE</button>
+<button onclick="navigate('screen-site-detail', { company: 'Al Safa Industrial' })" class="px-4 py-2 border border-outline-variant hover:border-primary text-primary font-label-caps text-[10px] rounded transition-all">VIEW SITE</button>
 <button class="px-4 py-2 bg-error text-on-error font-label-caps text-[10px] rounded hover:brightness-110 transition-all">IMPOSE FINE</button>
 </div>
 </article>
@@ -1770,6 +1779,85 @@
 
     </div>
 
+    <div id="screen-leaderboard" class="screen bg-[#0c1324]">
+        
+
+<main class="pt-24 pb-12 px-6 lg:px-12 min-h-screen">
+    <!-- Header -->
+    <div class="mb-10">
+        <h1 class="text-3xl font-bold text-white mb-2" style="font-family: 'Geist', sans-serif;">Compliance Leaderboard & Analytics</h1>
+        <p class="text-[#bbcabf] font-medium" style="font-family: 'JetBrains Mono', monospace; font-size: 13px;">REAL-TIME AI RISK ASSESSMENT AND METRICS</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Leaderboard List -->
+        <div class="lg:col-span-1 flex flex-col space-y-4">
+            <div class="lb-card rounded-xl p-6 shadow-xl h-full">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-[#4edea3] uppercase font-bold tracking-widest text-xs" style="font-family: 'JetBrains Mono', monospace;">Criticality Ranking</h2>
+                    <span class="material-symbols-outlined text-[#4edea3] text-[18px]">format_list_numbered</span>
+                </div>
+                
+                <!-- Headers -->
+                <div class="flex items-center justify-between text-[#86948a] text-xs font-bold uppercase mb-4 px-2" style="font-family: 'JetBrains Mono', monospace;">
+                    <span>Company</span>
+                    <span>Risk</span>
+                </div>
+
+                <!-- Dynamic Container for Leaderboard -->
+                <div id="leaderboard-list-container" class="space-y-3">
+                    <!-- JS will populate rows here -->
+                    <div class="text-center py-10 text-[#86948a] text-sm animate-pulse">Loading ranking data...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ML Advanced Analytics -->
+        <div class="lg:col-span-2 flex flex-col space-y-8">
+            
+            <!-- Top Charts Row -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 h-[280px]">
+                <!-- Smoke AQI -->
+                <div class="lb-glass rounded-xl p-6 shadow-xl relative overflow-hidden flex flex-col">
+                    <div class="flex items-center justify-between mb-4 relative z-10">
+                        <h2 class="text-white uppercase font-bold tracking-widest text-xs" style="font-family: 'JetBrains Mono', monospace;">Smoke Air Quality Index (AQI)</h2>
+                        <span class="material-symbols-outlined text-orange-400 text-[18px]">air</span>
+                    </div>
+                    <div class="flex-1 relative z-10 w-full">
+                        <canvas id="chartSmokeAQI"></canvas>
+                    </div>
+                </div>
+
+                <!-- Predictive Risk Model -->
+                <div class="lb-glass rounded-xl p-6 shadow-xl relative overflow-hidden flex flex-col">
+                    <div class="flex items-center justify-between mb-4 relative z-10">
+                        <h2 class="text-white uppercase font-bold tracking-widest text-xs" style="font-family: 'JetBrains Mono', monospace;">Risk Engine Probability</h2>
+                        <span class="material-symbols-outlined text-purple-400 text-[18px]">model_training</span>
+                    </div>
+                    <div class="flex-1 relative z-10 w-full">
+                        <canvas id="chartRiskProb"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Wide Chart -->
+            <div class="lb-glass rounded-xl p-6 shadow-xl relative h-[320px] flex flex-col">
+                <div class="flex items-center justify-between mb-4 relative z-10">
+                    <h2 class="text-white uppercase font-bold tracking-widest text-xs" style="font-family: 'JetBrains Mono', monospace;">Fleet Carbon Emissions Forecast</h2>
+                    <span class="material-symbols-outlined text-blue-400 text-[18px]">monitoring</span>
+                </div>
+                <div class="flex-1 relative z-10 w-full h-full">
+                    <canvas id="chartEmissionsForecast"></canvas>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+    </div>
+
     <script>
         window.currentCompany = '';
         
@@ -1796,8 +1884,11 @@
             
             if (screenId === 'screen-site-detail') {
                 const co = state.company || window.currentCompany;
-                const sid = state.siteId || '1';
-                document.getElementById('site-detail-dynamic-title').innerText = `Live sensor data — ${co}, Site #${sid}`;
+                loadSiteDetails(co);
+            }
+            
+            if (screenId === 'screen-leaderboard') {
+                loadLeaderboard();
             }
 
             if ((screenId === 'screen-geomap' || screenId === 'screen-company-sites') && window.__esMap) {
@@ -1832,6 +1923,206 @@
                 };
                 
                 container.appendChild(pin);
+            }
+        }
+
+        async function loadSiteDetails(companyName) {
+            document.getElementById('site-detail-dynamic-title').innerText = `Loading data for ${companyName}...`;
+            try {
+                const compRes = await fetch('http://localhost:8000/api/companies');
+                const companies = await compRes.json();
+                const company = companies.find(c => c.name === companyName);
+                if (!company) throw new Error('Company not found');
+                
+                const sitesRes = await fetch(`http://localhost:8000/api/companies/${company.id}/sites`);
+                const sites = await sitesRes.json();
+                if (!sites || sites.length === 0) throw new Error('No sites found for this company');
+                const primarySiteId = sites[0].id;
+                
+                const detailRes = await fetch(`http://localhost:8000/api/sites/${primarySiteId}`);
+                const siteData = await detailRes.json();
+                
+                document.getElementById('site-detail-dynamic-title').innerText = `Live sensor data — ${companyName}, ${siteData.name}`;
+                const breadcrumbEl = document.getElementById('detail-company-breadcrumb');
+                if (breadcrumbEl) breadcrumbEl.innerText = companyName.toUpperCase();
+                document.getElementById('detail-risk-score').innerText = siteData.risk_breakdown.final_risk_score.toFixed(0);
+                document.getElementById('detail-risk-tier').innerText = siteData.risk_breakdown.risk_tier;
+                document.getElementById('detail-nox').innerText = (siteData.threshold_co2_kg / 100).toFixed(0); 
+                
+                const tierEl = document.getElementById('detail-risk-tier');
+                const scoreEl = document.getElementById('detail-risk-score');
+                tierEl.className = 'text-body-sm font-bold uppercase';
+                scoreEl.className = 'text-headline-md font-bold';
+                if (siteData.risk_breakdown.risk_tier === 'critical') {
+                    tierEl.classList.add('text-red-600');
+                    scoreEl.classList.add('text-red-600');
+                } else if (siteData.risk_breakdown.risk_tier === 'elevated') {
+                    tierEl.classList.add('text-amber-600');
+                    scoreEl.classList.add('text-amber-600');
+                } else {
+                    tierEl.classList.add('text-green-600');
+                    scoreEl.classList.add('text-green-600');
+                }
+                
+                const tbody = document.getElementById('detail-equipment-table');
+                if (tbody) {
+                    tbody.innerHTML = '';
+                    siteData.equipment.forEach(eq => {
+                        const row = document.createElement('tr');
+                        row.className = 'border-b border-slate-100 hover:bg-slate-50 transition-colors';
+                        
+                        let replacementHtml = `<div class="text-xs text-slate-400 font-bold uppercase italic">NO REPLACEMENT NEEDED</div>`;
+                        if (eq.replacement_rec) {
+                            replacementHtml = `
+                            <div class="flex items-center gap-2 text-emerald-600 bg-emerald-50 px-3 py-2 rounded-lg border border-emerald-100">
+                                <span class="material-symbols-outlined text-[18px]">electric_bolt</span>
+                                <span class="text-xs font-bold leading-tight">${eq.replacement_rec.recommended_alternative}<br/><span class="font-normal">(Save ${eq.replacement_rec.co2_reduction_pct.toFixed(1)}% CO2)</span></span>
+                                <span class="material-symbols-outlined text-emerald-500 ml-auto">check_circle</span>
+                            </div>`;
+                        }
+                        
+                        row.innerHTML = `
+                            <td class="p-6 flex items-center gap-3">
+                                <span class="material-symbols-outlined text-slate-400">precision_manufacturing</span>
+                                <div>
+                                    <div class="font-bold">${eq.machine_type}</div>
+                                    <div class="text-xs text-slate-400">Active ${eq.hours_active_7d}h/wk</div>
+                                </div>
+                            </td>
+                            <td class="p-4 font-data-mono">-</td>
+                            <td class="p-4 font-data-mono">-</td>
+                            <td class="p-4 font-data-mono">-</td>
+                            <td class="p-4">
+                                <span class="bg-slate-100 text-slate-700 px-2 py-1 rounded text-xs font-bold">Risk Data Pending</span>
+                            </td>
+                            <td class="p-4">${replacementHtml}</td>
+                            <td class="p-4">
+                                <button class="border-2 border-slate-200 text-slate-500 px-4 py-2 rounded font-bold text-xs hover:bg-slate-50 transition-colors uppercase">Review</button>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                }
+                
+                const aiRes = await fetch('http://localhost:8000/api/ai-summary', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ site: companyName, machines: [], flaggedReplacements: siteData.equipment.filter(e => !!e.replacement_rec).length })
+                });
+                const aiData = await aiRes.json();
+                const aiEl = document.getElementById('detail-ai-summary');
+                if (aiEl) aiEl.innerText = aiData.summary;
+                
+            } catch (err) {
+                console.error(err);
+                document.getElementById('site-detail-dynamic-title').innerText = `Error loading data for ${companyName}`;
+                const aiEl = document.getElementById('detail-ai-summary');
+                if (aiEl) aiEl.innerText = "Failed to load insights.";
+            }
+        }
+
+        async function loadLeaderboard() {
+            try {
+                const lbRes = await fetch('http://localhost:8000/api/leaderboard');
+                const lbData = await lbRes.json();
+                
+                const container = document.getElementById('leaderboard-list-container');
+                container.innerHTML = '';
+                
+                lbData.forEach((item, index) => {
+                    let riskColor = 'text-green-500';
+                    if(item.risk_tier === 'critical') riskColor = 'text-red-500';
+                    else if(item.risk_tier === 'elevated') riskColor = 'text-amber-500';
+                    
+                    const el = document.createElement('div');
+                    el.className = 'flex items-center justify-between py-3 border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors px-2 rounded';
+                    el.innerHTML = `
+                        <div class="flex items-center gap-3">
+                            <span class="font-bold text-[#86948a] font-mono text-xs w-4">${index + 1}.</span>
+                            <div>
+                                <div class="font-bold text-sm text-[#dce1fb] uppercase">${item.company_name}</div>
+                                <div class="text-xs text-[#86948a]">${item.site_name}</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-bold ${riskColor} text-lg">${item.risk_score.toFixed(0)}</div>
+                            <div class="text-[9px] uppercase tracking-wider text-[#86948a]">${item.risk_tier}</div>
+                        </div>
+                    `;
+                    el.style.cursor = 'pointer';
+                    el.onclick = () => {
+                        window.currentCompany = item.company_name;
+                        navigate('screen-site-detail', { company: item.company_name, siteId: item.site_id });
+                    };
+                    container.appendChild(el);
+                });
+                
+                // Fetch Metrics
+                const metricsRes = await fetch('http://localhost:8000/api/leaderboard/metrics');
+                const metrics = await metricsRes.json();
+                
+                // Draw Charts
+                if (window.__chartSmoke) window.__chartSmoke.destroy();
+                const ctxSmoke = document.getElementById('chartSmokeAQI').getContext('2d');
+                window.__chartSmoke = new Chart(ctxSmoke, {
+                    type: 'line',
+                    data: {
+                        labels: metrics.smoke_aqi.labels,
+                        datasets: [{
+                            label: 'Smoke AQI',
+                            data: metrics.smoke_aqi.values,
+                            borderColor: '#fb923c',
+                            backgroundColor: 'rgba(251, 146, 60, 0.2)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' } }, x: { grid: { display: false } } } }
+                });
+
+                if (window.__chartRisk) window.__chartRisk.destroy();
+                const ctxRisk = document.getElementById('chartRiskProb').getContext('2d');
+                window.__chartRisk = new Chart(ctxRisk, {
+                    type: 'doughnut',
+                    data: {
+                        labels: metrics.risk_probability.labels,
+                        datasets: [{
+                            data: metrics.risk_probability.values,
+                            backgroundColor: ['#22c55e', '#eab308', '#f97316', '#ef4444'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'right', labels: { color: '#bbcabf' } } } }
+                });
+
+                if (window.__chartEmissions) window.__chartEmissions.destroy();
+                const ctxEmissions = document.getElementById('chartEmissionsForecast').getContext('2d');
+                window.__chartEmissions = new Chart(ctxEmissions, {
+                    type: 'bar',
+                    data: {
+                        labels: metrics.emissions_forecast.labels,
+                        datasets: [
+                            {
+                                label: 'Baseline Forecast',
+                                data: metrics.emissions_forecast.baseline,
+                                backgroundColor: 'rgba(148, 163, 184, 0.2)',
+                                borderRadius: 4
+                            },
+                            {
+                                label: 'Optimized (AI Route)',
+                                data: metrics.emissions_forecast.optimized,
+                                backgroundColor: '#60a5fa',
+                                borderRadius: 4
+                            }
+                        ]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#bbcabf' } } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' } }, x: { grid: { display: false } } } }
+                });
+                
+            } catch(err) {
+                console.error(err);
+                document.getElementById('leaderboard-list-container').innerHTML = '<div class="text-red-500 text-sm py-4">Failed to load leaderboard data.</div>';
             }
         }
 

@@ -83,15 +83,8 @@ breadcrumb = """
 """
 company_sites_body = company_sites_body.replace('<!-- BEGIN: Map Area -->\n<section class="map-area">', '<!-- BEGIN: Map Area -->\n<section class="map-area">' + breadcrumb)
 
-# Update Site Detail for dynamic header and back button
+# Update Site Detail for dynamic header
 detail_body = detail_body.replace('Live sensor data — Abu Dhabi Hub, Sector 4', '<span id="site-detail-dynamic-title">Live sensor data — Abu Dhabi Hub, Sector 4</span>')
-back_btn_detail = """
-<div class="mb-4 cursor-pointer text-primary hover:text-white flex items-center gap-2 w-fit transition-colors" onclick="navigate('screen-company-sites', {company: window.currentCompany})">
-    <span class="material-symbols-outlined text-[18px]">arrow_back</span>
-    <span class="font-bold text-sm">Back to Company Sites</span>
-</div>
-"""
-detail_body = detail_body.replace('<!-- Breadcrumbs -->', '<!-- Breadcrumbs -->\n' + back_btn_detail)
 
 
 unified_html = f"""<!DOCTYPE html>
@@ -161,8 +154,7 @@ unified_html = f"""<!DOCTYPE html>
             
             if (screenId === 'screen-site-detail') {{
                 const co = state.company || window.currentCompany;
-                const sid = state.siteId || '1';
-                document.getElementById('site-detail-dynamic-title').innerText = `Live sensor data — ${{co}}, Site #${{sid}}`;
+                loadSiteDetails(co);
             }}
 
             if ((screenId === 'screen-geomap' || screenId === 'screen-company-sites') && window.__esMap) {{
@@ -197,6 +189,101 @@ unified_html = f"""<!DOCTYPE html>
                 }};
                 
                 container.appendChild(pin);
+            }}
+        }}
+
+        async function loadSiteDetails(companyName) {{
+            document.getElementById('site-detail-dynamic-title').innerText = `Loading data for ${{companyName}}...`;
+            try {{
+                const compRes = await fetch('http://localhost:8000/api/companies');
+                const companies = await compRes.json();
+                const company = companies.find(c => c.name === companyName);
+                if (!company) throw new Error('Company not found');
+                
+                const sitesRes = await fetch(`http://localhost:8000/api/companies/${{company.id}}/sites`);
+                const sites = await sitesRes.json();
+                if (!sites || sites.length === 0) throw new Error('No sites found for this company');
+                const primarySiteId = sites[0].id;
+                
+                const detailRes = await fetch(`http://localhost:8000/api/sites/${{primarySiteId}}`);
+                const siteData = await detailRes.json();
+                
+                document.getElementById('site-detail-dynamic-title').innerText = `Live sensor data — ${{companyName}}, ${{siteData.name}}`;
+                const breadcrumbEl = document.getElementById('detail-company-breadcrumb');
+                if (breadcrumbEl) breadcrumbEl.innerText = companyName.toUpperCase();
+                document.getElementById('detail-risk-score').innerText = siteData.risk_breakdown.final_risk_score.toFixed(0);
+                document.getElementById('detail-risk-tier').innerText = siteData.risk_breakdown.risk_tier;
+                document.getElementById('detail-nox').innerText = (siteData.threshold_co2_kg / 100).toFixed(0); 
+                
+                const tierEl = document.getElementById('detail-risk-tier');
+                const scoreEl = document.getElementById('detail-risk-score');
+                tierEl.className = 'text-body-sm font-bold uppercase';
+                scoreEl.className = 'text-headline-md font-bold';
+                if (siteData.risk_breakdown.risk_tier === 'critical') {{
+                    tierEl.classList.add('text-red-600');
+                    scoreEl.classList.add('text-red-600');
+                }} else if (siteData.risk_breakdown.risk_tier === 'elevated') {{
+                    tierEl.classList.add('text-amber-600');
+                    scoreEl.classList.add('text-amber-600');
+                }} else {{
+                    tierEl.classList.add('text-green-600');
+                    scoreEl.classList.add('text-green-600');
+                }}
+                
+                const tbody = document.getElementById('detail-equipment-table');
+                if (tbody) {{
+                    tbody.innerHTML = '';
+                    siteData.equipment.forEach(eq => {{
+                        const row = document.createElement('tr');
+                        row.className = 'border-b border-slate-100 hover:bg-slate-50 transition-colors';
+                        
+                        let replacementHtml = `<div class="text-xs text-slate-400 font-bold uppercase italic">NO REPLACEMENT NEEDED</div>`;
+                        if (eq.replacement_rec) {{
+                            replacementHtml = `
+                            <div class="flex items-center gap-2 text-emerald-600 bg-emerald-50 px-3 py-2 rounded-lg border border-emerald-100">
+                                <span class="material-symbols-outlined text-[18px]">electric_bolt</span>
+                                <span class="text-xs font-bold leading-tight">${{eq.replacement_rec.recommended_alternative}}<br/><span class="font-normal">(Save ${{eq.replacement_rec.co2_reduction_pct.toFixed(1)}}% CO2)</span></span>
+                                <span class="material-symbols-outlined text-emerald-500 ml-auto">check_circle</span>
+                            </div>`;
+                        }}
+                        
+                        row.innerHTML = `
+                            <td class="p-6 flex items-center gap-3">
+                                <span class="material-symbols-outlined text-slate-400">precision_manufacturing</span>
+                                <div>
+                                    <div class="font-bold">${{eq.machine_type}}</div>
+                                    <div class="text-xs text-slate-400">Active ${{eq.hours_active_7d}}h/wk</div>
+                                </div>
+                            </td>
+                            <td class="p-4 font-data-mono">-</td>
+                            <td class="p-4 font-data-mono">-</td>
+                            <td class="p-4 font-data-mono">-</td>
+                            <td class="p-4">
+                                <span class="bg-slate-100 text-slate-700 px-2 py-1 rounded text-xs font-bold">Risk Data Pending</span>
+                            </td>
+                            <td class="p-4">${{replacementHtml}}</td>
+                            <td class="p-4">
+                                <button class="border-2 border-slate-200 text-slate-500 px-4 py-2 rounded font-bold text-xs hover:bg-slate-50 transition-colors uppercase">Review</button>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    }});
+                }}
+                
+                const aiRes = await fetch('http://localhost:8000/api/ai-summary', {{
+                    method: 'POST',
+                    headers: {{ 'Content-Type': 'application/json' }},
+                    body: JSON.stringify({{ site: companyName, machines: [], flaggedReplacements: siteData.equipment.filter(e => !!e.replacement_rec).length }})
+                }});
+                const aiData = await aiRes.json();
+                const aiEl = document.getElementById('detail-ai-summary');
+                if (aiEl) aiEl.innerText = aiData.summary;
+                
+            }} catch (err) {{
+                console.error(err);
+                document.getElementById('site-detail-dynamic-title').innerText = `Error loading data for ${{companyName}}`;
+                const aiEl = document.getElementById('detail-ai-summary');
+                if (aiEl) aiEl.innerText = "Failed to load insights.";
             }}
         }}
 

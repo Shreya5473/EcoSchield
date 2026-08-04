@@ -166,10 +166,7 @@
       btn.style.cssText =
         'margin-top:8px;display:block;width:100%;padding:6px 8px;border:1px solid #C4A574;background:#2A241C;color:#E8C988;border-radius:4px;cursor:pointer;font-size:11px';
       btn.onclick = () => {
-        location.href =
-          '../site_detail_abu_dhabi_hub/code.html?company=' +
-          encodeURIComponent(name) +
-          '&site=1';
+        navigate('screen-site-detail', { company: name });
       };
       wrap.querySelector('.leaflet-popup-content')?.appendChild(btn);
     });
